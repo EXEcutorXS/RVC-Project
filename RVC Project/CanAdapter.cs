@@ -4,24 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
-
+using System.Threading;
 namespace RVC_Project
 {
-    public class CanMessageReceivedEventArgs : EventArgs
-    {
-        public CanMessage Message;
-    }
-
-    public class CanLogEventArgs : EventArgs
-    {
-        public string Message;
-    }
-
     public class CanAdapter
     {
-        private Queue<CanMessage> ReceivedMessages = new Queue<CanMessage>();
+        private List<CanMessage> ReceivedMessages = new List<CanMessage>();
+        private List<string> LogMessages = new List<String>();
+        private List<string> Errors = new List<String>();
 
-        private StringBuilder currentBuf = new StringBuilder("");
+        char[] currentBuf = new char[1024];
+        int ptr = 0;
 
         public UInt32 Version = 0;
         public bool connected = false;
@@ -41,59 +34,144 @@ namespace RVC_Project
 
         public void PortOpen() => serialPort.Open();
         public void PortClose() => serialPort.Close();
+
+        public void SetNormalMode()
+        {
+            try
+            {
+                serialPort.Write("<N>");
+            }
+            catch { }
+        }
+
+        public void SetSilentMode()
+        {
+            try
+            {
+                serialPort.Write("<S>");
+            }
+            catch { }
+        }
+
+        public void SetLoopbackMode()
+        {
+            try
+            {
+                serialPort.Write("<L>");
+            }
+            catch { }
+        }
+
+        public void SetSilentLoopbackMode()
+        {
+            try
+            {
+                serialPort.Write("<K>");
+            }
+            catch { }
+        }
         public void RefreshVersion()
         {
             if (serialPort.IsOpen)
-            serialPort.Write("<V>");
+                serialPort.Write("<V>");
         }
 
         public void SetBitrate(int bitrate)
         {
-            serialPort.Write($"<9{bitrate}>");
+            if (PortOpened)
+            if ( bitrate > 0 && bitrate <= 1000)
+                serialPort.Write($"<9{bitrate}>");
+            else throw new ArgumentException("Bitrate must be 1..1000 kb/s");
+        }
+
+        public int UnprecessedMessages => ReceivedMessages.Count;
+        public int UnreadLogMessages => LogMessages.Count;
+
+        public int UnreadErrors => Errors.Count;
+        public CanMessage getNextMessage()
+        {
+
+            if (ReceivedMessages != null && ReceivedMessages.Count > 0)
+            {
+                CanMessage ret = ReceivedMessages[0];
+                ReceivedMessages.RemoveAt(0);
+                return ret;
+            }
+            else return null;
+        }
+
+        public string getNextLogMessage()
+        {
+
+            if (LogMessages != null && LogMessages.Count > 0)
+            {
+                string ret = LogMessages[0];
+                LogMessages.RemoveAt(0);
+                return ret;
+            }
+            else return null;
+        }
+
+        public string getNextError()
+        {
+
+            if (Errors != null && Errors.Count > 0)
+            {
+                string ret = Errors[0];
+                Errors.RemoveAt(0);
+                return ret;
+            }
+            else return null;
         }
 
         public void sendMessage(CanMessage msg)
         {
+            if (serialPort.IsOpen == false)
+                return;
             StringBuilder str = new StringBuilder("T");
             str.Append(msg.DLC.ToString());
+            str.Append(msg.IdeAsString);
+            str.Append(msg.RtrAsString);
 
-            if (msg.IDE)
-                str.Append("1");
-            else
-                str.Append("0");
-
-            if (msg.RTR)
-                str.Append("1");
-            else
-                str.Append("0");
-
-            if (msg.IDE)
-                str.Append(String.Format("{0:08X}", msg.ExtId));
-            else
-                str.Append(String.Format("{0:03X}", msg.StdId));
-
-            foreach (var item in msg.Data)
-            { 
-            str.Append(item.ToString("02X"));
-            }
+            str.Append(msg.IdInTextFormat);
+            str.Append(msg.DataInTextFormat);
+            str.Append('>');
+            serialPort.Write(str.ToString());
 
         }
 
 
         private void uartMessageProcess()
         {
+            var eventArgs = new EventArgs();
             switch (currentBuf[0])
             {
                 case 'V':
-                    string verString = currentBuf.ToString().Substring(1);
-                    Version = Convert.ToUInt32(verString);
+                    string verString = (new string(currentBuf)).Substring(1,8);
+                    Version = Convert.ToUInt32(verString,16);
                     connected = true;
                     break;
                 case 'R':
-                    CanMessage message = CanMessage.Parse(currentBuf.ToString());
-                    var eventArgs = new CanMessageReceivedEventArgs();
-                    eventArgs.Message = message;
-                    GotNewMessage.Invoke(this, eventArgs);
+                    CanMessage message = CanMessage.Parse(new string(currentBuf));
+                    
+                    ReceivedMessages.Add(message);
+                    if (ReceivedMessages.Count > 1024)
+                        ReceivedMessages.RemoveAt(0);
+                    GotNewMessage?.Invoke(this, eventArgs);
+                    break;
+                case 'P':
+                    string LogMessage = new string(currentBuf).Substring(1);
+                    LogMessages.Add(LogMessage);
+                    if (LogMessages.Count > 1024)
+                        LogMessages.RemoveAt(0);
+                    GotNewMessage?.Invoke(this, eventArgs);
+                    break;
+                case 'E':
+                    string Error = new string(currentBuf).Substring(1);
+                    Errors.Add(Error);
+                    if (Errors.Count > 1024)
+                        Errors.RemoveAt(0);
+                    GotNewMessage?.Invoke(this, eventArgs);
                     break;
                 default:
                     break;
@@ -106,11 +184,15 @@ namespace RVC_Project
             {
                 char newChar = (char)serialPort.ReadByte();
                 if (newChar == '<')
-                    currentBuf.Clear();
+                    ptr = 0;
                 else if (newChar == '>')
+                {
+                    currentBuf[ptr] = '\0';
                     uartMessageProcess();
+                }
                 else
-                    currentBuf.Append((char)serialPort.ReadByte());
+                    currentBuf[ptr++] = newChar;
+
             }
         }
 
@@ -131,8 +213,11 @@ namespace RVC_Project
                 {
                     serialPort.PortName = portName;
                     serialPort.Open();
-                    serialPort.WriteLine("<V>");
-
+                    Thread.Sleep(10);
+                    serialPort.Write("<V>");
+                    Thread.Sleep(20);
+                    if (connected)
+                        return;
                 }
                 catch
                 {

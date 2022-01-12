@@ -13,8 +13,13 @@ namespace RVC_Project
         public UInt32 ExtId;
         public bool RTR;
         public byte DLC;
-        public byte[] Data;
+        public byte[] Data = new byte[8];
 
+        public RvcMessage ToRvcMessage()
+        {
+            return new RvcMessage(this);
+        }
+        public bool RvcCompatible => IDE&&DLC==8&&!RTR;
         public string DataInTextFormat
         {
             get

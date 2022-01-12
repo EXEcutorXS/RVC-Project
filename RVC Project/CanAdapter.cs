@@ -32,56 +32,43 @@ namespace RVC_Project
 
         public event EventHandler GotNewMessage;
 
+        public event EventHandler GotError;
+
+        public event EventHandler GotLogMessage;
+
         public void PortOpen() => serialPort.Open();
         public void PortClose() => serialPort.Close();
 
         public void SetNormalMode()
         {
-            try
-            {
-                serialPort.Write("<N>");
-            }
-            catch { }
+            serialPort.Write("<N>");
         }
 
         public void SetSilentMode()
         {
-            try
-            {
-                serialPort.Write("<S>");
-            }
-            catch { }
+            serialPort.Write("<S>");
         }
 
         public void SetLoopbackMode()
         {
-            try
-            {
-                serialPort.Write("<L>");
-            }
-            catch { }
+            serialPort.Write("<L>");
         }
 
         public void SetSilentLoopbackMode()
         {
-            try
-            {
-                serialPort.Write("<K>");
-            }
-            catch { }
+            serialPort.Write("<K>");
         }
         public void RefreshVersion()
         {
-            if (serialPort.IsOpen)
-                serialPort.Write("<V>");
+            serialPort.Write("<V>");
         }
 
         public void SetBitrate(int bitrate)
         {
             if (PortOpened)
-            if ( bitrate > 0 && bitrate <= 1000)
-                serialPort.Write($"<9{bitrate}>");
-            else throw new ArgumentException("Bitrate must be 1..1000 kb/s");
+                if (bitrate > 0 && bitrate <= 1000)
+                    serialPort.Write($"<9{bitrate}>");
+                else throw new ArgumentException("Bitrate must be 1..1000 kb/s");
         }
 
         public int UnprecessedMessages => ReceivedMessages.Count;
@@ -147,13 +134,13 @@ namespace RVC_Project
             switch (currentBuf[0])
             {
                 case 'V':
-                    string verString = (new string(currentBuf)).Substring(1,8);
-                    Version = Convert.ToUInt32(verString,16);
+                    string verString = (new string(currentBuf)).Substring(1, 8);
+                    Version = Convert.ToUInt32(verString, 16);
                     connected = true;
                     break;
                 case 'R':
                     CanMessage message = CanMessage.Parse(new string(currentBuf));
-                    
+
                     ReceivedMessages.Add(message);
                     if (ReceivedMessages.Count > 1024)
                         ReceivedMessages.RemoveAt(0);
@@ -164,14 +151,14 @@ namespace RVC_Project
                     LogMessages.Add(LogMessage);
                     if (LogMessages.Count > 1024)
                         LogMessages.RemoveAt(0);
-                    GotNewMessage?.Invoke(this, eventArgs);
+                    GotLogMessage?.Invoke(this, eventArgs);
                     break;
                 case 'E':
                     string Error = new string(currentBuf).Substring(1);
                     Errors.Add(Error);
                     if (Errors.Count > 1024)
                         Errors.RemoveAt(0);
-                    GotNewMessage?.Invoke(this, eventArgs);
+                    GotError?.Invoke(this, eventArgs);
                     break;
                 default:
                     break;
@@ -201,33 +188,14 @@ namespace RVC_Project
             serialPort = new SerialPort();
             serialPort.DataReceived += new SerialDataReceivedEventHandler(this.dataReceived);
         }
-        public void AutoConnect()
-        {
-            connected = false;
-            var portNames = SerialPort.GetPortNames();
-            if (portNames.Length == 0)
-                return;
-            foreach (var portName in portNames)
-            {
-                try
-                {
-                    serialPort.PortName = portName;
-                    serialPort.Open();
-                    Thread.Sleep(10);
-                    serialPort.Write("<V>");
-                    Thread.Sleep(20);
-                    if (connected)
-                        return;
-                }
-                catch
-                {
-
-                }
-            }
-
-        }
         public void Start()
         {
+            serialPort.Write("<1>");
+        }
+
+        public void Stop()
+        {
+            serialPort.Write("<2>");
 
         }
     }

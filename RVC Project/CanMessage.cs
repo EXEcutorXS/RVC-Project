@@ -9,8 +9,7 @@ namespace RVC_Project
     public class CanMessage
     {
         public bool IDE;
-        public UInt32 StdId;
-        public UInt32 ExtId;
+        public UInt32 ID;
         public bool RTR;
         public byte DLC;
         public byte[] Data = new byte[8];
@@ -72,10 +71,7 @@ namespace RVC_Project
         {
             get
             {
-                if (IDE)
-                    return string.Format("{0:X08}", ExtId);
-                else
-                    return string.Format("{0:X03}", StdId);
+                return IDE ? string.Format("{0:X08}", ID) : string.Format("{0:X03}", ID);
             }
         }
 
@@ -103,10 +99,7 @@ namespace RVC_Project
             else
                 ret.RTR = true;
             var parts = str.Split('_');
-            if (ret.IDE)
-                ret.ExtId = Convert.ToUInt32(parts[1], 16);
-            else
-                ret.StdId = Convert.ToUInt32(parts[1], 16);
+            ret.ID = Convert.ToUInt32(parts[1], 16);
             ret.Data = new byte[ret.DLC];
             for (int i = 0; i < ret.DLC; i++)
             {
@@ -115,7 +108,18 @@ namespace RVC_Project
             }
             return ret;
         }
+
+        public override bool Equals(object obj)
+        {
+            CanMessage toCompare = obj as CanMessage;
+            if (!(obj is CanMessage))
+                return false;
+            if (toCompare.ID != ID || toCompare.DLC != DLC || toCompare.IDE != IDE || toCompare.RTR != RTR)
+                return false;
+            for (int i = 0; i < toCompare.DLC; i++)
+                if (toCompare.Data[i] != Data[i])
+                    return false;
+            return true;
+        }
     }
-
-
 }

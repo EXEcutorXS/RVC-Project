@@ -80,8 +80,8 @@ namespace RVC_Project
                     {
                         if (num != null)
                         {
-                            CanMessageList.Invoke(new Action(() => CanMessageList.Items.RemoveAt((int)num)));
-                            CanMessageList.Invoke(new Action(() => CanMessageList.Items.Insert((int)num, m)));
+                            if (!CanMessageList.Items[(int)num].Equals(m))
+                                CanMessageList.Invoke(new Action(() => CanMessageList.Items[(int)num] = m));
                         }
                         else
                             CanMessageList.Invoke(new Action(() => CanMessageList.Items.Insert(0, m)));
@@ -97,8 +97,8 @@ namespace RVC_Project
                         {
                             if (rvcNum != null)
                             {
-                                RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.RemoveAt((int)rvcNum)));
-                                RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert((int)rvcNum, m.ToRvcMessage())));
+                                if (!RvcMessageList.Items[(int)rvcNum].Equals(m.ToRvcMessage()))
+                                    RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m));
                             }
                             else
                                 RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
@@ -179,11 +179,7 @@ namespace RVC_Project
             msg.IDE = IdeField.Checked;
             msg.DLC = Convert.ToByte(DlcField.Value);
             msg.Data = new byte[msg.DLC];
-            if (msg.IDE)
-                msg.ExtId = Convert.ToUInt32(IdField.Value);
-            else
-                msg.StdId = Convert.ToUInt32(IdField.Value);
-
+            msg.ID = Convert.ToUInt32(IdField.Value);
             msg.Data = new byte[msg.DLC];
 
             try
@@ -304,11 +300,8 @@ namespace RVC_Project
         public static int? findCanMessageById(this ListBox lisbBox, CanMessage msg)
         {
             for (int i = 0; i < lisbBox.Items.Count; i++)
-            {
-                if (((lisbBox.Items[i] as CanMessage).ExtId == msg.ExtId && (lisbBox.Items[i] as CanMessage).IDE == true) ||
-                ((lisbBox.Items[i] as CanMessage).StdId == msg.ExtId && (lisbBox.Items[i] as CanMessage).IDE == false))
+                if ((lisbBox.Items[i] as CanMessage).ID == msg.ID)
                     return i;
-            }
             return null;
         }
 

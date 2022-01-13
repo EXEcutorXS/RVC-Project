@@ -14,7 +14,7 @@ namespace RVC_Project
         public byte[] Data = new byte[8];
         public byte Instance => Data[0];
         public RvcMessage()
-        { 
+        {
 
         }
 
@@ -28,28 +28,47 @@ namespace RVC_Project
                 throw new ArgumentException("RV-C supports only extended CAN frame format (IDE=1)");
             if (sourcsMsg.RTR == true)
                 throw new ArgumentException("RV-C do not supports data requests (RTR must be 0)");
-            Priority = (byte)((sourcsMsg.ExtId >> 26) & 7);
-            Dgn = sourcsMsg.ExtId >> 8 & 0x1FFFF;
-            SourceAdress = (byte)(sourcsMsg.ExtId & 0xFF);
+            Priority = (byte)((sourcsMsg.ID >> 26) & 7);
+            Dgn = sourcsMsg.ID >> 8 & 0x1FFFF;
+            SourceAdress = (byte)(sourcsMsg.ID & 0xFF);
             Data = sourcsMsg.Data;
         }
 
         public CanMessage GetCanMessage()
         {
             var msg = new CanMessage();
-            msg.ExtId = (uint)Priority<<26 | Dgn<<8 | SourceAdress;
+            msg.ID = (uint)Priority << 26 | Dgn << 8 | SourceAdress;
             msg.DLC = 8;
             msg.IDE = true;
             msg.RTR = false;
             msg.Data = Data;
             return msg;
         }
+
+        public override int GetHashCode()
+        {
+            return (int)Dgn << 8 ^ SourceAdress ^ Priority << 26;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is RvcMessage))
+                return false;
+            var comp = obj as RvcMessage;
+            if (comp.Dgn != Dgn || comp.SourceAdress != SourceAdress || comp.Priority != Priority)
+                return false;
+            for (int i = 0; i < 8; i++)
+                if (comp.Data[i] != Data[i])
+                    return false;
+            return true;
+        }
         public override string ToString()
         {
             string ret = $"{Priority} |";
             ret += String.Format(" {0:X05} |", Dgn);
+            ret += String.Format(" {0:D3} ||", SourceAdress);
             foreach (var item in Data)
-                ret += String.Format(" {0:X02} ",item);
+                ret += String.Format(" {0:X02} ", item);
             return ret;
         }
     }

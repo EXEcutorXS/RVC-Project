@@ -50,29 +50,29 @@
             this.ConnectButton = new System.Windows.Forms.Button();
             this.RefreshButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.StopButton = new System.Windows.Forms.Button();
+            this.StartButton = new System.Windows.Forms.Button();
             this.ClearLogButton = new System.Windows.Forms.Button();
             this.ClearMessagesButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.StartButton = new System.Windows.Forms.Button();
-            this.StopButton = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.RvcPriorityField = new System.Windows.Forms.NumericUpDown();
+            this.RvcSourceAdressField = new System.Windows.Forms.NumericUpDown();
             this.RvcSendButton = new System.Windows.Forms.Button();
             this.RvcDgnField = new System.Windows.Forms.NumericUpDown();
             this.RvcDataField = new System.Windows.Forms.TextBox();
             this.RvcMessageList = new System.Windows.Forms.ListBox();
             this.ClearRvcButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.RvcSourceAdressField = new System.Windows.Forms.NumericUpDown();
-            this.RvcPriorityField = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
             this.SuspendLayout();
             // 
             // NormalButton
@@ -235,15 +235,18 @@
             // CanMessageList
             // 
             this.CanMessageList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CanMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CanMessageList.FormattingEnabled = true;
+            this.CanMessageList.ItemHeight = 16;
             this.CanMessageList.Location = new System.Drawing.Point(576, 12);
             this.CanMessageList.Name = "CanMessageList";
-            this.CanMessageList.Size = new System.Drawing.Size(627, 186);
+            this.CanMessageList.Size = new System.Drawing.Size(627, 180);
             this.CanMessageList.TabIndex = 14;
             this.toolTip1.SetToolTip(this.CanMessageList, "Перечень различных CAN сообщений");
             // 
             // LogField
             // 
+            this.LogField.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.LogField.Location = new System.Drawing.Point(0, 206);
             this.LogField.Name = "LogField";
             this.LogField.Size = new System.Drawing.Size(570, 265);
@@ -312,6 +315,26 @@
             this.panel1.Size = new System.Drawing.Size(200, 85);
             this.panel1.TabIndex = 22;
             // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(102, 0);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(93, 23);
+            this.StopButton.TabIndex = 5;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // StartButton
+            // 
+            this.StartButton.Location = new System.Drawing.Point(3, 1);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(93, 23);
+            this.StartButton.TabIndex = 4;
+            this.StartButton.Text = "Start";
+            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
             // ClearLogButton
             // 
             this.ClearLogButton.Location = new System.Drawing.Point(428, 172);
@@ -346,26 +369,6 @@
             this.panel2.Size = new System.Drawing.Size(495, 32);
             this.panel2.TabIndex = 25;
             // 
-            // StartButton
-            // 
-            this.StartButton.Location = new System.Drawing.Point(3, 1);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(93, 23);
-            this.StartButton.TabIndex = 4;
-            this.StartButton.Text = "Start";
-            this.StartButton.UseVisualStyleBackColor = true;
-            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
-            // 
-            // StopButton
-            // 
-            this.StopButton.Location = new System.Drawing.Point(102, 0);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(93, 23);
-            this.StopButton.TabIndex = 5;
-            this.StopButton.Text = "Stop";
-            this.StopButton.UseVisualStyleBackColor = true;
-            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
-            // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -378,6 +381,44 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(414, 32);
             this.panel3.TabIndex = 26;
+            // 
+            // RvcPriorityField
+            // 
+            this.RvcPriorityField.Location = new System.Drawing.Point(75, 3);
+            this.RvcPriorityField.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.RvcPriorityField.Name = "RvcPriorityField";
+            this.RvcPriorityField.Size = new System.Drawing.Size(48, 20);
+            this.RvcPriorityField.TabIndex = 11;
+            this.RvcPriorityField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.RvcPriorityField, "Приоритет сообщения");
+            this.RvcPriorityField.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            // 
+            // RvcSourceAdressField
+            // 
+            this.RvcSourceAdressField.Location = new System.Drawing.Point(209, 3);
+            this.RvcSourceAdressField.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.RvcSourceAdressField.Name = "RvcSourceAdressField";
+            this.RvcSourceAdressField.Size = new System.Drawing.Size(55, 20);
+            this.RvcSourceAdressField.TabIndex = 10;
+            this.RvcSourceAdressField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip1.SetToolTip(this.RvcSourceAdressField, "Source Adress");
+            this.RvcSourceAdressField.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
             // 
             // RvcSendButton
             // 
@@ -422,10 +463,12 @@
             // RvcMessageList
             // 
             this.RvcMessageList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RvcMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RvcMessageList.FormattingEnabled = true;
+            this.RvcMessageList.ItemHeight = 16;
             this.RvcMessageList.Location = new System.Drawing.Point(576, 206);
             this.RvcMessageList.Name = "RvcMessageList";
-            this.RvcMessageList.Size = new System.Drawing.Size(627, 264);
+            this.RvcMessageList.Size = new System.Drawing.Size(627, 260);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
             // 
@@ -438,44 +481,6 @@
             this.ClearRvcButton.Text = "Clear RV-C";
             this.ClearRvcButton.UseVisualStyleBackColor = true;
             this.ClearRvcButton.Click += new System.EventHandler(this.ClearRvcButton_Click);
-            // 
-            // RvcSourceAdressField
-            // 
-            this.RvcSourceAdressField.Location = new System.Drawing.Point(209, 3);
-            this.RvcSourceAdressField.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.RvcSourceAdressField.Name = "RvcSourceAdressField";
-            this.RvcSourceAdressField.Size = new System.Drawing.Size(55, 20);
-            this.RvcSourceAdressField.TabIndex = 10;
-            this.RvcSourceAdressField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip1.SetToolTip(this.RvcSourceAdressField, "Source Adress");
-            this.RvcSourceAdressField.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // RvcPriorityField
-            // 
-            this.RvcPriorityField.Location = new System.Drawing.Point(75, 3);
-            this.RvcPriorityField.Maximum = new decimal(new int[] {
-            7,
-            0,
-            0,
-            0});
-            this.RvcPriorityField.Name = "RvcPriorityField";
-            this.RvcPriorityField.Size = new System.Drawing.Size(48, 20);
-            this.RvcPriorityField.TabIndex = 11;
-            this.RvcPriorityField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip1.SetToolTip(this.RvcPriorityField, "Приоритет сообщения");
-            this.RvcPriorityField.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
             // 
             // Form1
             // 
@@ -510,9 +515,9 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

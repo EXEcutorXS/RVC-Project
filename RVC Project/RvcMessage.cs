@@ -6,38 +6,36 @@ using System.Threading.Tasks;
 
 namespace RVC_Project
 {
-    public class RvcMessage
+    public sealed class RvcMessage
     {
         public byte Priority;
-        public uint Dgn;
+        public int Dgn;
         public byte SourceAdress;
         public byte[] Data = new byte[8];
         public byte Instance => Data[0];
         public RvcMessage()
+        {  }
+    
+        public RvcMessage(CanMessage msg)
         {
-
-        }
-
-        public RvcMessage(CanMessage sourcsMsg)
-        {
-            if (sourcsMsg == null)
+            if (msg == null)
                 throw new ArgumentNullException("Source CAN Message can't be null");
-            if (sourcsMsg.DLC != 8)
+            if (msg.DLC != 8)
                 throw new ArgumentException("DLC of Souce Message must be 8");
-            if (sourcsMsg.IDE == false)
+            if (msg.IDE == false)
                 throw new ArgumentException("RV-C supports only extended CAN frame format (IDE=1)");
-            if (sourcsMsg.RTR == true)
+            if (msg.RTR == true)
                 throw new ArgumentException("RV-C do not supports data requests (RTR must be 0)");
-            Priority = (byte)((sourcsMsg.ID >> 26) & 7);
-            Dgn = sourcsMsg.ID >> 8 & 0x1FFFF;
-            SourceAdress = (byte)(sourcsMsg.ID & 0xFF);
-            Data = sourcsMsg.Data;
+            Priority = (byte)((msg.ID >> 26) & 7);
+            Dgn = msg.ID >> 8 & 0x1FFFF;
+            SourceAdress = (byte)(msg.ID & 0xFF);
+            Data = msg.Data;
         }
 
         public CanMessage GetCanMessage()
         {
             var msg = new CanMessage();
-            msg.ID = (uint)Priority << 26 | Dgn << 8 | SourceAdress;
+            msg.ID = (int)Priority << 26 | Dgn << 8 | SourceAdress;
             msg.DLC = 8;
             msg.IDE = true;
             msg.RTR = false;
@@ -45,31 +43,25 @@ namespace RVC_Project
             return msg;
         }
 
-        public override int GetHashCode()
-        {
-            return (int)Dgn << 8 ^ SourceAdress ^ Priority << 26;
-        }
-
         public override bool Equals(object obj)
         {
+            if (obj== null)
+                return false;
             if (!(obj is RvcMessage))
                 return false;
             var comp = obj as RvcMessage;
-            if (comp.Dgn != Dgn || comp.SourceAdress != SourceAdress || comp.Priority != Priority)
-                return false;
-            for (int i = 0; i < 8; i++)
-                if (comp.Data[i] != Data[i])
-                    return false;
-            return true;
+            return GetCanMessage().Equals(comp.GetCanMessage());
         }
         public override string ToString()
         {
-            string ret = $"{Priority} |";
-            ret += String.Format(" {0:X05} |", Dgn);
-            ret += String.Format(" {0:D3} ||", SourceAdress);
+            string ret = $"{Priority} | {Dgn:X05} {SourceAdress:D3} ||";
             foreach (var item in Data)
-                ret += String.Format(" {0:X02} ", item);
+                ret += $" {item:X02} ";
             return ret;
+        }
+        public override int GetHashCode()
+        {
+            return GetCanMessage().GetHashCode();
         }
     }
 }

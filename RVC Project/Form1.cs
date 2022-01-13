@@ -159,7 +159,7 @@ namespace RVC_Project
             {
                 canAdapter.RefreshVersion();
                 Thread.Sleep(10);
-                VersionField.Text = String.Format("{0:D2}.{1:D2}.{2:D2}.{3:D2}", canAdapter.Version >> 24 & 0xFF, canAdapter.Version >> 16 & 0xFF, canAdapter.Version >> 8 & 0xFF, canAdapter.Version & 0xFF);
+                VersionField.Text = $"{canAdapter.Version >> 24 & 0xFF:D}.{canAdapter.Version >> 16 & 0xFF:D}.{canAdapter.Version >> 8 & 0xFF:D}.{canAdapter.Version & 0xFF:D}";
             }
             catch (Exception ex)
             {
@@ -179,7 +179,7 @@ namespace RVC_Project
             msg.IDE = IdeField.Checked;
             msg.DLC = Convert.ToByte(DlcField.Value);
             msg.Data = new byte[msg.DLC];
-            msg.ID = Convert.ToUInt32(IdField.Value);
+            msg.ID = Convert.ToInt32(IdField.Value);
             msg.Data = new byte[msg.DLC];
 
             try
@@ -274,7 +274,7 @@ namespace RVC_Project
         private void RvcSendButton_Click(object sender, EventArgs e)
         {
             var msg = new RvcMessage();
-            msg.Dgn = Convert.ToUInt32(RvcDgnField.Value);
+            msg.Dgn = Convert.ToInt32(RvcDgnField.Value);
             msg.Data = new byte[8];
             msg.SourceAdress = Convert.ToByte(RvcSourceAdressField.Value);
             msg.Priority = Convert.ToByte(RvcPriorityField.Value);
@@ -305,11 +305,11 @@ namespace RVC_Project
             return null;
         }
 
-        public static int? findRvcMessageByDgnAndInstance(this ListBox lisbBox, RvcMessage msg)
+        public static int? findRvcMessageByDgnAndInstance(this ListBox listBox, RvcMessage msg)
         {
-            for (int i = 0; i < lisbBox.Items.Count; i++)
+            for (int i = 0; i < listBox.Items.Count; i++)
             {
-                if ((lisbBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (lisbBox.Items[i] as RvcMessage).Instance == msg.Instance)
+                if ((listBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (listBox.Items[i] as RvcMessage).Instance == msg.Instance)
                     return i;
             }
             return null;

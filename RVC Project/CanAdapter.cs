@@ -9,9 +9,9 @@ namespace RVC_Project
 {
     public class CanAdapter
     {
-        private List<CanMessage> ReceivedMessages = new List<CanMessage>();
-        private List<string> LogMessages = new List<String>();
-        private List<string> Errors = new List<String>();
+        private Queue<CanMessage> ReceivedMessages = new Queue<CanMessage>(4096);
+        private Queue<string> LogMessages = new Queue<String>(4096);
+        private Queue<string> Errors = new Queue<String>(4096);
 
         char[] currentBuf = new char[1024];
         int ptr = 0;
@@ -35,6 +35,10 @@ namespace RVC_Project
         public event EventHandler GotError;
 
         public event EventHandler GotLogMessage;
+
+        public int UnprecessedMessages => ReceivedMessages.Count;
+        public int UnreadLogMessages => LogMessages.Count;
+        public int UnreadErrors => Errors.Count;
 
         public void PortOpen() => serialPort.Open();
         public void PortClose() => serialPort.Close();
@@ -65,49 +69,30 @@ namespace RVC_Project
 
         public void SetBitrate(int bitrate)
         {
-            if (PortOpened)
-                if (bitrate > 0 && bitrate <= 1000)
-                    serialPort.Write($"<9{bitrate}>");
-                else throw new ArgumentException("Bitrate must be 1..1000 kb/s");
+            if (bitrate > 0 && bitrate <= 1000)
+                serialPort.Write($"<9{bitrate}>");
+            else
+                throw new ArgumentException("Bitrate must be 1..1000 kb/s");
         }
-
-        public int UnprecessedMessages => ReceivedMessages.Count;
-        public int UnreadLogMessages => LogMessages.Count;
-
-        public int UnreadErrors => Errors.Count;
         public CanMessage getNextMessage()
         {
-
-            if (ReceivedMessages != null && ReceivedMessages.Count > 0)
-            {
-                CanMessage ret = ReceivedMessages[0];
-                ReceivedMessages.RemoveAt(0);
-                return ret;
-            }
+            if (ReceivedMessages.Count > 0)
+                return ReceivedMessages.Dequeue();
             else return null;
         }
 
         public string getNextLogMessage()
         {
-
-            if (LogMessages != null && LogMessages.Count > 0)
-            {
-                string ret = LogMessages[0];
-                LogMessages.RemoveAt(0);
-                return ret;
-            }
+            if (LogMessages.Count > 0)
+                return LogMessages.Dequeue();
             else return null;
         }
 
         public string getNextError()
         {
 
-            if (Errors != null && Errors.Count > 0)
-            {
-                string ret = Errors[0];
-                Errors.RemoveAt(0);
-                return ret;
-            }
+            if (Errors.Count > 0)
+                return Errors.Dequeue();
             else return null;
         }
 
@@ -121,7 +106,7 @@ namespace RVC_Project
             str.Append(msg.RtrAsString);
 
             str.Append(msg.IdInTextFormat);
-            str.Append(msg.DataInTextFormat);
+            str.Append(msg.GetDataInTextFormat());
             str.Append('>');
             serialPort.Write(str.ToString());
 
@@ -139,25 +124,17 @@ namespace RVC_Project
                     connected = true;
                     break;
                 case 'R':
-                    CanMessage message = CanMessage.Parse(new string(currentBuf));
-
-                    ReceivedMessages.Add(message);
-                    if (ReceivedMessages.Count > 1024)
-                        ReceivedMessages.RemoveAt(0);
+                    ReceivedMessages.Enqueue(new CanMessage(new string(currentBuf)));
                     GotNewMessage?.Invoke(this, eventArgs);
                     break;
                 case 'P':
                     string LogMessage = new string(currentBuf).Substring(1);
-                    LogMessages.Add(LogMessage);
-                    if (LogMessages.Count > 1024)
-                        LogMessages.RemoveAt(0);
+                    LogMessages.Enqueue(LogMessage);
                     GotLogMessage?.Invoke(this, eventArgs);
                     break;
                 case 'E':
                     string Error = new string(currentBuf).Substring(1);
-                    Errors.Add(Error);
-                    if (Errors.Count > 1024)
-                        Errors.RemoveAt(0);
+                    Errors.Enqueue(Error);
                     GotError?.Invoke(this, eventArgs);
                     break;
                 default:

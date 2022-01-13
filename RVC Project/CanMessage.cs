@@ -6,114 +6,80 @@ using System.Threading.Tasks;
 
 namespace RVC_Project
 {
-    public class CanMessage
+    public sealed class CanMessage
     {
-        public bool IDE;
-        public UInt32 ID;
-        public bool RTR;
-        public byte DLC;
+        public bool IDE { set; get; }
+        public int ID { set; get; }
+        public bool RTR { set; get; }
+        public byte DLC { set; get; }
+
         public byte[] Data = new byte[8];
 
         public RvcMessage ToRvcMessage()
         {
             return new RvcMessage(this);
         }
-        public bool RvcCompatible => IDE&&DLC==8&&!RTR;
-        public string DataInTextFormat
+
+        public string GetDataInTextFormat(string beforeString = "", string afterString = "")
         {
-            get
-            {
                 StringBuilder sb = new StringBuilder("");
                 foreach (var item in Data)
-                {
-                    sb.Append(String.Format("{0:X02}", item));
-                }
+                    sb.Append($"{beforeString}{item:X02}{afterString}");
                 return sb.ToString();
-            }
         }
 
-        public string RtrAsString
-        {
-            get
-            {
-                if (RTR)
-                    return "1";
-                else
-                    return "0";
-            }
-        }
+        public string RtrAsString => RTR ? "1" : "0";
 
-        public string IdeAsString
-        {
-            get
-            {
-                if (IDE)
-                    return "1";
-                else
-                    return "0";
-            }
-        }
+        public string IdeAsString => IDE ? "1" : "0";
 
-        public string DataInTextFormatWSpaces
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder("");
-                foreach (var item in Data)
-                {
-                    sb.Append(String.Format(" {0:X02}", item));
-                }
-                return sb.ToString();
-            }
-        }
+        public bool RvcCompatible => IDE && DLC == 8 && !RTR;
 
-        public string IdInTextFormat
-        {
-            get
-            {
-                return IDE ? string.Format("{0:X08}", ID) : string.Format("{0:X03}", ID);
-            }
-        }
+        public string IdInTextFormat => IDE ? string.Format("{0:X08}", ID) : string.Format("{0:X03}", ID);
+        
 
         public override string ToString()
         {
-            return $"L:{DLC} IDE:{IdeAsString} RTR:{RtrAsString} ID:0x{IdInTextFormat} Data:{DataInTextFormatWSpaces}";
+            return $"L:{DLC} IDE:{IdeAsString} RTR:{RtrAsString} ID:0x{IdInTextFormat} Data:{GetDataInTextFormat(" ")}";
         }
-        public static CanMessage Parse(string str)
+
+        public CanMessage()
+        { }
+        public CanMessage (string str)
         {
-            var ret = new CanMessage();
             if (str[0] != 'R')
                 throw new FormatException("Can't parse. String must start with 'R'");
-            ret.DLC = (byte)int.Parse(str[1].ToString());
-            if (ret.DLC > 8)
-                throw new FormatException($"Can't parse. Message length cant be {ret.DLC}, max length is 8");
+            DLC = (byte)int.Parse(str[1].ToString());
+            if (DLC > 8)
+                throw new FormatException($"Can't parse. Message length cant be {DLC}, max length is 8");
             if (str[2] != '0')
-                ret.IDE = true;
+                IDE = true;
             else if (str[2] == '0')
-                ret.IDE = false;
+                IDE = false;
             else
                 throw new FormatException($"Can't parse. Message IDE is {str[2]}, must be '0' or '4'");
 
             if (str[3] == '0')
-                ret.RTR = false;
+                RTR = false;
             else
-                ret.RTR = true;
+                RTR = true;
             var parts = str.Split('_');
-            ret.ID = Convert.ToUInt32(parts[1], 16);
-            ret.Data = new byte[ret.DLC];
-            for (int i = 0; i < ret.DLC; i++)
+            ID = Convert.ToInt32(parts[1], 16);
+            Data = new byte[DLC];
+            for (int i = 0; i < DLC; i++)
             {
                 string subString = parts[2].Substring(i * 2, 2);
-                ret.Data[i] = Convert.ToByte(subString, 16);
+                Data[i] = Convert.ToByte(subString, 16);
             }
-            return ret;
         }
 
         public override bool Equals(object obj)
         {
-            CanMessage toCompare = obj as CanMessage;
+            if (obj == null)
+                return false;
             if (!(obj is CanMessage))
                 return false;
+
+            CanMessage toCompare = obj as CanMessage;
             if (toCompare.ID != ID || toCompare.DLC != DLC || toCompare.IDE != IDE || toCompare.RTR != RTR)
                 return false;
             for (int i = 0; i < toCompare.DLC; i++)
@@ -121,5 +87,16 @@ namespace RVC_Project
                     return false;
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            int ret = ID;
+            for (int i = 0; i < DLC; i++)
+            {
+                ret ^= Data[i] << (8 * (i % 4));
+            }
+            return ret;
+        }
+
     }
 }

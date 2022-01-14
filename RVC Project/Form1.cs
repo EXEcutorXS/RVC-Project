@@ -38,7 +38,7 @@ namespace RVC_Project
             {
                 while (canAdapter.UnreadLogMessages > 0)
                 {
-                    string s = canAdapter?.getNextLogMessage();
+                    string s = canAdapter?.GetNextLogMessage();
                     if (s != null)
                         LogField.Invoke(new Action(() => LogField.AppendText(s.ToString() + Environment.NewLine)));
                 }
@@ -55,7 +55,7 @@ namespace RVC_Project
             {
                 while (canAdapter.UnreadErrors > 0)
                 {
-                    string s = canAdapter?.getNextError();
+                    string s = canAdapter?.GetNextError();
                     if (s != null)
                         LogField.Invoke(new Action(() => LogField.AppendText("Error: " + s.ToString() + Environment.NewLine)));
                 }
@@ -68,9 +68,9 @@ namespace RVC_Project
 
         private void CanAdapterGotMessage(object sender, EventArgs e)
         {
-            while (canAdapter.UnprecessedMessages > 0)
+            while (canAdapter.UnreadMessages > 0)
             {
-                CanMessage m = canAdapter?.getNextMessage();
+                CanMessage m = canAdapter?.GetNextMessage();
                 if (m != null)
                 {
                     LogField.Invoke(new Action(() => LogField.AppendText(m.ToString() + Environment.NewLine)));
@@ -116,7 +116,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.SetNormalMode();
+                canAdapter.SetMode(CanAdapterMode.Normal);
             }
             catch (Exception ex)
             {
@@ -128,7 +128,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.SetLoopbackMode();
+                canAdapter.SetMode(CanAdapterMode.Loopback);
             }
             catch (Exception ex)
             {
@@ -138,14 +138,14 @@ namespace RVC_Project
 
         private void SilentButton_Click(object sender, EventArgs e)
         {
-            canAdapter.SetSilentMode();
+            canAdapter.SetMode(CanAdapterMode.Silent);
         }
 
         private void SilentLoopbackButton_Click(object sender, EventArgs e)
         {
             try
             {
-                canAdapter.SetSilentLoopbackMode();
+                canAdapter.SetMode(CanAdapterMode.SilentLoopback);
             }
             catch (Exception ex)
             {
@@ -157,7 +157,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.RefreshVersion();
+                canAdapter.GetAdapterVersion();
                 Thread.Sleep(10);
                 VersionField.Text = $"{canAdapter.Version >> 24 & 0xFF:D}.{canAdapter.Version >> 16 & 0xFF:D}.{canAdapter.Version >> 8 & 0xFF:D}.{canAdapter.Version & 0xFF:D}";
             }
@@ -186,7 +186,7 @@ namespace RVC_Project
             {
                 for (int i = 0; i < msg.DLC; i++)
                     msg.Data[i] = Convert.ToByte(DataField.Text.Substring(i * 2, 2), 16);
-                canAdapter.sendMessage(msg);
+                canAdapter.SendMessage(msg);
             }
             catch (Exception ex)
             {
@@ -251,7 +251,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.Start();
+                canAdapter.StartCan();
             }
             catch (Exception ex)
             {
@@ -263,7 +263,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.Stop();
+                canAdapter.StopCan();
             }
             catch (Exception ex)
             {
@@ -282,7 +282,7 @@ namespace RVC_Project
             {
                 for (int i = 0; i < 8; i++)
                     msg.Data[i] = Convert.ToByte(RvcDataField.Text.Substring(i * 2, 2), 16);
-                canAdapter.sendMessage(msg.GetCanMessage());
+                canAdapter.SendMessage(msg.GetCanMessage());
             }
             catch (Exception ex)
             {
@@ -293,6 +293,33 @@ namespace RVC_Project
         private void ClearRvcButton_Click(object sender, EventArgs e)
         {
             RvcMessageList.Items.Clear();
+        }
+
+        private void DataField_TextChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < DataField.Text.Length; i++)
+            {
+                char c = DataField.Text[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
+                {
+                    DataField.Text = DataField.Text.Remove(i, 1);
+                    MessageBox.Show($"Введён неподходящий символ ({c})");
+                }
+            }
+
+        }
+
+        private void RvcDataField_TextChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < RvcDataField.Text.Length; i++)
+            {
+                char c = RvcDataField.Text[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
+                {
+                    RvcDataField.Text = RvcDataField.Text.Remove(i, 1);
+                    MessageBox.Show($"Введён неподходящий символ ({c})");
+                }
+            }
         }
     }
     public static class extensionMethods

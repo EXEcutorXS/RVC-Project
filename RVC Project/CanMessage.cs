@@ -22,10 +22,10 @@ namespace RVC_Project
 
         public string GetDataInTextFormat(string beforeString = "", string afterString = "")
         {
-                StringBuilder sb = new StringBuilder("");
-                foreach (var item in Data)
-                    sb.Append($"{beforeString}{item:X02}{afterString}");
-                return sb.ToString();
+            StringBuilder sb = new StringBuilder("");
+            foreach (var item in Data)
+                sb.Append($"{beforeString}{item:X02}{afterString}");
+            return sb.ToString();
         }
 
         public string RtrAsString => RTR ? "1" : "0";
@@ -35,7 +35,7 @@ namespace RVC_Project
         public bool RvcCompatible => IDE && DLC == 8 && !RTR;
 
         public string IdInTextFormat => IDE ? string.Format("{0:X08}", ID) : string.Format("{0:X03}", ID);
-        
+
 
         public override string ToString()
         {
@@ -44,7 +44,7 @@ namespace RVC_Project
 
         public CanMessage()
         { }
-        public CanMessage (string str)
+        public CanMessage(string str)
         {
             if (str[0] != 'R')
                 throw new FormatException("Can't parse. String must start with 'R'");
@@ -76,9 +76,10 @@ namespace RVC_Project
         {
             if (obj == null)
                 return false;
+            if (ReferenceEquals(obj, this))
+                return true;
             if (!(obj is CanMessage))
                 return false;
-
             CanMessage toCompare = obj as CanMessage;
             if (toCompare.ID != ID || toCompare.DLC != DLC || toCompare.IDE != IDE || toCompare.RTR != RTR)
                 return false;

@@ -119,7 +119,7 @@
             // 
             this.SendButton.Location = new System.Drawing.Point(3, 2);
             this.SendButton.Name = "SendButton";
-            this.SendButton.Size = new System.Drawing.Size(66, 23);
+            this.SendButton.Size = new System.Drawing.Size(77, 23);
             this.SendButton.TabIndex = 4;
             this.SendButton.Text = "Send";
             this.SendButton.UseVisualStyleBackColor = true;
@@ -134,13 +134,14 @@
             this.DataField.Text = "0011223344556677";
             this.DataField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.DataField, "Данные для передачи");
+            this.DataField.TextChanged += new System.EventHandler(this.DataField_TextChanged);
             // 
             // IdeField
             // 
             this.IdeField.AutoSize = true;
             this.IdeField.Checked = true;
             this.IdeField.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IdeField.Location = new System.Drawing.Point(79, 5);
+            this.IdeField.Location = new System.Drawing.Point(88, 5);
             this.IdeField.Name = "IdeField";
             this.IdeField.Size = new System.Drawing.Size(44, 17);
             this.IdeField.TabIndex = 7;
@@ -152,7 +153,7 @@
             // RtrField
             // 
             this.RtrField.AutoSize = true;
-            this.RtrField.Location = new System.Drawing.Point(129, 5);
+            this.RtrField.Location = new System.Drawing.Point(133, 5);
             this.RtrField.Name = "RtrField";
             this.RtrField.Size = new System.Drawing.Size(49, 17);
             this.RtrField.TabIndex = 8;
@@ -249,7 +250,7 @@
             this.LogField.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.LogField.Location = new System.Drawing.Point(0, 206);
             this.LogField.Name = "LogField";
-            this.LogField.Size = new System.Drawing.Size(570, 265);
+            this.LogField.Size = new System.Drawing.Size(570, 338);
             this.LogField.TabIndex = 15;
             this.LogField.Text = "";
             this.toolTip1.SetToolTip(this.LogField, "Лог работы адаптера");
@@ -297,7 +298,7 @@
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(99, 23);
             this.RefreshButton.TabIndex = 21;
-            this.RefreshButton.Text = "Refresh ports";
+            this.RefreshButton.Text = "Refresh port list";
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
@@ -337,9 +338,9 @@
             // 
             // ClearLogButton
             // 
-            this.ClearLogButton.Location = new System.Drawing.Point(428, 172);
+            this.ClearLogButton.Location = new System.Drawing.Point(495, 68);
             this.ClearLogButton.Name = "ClearLogButton";
-            this.ClearLogButton.Size = new System.Drawing.Size(61, 23);
+            this.ClearLogButton.Size = new System.Drawing.Size(75, 23);
             this.ClearLogButton.TabIndex = 23;
             this.ClearLogButton.Text = "Clear Log";
             this.ClearLogButton.UseVisualStyleBackColor = true;
@@ -347,9 +348,9 @@
             // 
             // ClearMessagesButton
             // 
-            this.ClearMessagesButton.Location = new System.Drawing.Point(501, 12);
+            this.ClearMessagesButton.Location = new System.Drawing.Point(495, 10);
             this.ClearMessagesButton.Name = "ClearMessagesButton";
-            this.ClearMessagesButton.Size = new System.Drawing.Size(69, 23);
+            this.ClearMessagesButton.Size = new System.Drawing.Size(75, 23);
             this.ClearMessagesButton.TabIndex = 24;
             this.ClearMessagesButton.Text = "Clear CAN";
             this.ClearMessagesButton.UseVisualStyleBackColor = true;
@@ -379,12 +380,12 @@
             this.panel3.Controls.Add(this.RvcDataField);
             this.panel3.Location = new System.Drawing.Point(8, 168);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(414, 32);
+            this.panel3.Size = new System.Drawing.Size(425, 32);
             this.panel3.TabIndex = 26;
             // 
             // RvcPriorityField
             // 
-            this.RvcPriorityField.Location = new System.Drawing.Point(75, 3);
+            this.RvcPriorityField.Location = new System.Drawing.Point(86, 3);
             this.RvcPriorityField.Maximum = new decimal(new int[] {
             7,
             0,
@@ -403,7 +404,7 @@
             // 
             // RvcSourceAdressField
             // 
-            this.RvcSourceAdressField.Location = new System.Drawing.Point(209, 3);
+            this.RvcSourceAdressField.Location = new System.Drawing.Point(220, 2);
             this.RvcSourceAdressField.Maximum = new decimal(new int[] {
             255,
             0,
@@ -424,16 +425,16 @@
             // 
             this.RvcSendButton.Location = new System.Drawing.Point(3, 2);
             this.RvcSendButton.Name = "RvcSendButton";
-            this.RvcSendButton.Size = new System.Drawing.Size(66, 23);
+            this.RvcSendButton.Size = new System.Drawing.Size(77, 23);
             this.RvcSendButton.TabIndex = 4;
-            this.RvcSendButton.Text = "Send RVC";
+            this.RvcSendButton.Text = "Send RV-C";
             this.RvcSendButton.UseVisualStyleBackColor = true;
             this.RvcSendButton.Click += new System.EventHandler(this.RvcSendButton_Click);
             // 
             // RvcDgnField
             // 
             this.RvcDgnField.Hexadecimal = true;
-            this.RvcDgnField.Location = new System.Drawing.Point(129, 4);
+            this.RvcDgnField.Location = new System.Drawing.Point(140, 3);
             this.RvcDgnField.Maximum = new decimal(new int[] {
             131071,
             0,
@@ -452,13 +453,14 @@
             // 
             // RvcDataField
             // 
-            this.RvcDataField.Location = new System.Drawing.Point(270, 3);
+            this.RvcDataField.Location = new System.Drawing.Point(281, 2);
             this.RvcDataField.Name = "RvcDataField";
             this.RvcDataField.Size = new System.Drawing.Size(137, 20);
             this.RvcDataField.TabIndex = 6;
             this.RvcDataField.Text = "0011223344556677";
             this.RvcDataField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.RvcDataField, "Данные для передачи");
+            this.RvcDataField.TextChanged += new System.EventHandler(this.RvcDataField_TextChanged);
             // 
             // RvcMessageList
             // 
@@ -468,13 +470,13 @@
             this.RvcMessageList.ItemHeight = 16;
             this.RvcMessageList.Location = new System.Drawing.Point(576, 206);
             this.RvcMessageList.Name = "RvcMessageList";
-            this.RvcMessageList.Size = new System.Drawing.Size(627, 260);
+            this.RvcMessageList.Size = new System.Drawing.Size(627, 340);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
             // 
             // ClearRvcButton
             // 
-            this.ClearRvcButton.Location = new System.Drawing.Point(495, 173);
+            this.ClearRvcButton.Location = new System.Drawing.Point(495, 39);
             this.ClearRvcButton.Name = "ClearRvcButton";
             this.ClearRvcButton.Size = new System.Drawing.Size(75, 23);
             this.ClearRvcButton.TabIndex = 28;
@@ -486,7 +488,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 477);
+            this.ClientSize = new System.Drawing.Size(1203, 542);
             this.Controls.Add(this.ClearRvcButton);
             this.Controls.Add(this.RvcMessageList);
             this.Controls.Add(this.panel3);

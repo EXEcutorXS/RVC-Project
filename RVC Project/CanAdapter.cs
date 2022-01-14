@@ -7,8 +7,10 @@ using System.IO.Ports;
 using System.Threading;
 namespace RVC_Project
 {
+    public enum CanAdapterMode { Normal, Silent, Loopback, SilentLoopback }
     public class CanAdapter
     {
+        
         private Queue<CanMessage> ReceivedMessages = new Queue<CanMessage>(4096);
         private Queue<string> LogMessages = new Queue<String>(4096);
         private Queue<string> Errors = new Queue<String>(4096);
@@ -36,37 +38,33 @@ namespace RVC_Project
 
         public event EventHandler GotLogMessage;
 
-        public int UnprecessedMessages => ReceivedMessages.Count;
+        public int UnreadMessages => ReceivedMessages.Count;
         public int UnreadLogMessages => LogMessages.Count;
         public int UnreadErrors => Errors.Count;
 
         public void PortOpen() => serialPort.Open();
         public void PortClose() => serialPort.Close();
 
-        public void SetNormalMode()
+        public void SetMode(CanAdapterMode mode)
         {
-            serialPort.Write("<N>");
+            switch (mode)
+            {
+                case CanAdapterMode.Normal:
+                    serialPort.Write("<N>");
+                    break;
+                case CanAdapterMode.Silent:
+                    serialPort.Write("<S>");
+                    break;
+                case CanAdapterMode.Loopback:
+                    serialPort.Write("<L>");
+                    break;
+                case CanAdapterMode.SilentLoopback:
+                    serialPort.Write("<K>");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Wrong work mode");
+            }
         }
-
-        public void SetSilentMode()
-        {
-            serialPort.Write("<S>");
-        }
-
-        public void SetLoopbackMode()
-        {
-            serialPort.Write("<L>");
-        }
-
-        public void SetSilentLoopbackMode()
-        {
-            serialPort.Write("<K>");
-        }
-        public void RefreshVersion()
-        {
-            serialPort.Write("<V>");
-        }
-
         public void SetBitrate(int bitrate)
         {
             if (bitrate > 0 && bitrate <= 1000)
@@ -74,21 +72,21 @@ namespace RVC_Project
             else
                 throw new ArgumentException("Bitrate must be 1..1000 kb/s");
         }
-        public CanMessage getNextMessage()
+        public CanMessage GetNextMessage()
         {
             if (ReceivedMessages.Count > 0)
                 return ReceivedMessages.Dequeue();
             else return null;
         }
 
-        public string getNextLogMessage()
+        public string GetNextLogMessage()
         {
             if (LogMessages.Count > 0)
                 return LogMessages.Dequeue();
             else return null;
         }
 
-        public string getNextError()
+        public string GetNextError()
         {
 
             if (Errors.Count > 0)
@@ -96,7 +94,7 @@ namespace RVC_Project
             else return null;
         }
 
-        public void sendMessage(CanMessage msg)
+        public void SendMessage(CanMessage msg)
         {
             if (serialPort.IsOpen == false)
                 return;
@@ -140,11 +138,15 @@ namespace RVC_Project
                 default:
                     break;
             }
-
         }
-        private void dataReceived(object sender, SerialDataReceivedEventArgs args)
+
+        public void GetAdapterVersion()
         {
-            while (serialPort.BytesToRead > 0)
+            serialPort.Write("<V>");
+        }
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs args)
+        {
+            while (serialPort.IsOpen && serialPort.BytesToRead > 0)
             {
                 char newChar = (char)serialPort.ReadByte();
                 if (newChar == '<')
@@ -163,14 +165,14 @@ namespace RVC_Project
         public CanAdapter()
         {
             serialPort = new SerialPort();
-            serialPort.DataReceived += new SerialDataReceivedEventHandler(this.dataReceived);
+            serialPort.DataReceived += new SerialDataReceivedEventHandler(this.DataReceivedHandler);
         }
-        public void Start()
+        public void StartCan()
         {
             serialPort.Write("<1>");
         }
 
-        public void Stop()
+        public void StopCan()
         {
             serialPort.Write("<2>");
 

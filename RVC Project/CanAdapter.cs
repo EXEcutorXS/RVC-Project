@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Threading;
+
 namespace RVC_Project
 {
     public enum CanAdapterMode { Normal, Silent, Loopback, SilentLoopback }

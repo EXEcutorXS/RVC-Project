@@ -22,6 +22,8 @@ namespace RVC_Project
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            RVC.SeedData();
+            RVC.SaveToFile();
             canAdapter = new CanAdapter();
             canAdapter.GotNewMessage += CanAdapterGotMessage;
             canAdapter.GotError += CanAdapter_GotError;

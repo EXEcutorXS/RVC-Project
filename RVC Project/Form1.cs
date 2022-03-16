@@ -100,7 +100,7 @@ namespace RVC_Project
                             if (rvcNum != null)
                             {
                                 if (!RvcMessageList.Items[(int)rvcNum].Equals(m.ToRvcMessage()))
-                                    RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m));
+                                    RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m.ToRvcMessage()));
                             }
                             else
                                 RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
@@ -323,6 +323,11 @@ namespace RVC_Project
                 }
             }
         }
+
+        private void RvcMessageList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            VerboseInfoField.Text = (RvcMessageList?.SelectedItem as RvcMessage)?.VerboseInfo()?.Replace(';', '\n');
+        }
     }
     public static class extensionMethods
     {
@@ -338,7 +343,7 @@ namespace RVC_Project
         {
             for (int i = 0; i < listBox.Items.Count; i++)
             {
-                if ((listBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (listBox.Items[i] as RvcMessage).Instance == msg.Instance)
+                if ((listBox.Items[i] is RvcMessage) && (listBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (listBox.Items[i] as RvcMessage).Instance == msg.Instance)
                     return i;
             }
             return null;

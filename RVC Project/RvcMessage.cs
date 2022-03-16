@@ -445,7 +445,7 @@ namespace RVC_Project
         public static string Decode(this RvcMessage msg)
         {
             if (!DGNs.ContainsKey(msg.Dgn))
-                return $"{msg.Dgn} is not supported";
+                return $"{msg.Dgn:X} is not supported";
             return DGNs[msg.Dgn].Decode(msg.Data);
         }
     }
@@ -488,7 +488,7 @@ namespace RVC_Project
         }
         public string Decode(byte[] data)
         {
-            string ret = Name + ":{";
+            string ret = Name + ":{;";
             foreach (Parameter p in Parameters)
             {
                 ret += p.ToString(data) + "; ";

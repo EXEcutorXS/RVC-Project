@@ -64,6 +64,7 @@
             this.RvcMessageList = new System.Windows.Forms.ListBox();
             this.ClearRvcButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.VerboseInfoField = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
@@ -239,9 +240,9 @@
             this.CanMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CanMessageList.FormattingEnabled = true;
             this.CanMessageList.ItemHeight = 16;
-            this.CanMessageList.Location = new System.Drawing.Point(576, 12);
+            this.CanMessageList.Location = new System.Drawing.Point(576, 8);
             this.CanMessageList.Name = "CanMessageList";
-            this.CanMessageList.Size = new System.Drawing.Size(627, 180);
+            this.CanMessageList.Size = new System.Drawing.Size(627, 196);
             this.CanMessageList.TabIndex = 14;
             this.toolTip1.SetToolTip(this.CanMessageList, "Перечень различных CAN сообщений");
             // 
@@ -468,11 +469,12 @@
             this.RvcMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RvcMessageList.FormattingEnabled = true;
             this.RvcMessageList.ItemHeight = 16;
-            this.RvcMessageList.Location = new System.Drawing.Point(576, 206);
+            this.RvcMessageList.Location = new System.Drawing.Point(576, 204);
             this.RvcMessageList.Name = "RvcMessageList";
             this.RvcMessageList.Size = new System.Drawing.Size(627, 340);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
+            this.RvcMessageList.SelectedIndexChanged += new System.EventHandler(this.RvcMessageList_SelectedIndexChanged);
             // 
             // ClearRvcButton
             // 
@@ -484,11 +486,21 @@
             this.ClearRvcButton.UseVisualStyleBackColor = true;
             this.ClearRvcButton.Click += new System.EventHandler(this.ClearRvcButton_Click);
             // 
+            // VerboseInfoField
+            // 
+            this.VerboseInfoField.Location = new System.Drawing.Point(1209, 10);
+            this.VerboseInfoField.Name = "VerboseInfoField";
+            this.VerboseInfoField.ReadOnly = true;
+            this.VerboseInfoField.Size = new System.Drawing.Size(479, 520);
+            this.VerboseInfoField.TabIndex = 29;
+            this.VerboseInfoField.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 542);
+            this.ClientSize = new System.Drawing.Size(1700, 542);
+            this.Controls.Add(this.VerboseInfoField);
             this.Controls.Add(this.ClearRvcButton);
             this.Controls.Add(this.RvcMessageList);
             this.Controls.Add(this.panel3);
@@ -561,6 +573,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.NumericUpDown RvcSourceAdressField;
         private System.Windows.Forms.NumericUpDown RvcPriorityField;
+        private System.Windows.Forms.RichTextBox VerboseInfoField;
     }
 }
 

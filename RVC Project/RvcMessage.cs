@@ -243,9 +243,10 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Current schedule instatnce",
-                Type = parameterType.custom,
+                Type = parameterType.list,
                 Size = parameterSize.uint8,
                 firstByte = 1,
+                Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage" }
             });
 
             newDgn.Parameters.Add(new Parameter

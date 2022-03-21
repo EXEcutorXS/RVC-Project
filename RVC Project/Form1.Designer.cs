@@ -65,6 +65,8 @@
             this.ClearRvcButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.VerboseInfoField = new System.Windows.Forms.RichTextBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.DgnListComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
@@ -74,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // NormalButton
@@ -236,13 +239,12 @@
             // 
             // CanMessageList
             // 
-            this.CanMessageList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CanMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CanMessageList.FormattingEnabled = true;
             this.CanMessageList.ItemHeight = 16;
-            this.CanMessageList.Location = new System.Drawing.Point(576, 8);
+            this.CanMessageList.Location = new System.Drawing.Point(574, 8);
             this.CanMessageList.Name = "CanMessageList";
-            this.CanMessageList.Size = new System.Drawing.Size(627, 196);
+            this.CanMessageList.Size = new System.Drawing.Size(586, 196);
             this.CanMessageList.TabIndex = 14;
             this.toolTip1.SetToolTip(this.CanMessageList, "Перечень различных CAN сообщений");
             // 
@@ -465,13 +467,12 @@
             // 
             // RvcMessageList
             // 
-            this.RvcMessageList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RvcMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RvcMessageList.FormattingEnabled = true;
             this.RvcMessageList.ItemHeight = 16;
-            this.RvcMessageList.Location = new System.Drawing.Point(576, 204);
+            this.RvcMessageList.Location = new System.Drawing.Point(574, 204);
             this.RvcMessageList.Name = "RvcMessageList";
-            this.RvcMessageList.Size = new System.Drawing.Size(627, 340);
+            this.RvcMessageList.Size = new System.Drawing.Size(586, 340);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
             this.RvcMessageList.SelectedIndexChanged += new System.EventHandler(this.RvcMessageList_SelectedIndexChanged);
@@ -488,18 +489,36 @@
             // 
             // VerboseInfoField
             // 
-            this.VerboseInfoField.Location = new System.Drawing.Point(1209, 10);
+            this.VerboseInfoField.Location = new System.Drawing.Point(1166, 10);
             this.VerboseInfoField.Name = "VerboseInfoField";
             this.VerboseInfoField.ReadOnly = true;
-            this.VerboseInfoField.Size = new System.Drawing.Size(479, 520);
+            this.VerboseInfoField.Size = new System.Drawing.Size(424, 245);
             this.VerboseInfoField.TabIndex = 29;
             this.VerboseInfoField.Text = "";
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.DgnListComboBox);
+            this.panel4.Location = new System.Drawing.Point(1166, 261);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(424, 269);
+            this.panel4.TabIndex = 30;
+            // 
+            // DgnListComboBox
+            // 
+            this.DgnListComboBox.FormattingEnabled = true;
+            this.DgnListComboBox.Location = new System.Drawing.Point(14, 14);
+            this.DgnListComboBox.Name = "DgnListComboBox";
+            this.DgnListComboBox.Size = new System.Drawing.Size(361, 21);
+            this.DgnListComboBox.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1700, 542);
+            this.ClientSize = new System.Drawing.Size(1592, 542);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.VerboseInfoField);
             this.Controls.Add(this.ClearRvcButton);
             this.Controls.Add(this.RvcMessageList);
@@ -532,6 +551,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -574,6 +594,8 @@
         private System.Windows.Forms.NumericUpDown RvcSourceAdressField;
         private System.Windows.Forms.NumericUpDown RvcPriorityField;
         private System.Windows.Forms.RichTextBox VerboseInfoField;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.ComboBox DgnListComboBox;
     }
 }
 

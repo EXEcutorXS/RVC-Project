@@ -24,6 +24,7 @@ namespace RVC_Project
         {
             RVC.SeedData();
             RVC.SaveToFile();
+            DgnListComboBox.Items.AddRange(RVC.DGNs.ToArray().Select(x => x.Value.Dgn.ToString("X") + " " + x.Value.Name).ToArray());
             canAdapter = new CanAdapter();
             canAdapter.GotNewMessage += CanAdapterGotMessage;
             canAdapter.GotError += CanAdapter_GotError;

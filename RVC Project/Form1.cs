@@ -94,6 +94,22 @@ namespace RVC_Project
                     }
                     if (m.RvcCompatible)
                     {
+                        int? rvcNum = m.ToRvcMessage().getPosInList(RvcMessageList.Items.Cast<RvcMessage>().ToList());
+                        try
+                        {
+                            if (rvcNum != null)
+                            {
+                                if (!RvcMessageList.Items[(int)rvcNum].Equals(m.ToRvcMessage()))
+                                    RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m.ToRvcMessage()));
+                            }
+                            else
+                                RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        /*
                         int? rvcNum = RvcMessageList.findRvcMessageByDgnAndInstance(m.ToRvcMessage());
                         try
                         {
@@ -109,6 +125,7 @@ namespace RVC_Project
                         {
                             MessageBox.Show(ex.Message);
                         }
+                        */
                     }
                 }
             }

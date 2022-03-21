@@ -66,7 +66,7 @@ namespace RVC_Project
             {
                 Name = "Zone temperature status",
                 ShortName = "Zone t Status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 6,
                 firstBit = 4,
@@ -76,7 +76,7 @@ namespace RVC_Project
             {
                 Name = "Zone analog input status",
                 ShortName = "Zone an",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 6,
                 firstBit = 6,
@@ -102,7 +102,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Thermostat status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 6,
                 firstBit = 0,
@@ -112,7 +112,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Burner status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 6,
                 firstBit = 2,
@@ -122,7 +122,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "AC element status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 6,
                 firstBit = 4,
@@ -143,7 +143,7 @@ namespace RVC_Project
             newPar = new Parameter
             {
                 Name = "Failure to ignite status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 7,
                 firstBit = 0,
@@ -153,7 +153,7 @@ namespace RVC_Project
             newPar = new Parameter
             {
                 Name = "AC power failure status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 7,
                 firstBit = 2,
@@ -163,7 +163,7 @@ namespace RVC_Project
             newPar = new Parameter
             {
                 Name = "DC power failure status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 7,
                 firstBit = 4,
@@ -173,7 +173,7 @@ namespace RVC_Project
             newPar = new Parameter
             {
                 Name = "DC power warning status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 7,
                 firstBit = 6,
@@ -196,7 +196,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Fan mode",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 1,
                 firstBit = 4,
@@ -206,7 +206,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Schedule mode",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 1,
                 firstBit = 6,
@@ -260,7 +260,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Reduced noise mode",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 3,
                 Meanings = { [0] = "Disabled", [1] = "Endabled" }
@@ -276,7 +276,8 @@ namespace RVC_Project
                 Type = parameterType.list,
                 Size = parameterSize.uint8,
                 firstByte = 1,
-                Meanings = { [0] = "Sleep", [1] = "Wake",[2]="Away",[3]="Return",[250]="Storage"}
+                Id = true,
+                Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage" }
             });
 
             newDgn.Parameters.Add(new Parameter
@@ -308,7 +309,7 @@ namespace RVC_Project
                 Name = "Setopint temp - Cool",
                 Type = parameterType.temperature,
                 Size = parameterSize.uint16,
-                firstByte = 5,
+                firstByte = 6,
             });
 
             DGNs.Add(newDgn.Dgn, newDgn);
@@ -321,17 +322,18 @@ namespace RVC_Project
                 Type = parameterType.list,
                 Size = parameterSize.uint8,
                 firstByte = 1,
+                Id = true,
                 Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage" }
             });
 
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Sunday",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 2,
                 firstBit = 0,
-                Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day"}
+                Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day" }
             });
 
 
@@ -339,7 +341,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Monday",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 2,
                 firstBit = 2,
@@ -359,7 +361,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Wednesday",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 2,
                 firstBit = 6,
@@ -369,7 +371,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Thursday",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 3,
                 firstBit = 0,
@@ -379,7 +381,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Friday",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 3,
                 firstBit = 2,
@@ -389,7 +391,7 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Saturday",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 3,
                 firstBit = 4,
@@ -406,33 +408,35 @@ namespace RVC_Project
                 Type = parameterType.list,
                 Size = parameterSize.uint4,
                 firstByte = 1,
-                Meanings = { [0] = "Off", [1] = "On" ,[2]="Test (Forced On)"}
+                Meanings = { [0] = "Off", [1] = "On", [2] = "Test (Forced On)" }
             });
 
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Pump Overcurrent Status",
-                Type = parameterType.list,
-                Size = parameterSize.uint4,
-                firstByte = 1,
+                Type = parameterType.boolean,
+                Size = parameterSize.uint2,
+                firstByte = 2,
                 Meanings = { [0] = "No overcurrent detected", [1] = "Overcurrent detected" }
             });
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Pump Undercurrent Status",
-                Type = parameterType.list,
-                Size = parameterSize.uint4,
-                firstByte = 1,
-                Meanings = { [0] = "No undercurrent detected", [1] = "Undercurrent detected"}
+                Type = parameterType.boolean,
+                Size = parameterSize.uint2,
+                firstByte = 2,
+                firstBit = 2,
+                Meanings = { [0] = "No undercurrent detected", [1] = "Undercurrent detected" }
             });
 
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "Pump Temperature Status",
-                Type = parameterType.list,
-                Size = parameterSize.uint4,
+                Type = parameterType.boolean,
+                Size = parameterSize.uint2,
                 firstByte = 1,
-                Meanings = { [0] = "Temperature normal", [1] = "Temperature warning"}
+                firstBit = 4,
+                Meanings = { [0] = "Temperature normal", [1] = "Temperature warning" }
             });
             DGNs.Add(newDgn.Dgn, newDgn);
         }
@@ -484,7 +488,7 @@ namespace RVC_Project
         public DGN(bool addInstance = false)
         {
             Parameters = new List<Parameter>();
-            if (addInstance) this.Parameters.Add(new Parameter { Name = "Instance", ShortName = "#", Type = parameterType.instance, Size = parameterSize.uint8, firstByte = 0 });
+            if (addInstance) this.Parameters.Add(new Parameter { Name = "Instance", ShortName = "#", Type = parameterType.instance, Size = parameterSize.uint8, firstByte = 0, Id = true });
         }
         public string Decode(byte[] data)
         {
@@ -496,6 +500,8 @@ namespace RVC_Project
             ret += "}";
             return ret;
         }
+
+
     }
     public class Parameter
     {
@@ -509,26 +515,71 @@ namespace RVC_Project
         public double coefficient = 1;
         public double shift = 0;
         public string Unit = "";
+        public bool Id = false;
 
         public Parameter()
         {
             Meanings = new Dictionary<int, string>();
         }
+
+        public uint RawData(byte[] data)
+        {
+            switch (Size)
+            {
+                case parameterSize.uint2: return (uint)(data[firstByte] >> firstBit) & 0x3;
+                case parameterSize.uint4: return (uint)(data[firstByte] >> firstBit) & 0xF;
+                case parameterSize.uint6: return (uint)(data[firstByte] >> firstBit) & 0x3F;
+                case parameterSize.uint8: return (data[firstByte]);
+                case parameterSize.uint16: return (uint)(data[firstByte] + data[firstByte + 1] * 256);
+                case parameterSize.uint32: return (uint)(data[firstByte] + data[firstByte + 1] * 0x100 + data[firstByte + 2] * 0x10000 + data[firstByte + 3] * 0x1000000);
+                default: throw new ArgumentException("Bad parameter size");
+            }
+        }
+
         public string ToString(byte[] data, bool useFarenheit = false)
         {
             string retString = Name + ": ";
 
-            int rawData = 0;
+            uint rawData = 0;
             double tempValue = 0;
+
             switch (Size)
             {
-                case parameterSize.uint2: rawData = (data[firstByte] >> firstBit) & 0x3; break;
-                case parameterSize.uint4: rawData = (data[firstByte] >> firstBit) & 0xF; break;
-                case parameterSize.uint6: rawData = (data[firstByte] >> firstBit) & 0x3F; break;
+                case parameterSize.uint2: rawData = (uint)(data[firstByte] >> firstBit) & 0x3; break;
+                case parameterSize.uint4: rawData = (uint)(data[firstByte] >> firstBit) & 0xF; break;
+                case parameterSize.uint6: rawData = (uint)(data[firstByte] >> firstBit) & 0x3F; break;
                 case parameterSize.uint8: rawData = (data[firstByte]); break;
-                case parameterSize.uint16: rawData = (data[firstByte] + data[firstByte + 1] * 256); break;
-                case parameterSize.uint32: rawData = (data[firstByte] + data[firstByte + 1] * 0x100 + data[firstByte + 2] * 0x10000 + data[firstByte + 3] * 0x1000000); break;
+                case parameterSize.uint16: rawData = (uint)(data[firstByte] + data[firstByte + 1] * 256); break;
+                case parameterSize.uint32: rawData = (uint)(data[firstByte] + data[firstByte + 1] * 0x100 + data[firstByte + 2] * 0x10000 + data[firstByte + 3] * 0x1000000); break;
                 default: throw new ArgumentException("Bad parameter size");
+            }
+
+            switch (Size)
+            {
+                case parameterSize.uint2:
+                    if (rawData == 2) return retString += "Error";
+                    if (rawData == 3) return retString += "No Data";
+                    break;
+                case parameterSize.uint4:
+                    if (rawData == 14) return retString += "Error";
+                    if (rawData == 15) return retString += "No Data";
+                    break;
+                case parameterSize.uint6:
+                    if (rawData == 62) return retString += "Error";
+                    if (rawData == 63) return retString += "No Data";
+                    break;
+                case parameterSize.uint8:
+                    if (rawData == byte.MaxValue - 1) return retString += "Error";
+                    if (rawData == byte.MaxValue) return retString += "No Data";
+                    break;
+                case parameterSize.uint16:
+                    if (rawData == UInt16.MaxValue - 1) return retString += "Error";
+                    if (rawData == UInt16.MaxValue) return retString += "No Data";
+                    break;
+                case parameterSize.uint32:
+                    if (rawData == UInt32.MaxValue - 1) return retString += "Error";
+                    if (rawData == UInt32.MaxValue) return retString += "No Data";
+                    break;
             }
 
             switch (Type)
@@ -539,7 +590,7 @@ namespace RVC_Project
                     break;
                 case parameterType.instance:
                     tempValue = rawData;
-                    retString += "#" + tempValue.ToString();
+                    retString += (rawData == 0) ? "For everyone" : "#" + tempValue.ToString();
                     break;
                 case parameterType.hertz:
                     tempValue = rawData;
@@ -580,22 +631,23 @@ namespace RVC_Project
                     retString += tempValue.ToString() + (useFarenheit ? "F" : "C");
                     break;
                 case parameterType.custom:
+                    tempValue = rawData;
                     retString += $"{tempValue * coefficient + shift} {Unit}";
                     break;
                 case parameterType.boolean:
                     switch (tempValue)
                     {
-                        case 0: retString += "False"; break;
-                        case 1: retString += "True"; break;
+                        case 0: retString += (Meanings.Count == 2) ? Meanings[0] : "False"; break;
+                        case 1: retString += (Meanings.Count == 2) ? Meanings[1] : "True"; break;
                         case 2: retString += "Error"; break;
                         case 3: retString += "Not supported"; break;
                     }
                     break;
                 case parameterType.list:
-                    if (!Meanings.ContainsKey(rawData))
-                        retString += $"Parameter {Name} has no meaning for \"{rawData}!\"";
+                    if (!Meanings.ContainsKey((int)rawData))
+                        retString += $"no meaning for \"{rawData}!\"";
                     else
-                        retString += Meanings[rawData];
+                        retString += Meanings[(int)rawData];
                     break;
 
 
@@ -617,6 +669,7 @@ namespace RVC_Project
         { }
         static bool showUnsupportedData = true;
 
+        public IEnumerable<Parameter> Parameters => (RVC.DGNs.ContainsKey(Dgn)) ? RVC.DGNs[Dgn].Parameters : null;
         public RvcMessage(CanMessage msg)
         {
             if (msg == null)
@@ -656,12 +709,12 @@ namespace RVC_Project
 
         public override string ToString()
         {
-            
+
             string ret = $"{Priority} | {Dgn:X05} {SourceAdress:D3} ||";
             foreach (var item in Data)
                 ret += $" {item:X02} ";
             return ret;
-            return this.Decode();
+            //return this.Decode();
         }
 
         public string VerboseInfo()
@@ -671,6 +724,29 @@ namespace RVC_Project
         public override int GetHashCode()
         {
             return GetCanMessage().GetHashCode();
+        }
+
+        public int? getPosInList(List<RvcMessage> list)
+        {
+            bool thisOne = false;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                RvcMessage m = list[i];
+                if (m.Dgn != Dgn)
+                    continue;
+
+                thisOne = true;
+                if (RVC.DGNs.ContainsKey(m.Dgn))
+                    foreach (Parameter p in m.Parameters)
+                    {
+                        if (p.Id == true && p.RawData(m.Data) != p.RawData(Data))
+                            thisOne = false;
+                    }
+                if (thisOne) return i;
+
+            }
+            return null;
         }
     }
 }

@@ -28,7 +28,6 @@ namespace RVC_Project
         }
         public static void SeedData()
         {
-            Parameter newPar;
             DGN newDgn;
 
             newDgn = new DGN(true) { Dgn = 0x1FF9C, Name = "THERMOSTAT_AMBIENT_STATUS" };
@@ -133,14 +132,14 @@ namespace RVC_Project
             newDgn.Parameters.Add(new Parameter
             {
                 Name = "High temperature limit switch status",
-                Type = parameterType.list,
+                Type = parameterType.boolean,
                 Size = parameterSize.uint2,
                 firstByte = 6,
                 firstBit = 6,
                 Meanings = { [0] = "limit switch not tripped", [1] = "limit switch tripped" }
             });
 
-            newPar = new Parameter
+            newDgn.Parameters.Add(new Parameter
             {
                 Name = "Failure to ignite status",
                 Type = parameterType.boolean,
@@ -148,9 +147,9 @@ namespace RVC_Project
                 firstByte = 7,
                 firstBit = 0,
                 Meanings = { [0] = "no failure", [1] = "device has failed to ignite" }
-            };
+            });
 
-            newPar = new Parameter
+            newDgn.Parameters.Add(new Parameter
             {
                 Name = "AC power failure status",
                 Type = parameterType.boolean,
@@ -158,9 +157,9 @@ namespace RVC_Project
                 firstByte = 7,
                 firstBit = 2,
                 Meanings = { [0] = "AC power present", [1] = "AC power not present" }
-            };
+            });
 
-            newPar = new Parameter
+            newDgn.Parameters.Add(new Parameter
             {
                 Name = "DC power failure status",
                 Type = parameterType.boolean,
@@ -168,9 +167,9 @@ namespace RVC_Project
                 firstByte = 7,
                 firstBit = 4,
                 Meanings = { [0] = "DC power present", [1] = "DC power not present" }
-            };
+            });
 
-            newPar = new Parameter
+            newDgn.Parameters.Add(new Parameter
             {
                 Name = "DC power warning status",
                 Type = parameterType.boolean,
@@ -178,7 +177,7 @@ namespace RVC_Project
                 firstByte = 7,
                 firstBit = 6,
                 Meanings = { [0] = "DC power sufficient", [1] = "DC power warning" }
-            };
+            });
 
             DGNs.Add(newDgn.Dgn, newDgn);
 
@@ -442,17 +441,8 @@ namespace RVC_Project
             DGNs.Add(newDgn.Dgn, newDgn);
         }
 
-
-
-
         public static Dictionary<int, DGN> DGNs = new Dictionary<int, DGN>();
 
-        public static string Decode(this RvcMessage msg)
-        {
-            if (!DGNs.ContainsKey(msg.Dgn))
-                return $"{msg.Dgn:X} is not supported";
-            return DGNs[msg.Dgn].Decode(msg.Data);
-        }
     }
     public enum parameterSize
     {
@@ -511,8 +501,8 @@ namespace RVC_Project
         public parameterSize Size;
         public parameterType Type;
         public byte firstByte;
-        public byte firstBit;
-        public Dictionary<int, string> Meanings;
+        public byte firstBit=0;
+        public Dictionary<uint, string> Meanings;
         public double coefficient = 1;
         public double shift = 0;
         public string Unit = "";
@@ -520,7 +510,7 @@ namespace RVC_Project
 
         public Parameter()
         {
-            Meanings = new Dictionary<int, string>();
+            Meanings = new Dictionary<uint, string>();
         }
 
         public uint RawData(byte[] data)
@@ -546,10 +536,10 @@ namespace RVC_Project
 
             switch (Size)
             {
-                case parameterSize.uint2: rawData = (uint)(data[firstByte] >> firstBit) & 0x3; break;
-                case parameterSize.uint4: rawData = (uint)(data[firstByte] >> firstBit) & 0xF; break;
-                case parameterSize.uint6: rawData = (uint)(data[firstByte] >> firstBit) & 0x3F; break;
-                case parameterSize.uint8: rawData = (data[firstByte]); break;
+                case parameterSize.uint2: rawData = (uint)((data[firstByte] >> firstBit) & 0x3); break;
+                case parameterSize.uint4: rawData = (uint)((data[firstByte] >> firstBit) & 0xF); break;
+                case parameterSize.uint6: rawData = (uint)((data[firstByte] >> firstBit) & 0x3F); break;
+                case parameterSize.uint8: rawData = (uint)(data[firstByte]); break;
                 case parameterSize.uint16: rawData = (uint)(data[firstByte] + data[firstByte + 1] * 256); break;
                 case parameterSize.uint32: rawData = (uint)(data[firstByte] + data[firstByte + 1] * 0x100 + data[firstByte + 2] * 0x10000 + data[firstByte + 3] * 0x1000000); break;
                 default: throw new ArgumentException("Bad parameter size");
@@ -636,7 +626,7 @@ namespace RVC_Project
                     retString += $"{tempValue * coefficient + shift} {Unit}";
                     break;
                 case parameterType.boolean:
-                    switch (tempValue)
+                    switch (rawData)
                     {
                         case 0: retString += (Meanings.Count == 2) ? Meanings[0] : "False"; break;
                         case 1: retString += (Meanings.Count == 2) ? Meanings[1] : "True"; break;
@@ -645,10 +635,10 @@ namespace RVC_Project
                     }
                     break;
                 case parameterType.list:
-                    if (!Meanings.ContainsKey((int)rawData))
+                    if (!Meanings.ContainsKey(rawData))
                         retString += $"no meaning for \"{rawData}!\"";
                     else
-                        retString += Meanings[(int)rawData];
+                        retString += Meanings[rawData];
                     break;
 
 
@@ -658,7 +648,7 @@ namespace RVC_Project
             return retString;
         }
     }
-    public sealed class RvcMessage
+    public sealed class Rvc
     {
 
         public byte Priority;
@@ -666,12 +656,12 @@ namespace RVC_Project
         public byte SourceAdress;
         public byte[] Data = new byte[8];
         public byte Instance => Data[0];
-        public RvcMessage()
+        public Rvc()
         { }
         static bool showUnsupportedData = true;
 
         public IEnumerable<Parameter> Parameters => (RVC.DGNs.ContainsKey(Dgn)) ? RVC.DGNs[Dgn].Parameters : null;
-        public RvcMessage(CanMessage msg)
+        public Rvc(CanMessage msg)
         {
             if (msg == null)
                 throw new ArgumentNullException("Source CAN Message can't be null");
@@ -690,7 +680,7 @@ namespace RVC_Project
         public CanMessage GetCanMessage()
         {
             var msg = new CanMessage();
-            msg.ID = (int)Priority << 26 | Dgn << 8 | SourceAdress;
+            msg.ID = Priority << 26 | Dgn << 8 | SourceAdress;
             msg.DLC = 8;
             msg.IDE = true;
             msg.RTR = false;
@@ -702,9 +692,9 @@ namespace RVC_Project
         {
             if (obj == null)
                 return false;
-            if (!(obj is RvcMessage))
+            if (!(obj is Rvc))
                 return false;
-            var comp = obj as RvcMessage;
+            var comp = obj as Rvc;
             return GetCanMessage().Equals(comp.GetCanMessage());
         }
 
@@ -715,25 +705,26 @@ namespace RVC_Project
             foreach (var item in Data)
                 ret += $" {item:X02} ";
             return ret;
-            //return this.Decode();
         }
 
         public string VerboseInfo()
         {
-            return this.Decode();
+            if (!RVC.DGNs.ContainsKey(Dgn))
+                return $"{Dgn:X} is not supported";
+            return RVC.DGNs[Dgn].Decode(Data);
         }
         public override int GetHashCode()
         {
             return GetCanMessage().GetHashCode();
         }
 
-        public int? getPosInList(List<RvcMessage> list)
+        public int? getPosInList(List<Rvc> list)
         {
             bool thisOne = false;
 
             for (int i = 0; i < list.Count; i++)
             {
-                RvcMessage m = list[i];
+                Rvc m = list[i];
                 if (m.Dgn != Dgn)
                     continue;
 

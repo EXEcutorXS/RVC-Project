@@ -76,7 +76,8 @@ namespace RVC_Project
                 CanMessage m = canAdapter?.GetNextMessage();
                 if (m != null)
                 {
-                    LogField.Invoke(new Action(() => LogField.AppendText(m.ToString() + Environment.NewLine)));
+                    if (WriteToLogCHeckBox.Checked)
+                        LogField.Invoke(new Action(() => LogField.AppendText(m.ToString() + Environment.NewLine)));
 
                     int? num = CanMessageList.findCanMessageById(m);
                     try
@@ -95,38 +96,20 @@ namespace RVC_Project
                     }
                     if (m.RvcCompatible)
                     {
-                        int? rvcNum = m.ToRvcMessage().getPosInList(RvcMessageList.Items.Cast<RvcMessage>().ToList());
-                        try
+                        int? rvcNum = m.ToRvcMessage().getPosInList(RvcMessageList.Items.Cast<Rvc>().ToList());
+
+                        if (rvcNum != null)
                         {
-                            if (rvcNum != null)
+                            if (!RvcMessageList.Items[(int)rvcNum].Equals(m.ToRvcMessage()))
                             {
-                                if (!RvcMessageList.Items[(int)rvcNum].Equals(m.ToRvcMessage()))
-                                    RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m.ToRvcMessage()));
+                                RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m.ToRvcMessage()));
+                                int selcectedIndex = (int)RvcMessageList.Invoke(new Func<int>(() => RvcMessageList.SelectedIndex));
+                                if (selcectedIndex == rvcNum)
+                                    VerboseInfoField.Invoke(new Action(() => VerboseInfoField.Text = m.ToRvcMessage().VerboseInfo().Replace(';', '\n')));
                             }
-                            else
-                                RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                        /*
-                        int? rvcNum = RvcMessageList.findRvcMessageByDgnAndInstance(m.ToRvcMessage());
-                        try
-                        {
-                            if (rvcNum != null)
-                            {
-                                if (!RvcMessageList.Items[(int)rvcNum].Equals(m.ToRvcMessage()))
-                                    RvcMessageList.Invoke(new Action(() => RvcMessageList.Items[(int)rvcNum] = m.ToRvcMessage()));
-                            }
-                            else
-                                RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                        */
+                        else
+                            RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
                     }
                 }
             }
@@ -293,7 +276,7 @@ namespace RVC_Project
 
         private void RvcSendButton_Click(object sender, EventArgs e)
         {
-            var msg = new RvcMessage();
+            var msg = new Rvc();
             msg.Dgn = Convert.ToInt32(RvcDgnField.Value);
             msg.Data = new byte[8];
             msg.SourceAdress = Convert.ToByte(RvcSourceAdressField.Value);
@@ -344,7 +327,75 @@ namespace RVC_Project
 
         private void RvcMessageList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            VerboseInfoField.Text = (RvcMessageList?.SelectedItem as RvcMessage)?.VerboseInfo()?.Replace(';', '\n');
+            VerboseInfoField.Text = (RvcMessageList?.SelectedItem as Rvc)?.VerboseInfo()?.Replace(';', '\n');
+        }
+
+        private void DgnListComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int Yposition = 5;
+            int dgn = Convert.ToInt32(DgnListComboBox.SelectedItem.ToString().Split()[0], 16);
+            ParametersPanel.Controls.Clear();
+            List<Label> labels = new List<Label>();
+            List<Control> valueSetFields = new List<Control>();
+            List<CheckBox> checkBoxes = new List<CheckBox>();
+            if (RVC.DGNs.ContainsKey(dgn))
+            {
+                DGN currentDgn = RVC.DGNs[dgn];
+                for (int i = 0; i < currentDgn.Parameters.Count; i++)
+                {
+                    Parameter p = currentDgn.Parameters[i];
+                    Label lbl = new Label();
+                    labels.Add(lbl);
+                    ParametersPanel.Controls.Add(lbl);
+
+                    lbl.Location = new Point(10, Yposition);
+                    lbl.Text = p.Name;
+                    switch (p.Type)
+                    {
+                        case parameterType.boolean:
+                        case parameterType.list:
+                            ComboBox box = new ComboBox();
+                            valueSetFields.Add(box);
+                            ParametersPanel.Controls.Add(box);
+                            box.Location = new Point(200, Yposition);
+                            box.Width = 200;
+                            if (p.Meanings.Count > 0)
+                                foreach (KeyValuePair<uint, string> entry in p.Meanings)
+                                    box.Items.Add(entry.Key.ToString() + " - " + entry.Value.ToString());
+                            else
+                            {
+                                box.Items.Add("0 - False");
+                                box.Items.Add("1 - True");
+                            }
+                            box.Items.Add("No change");
+                            box.SelectedIndex = box.Items.Count - 1;
+                            break;
+                        case parameterType.percent:
+                        case parameterType.amperage:
+                        case parameterType.custom:
+                        case parameterType.hertz:
+                        case parameterType.instance:
+                        case parameterType.temperature:
+                        case parameterType.voltage:
+                        case parameterType.watts:
+
+                            TextBox txt = new TextBox();
+                            valueSetFields.Add(txt);
+                            ParametersPanel.Controls.Add(txt);
+                            txt.Location = new Point(200, Yposition);
+                            txt.Width = 180;
+                            break;
+                            CheckBox checkBox = new CheckBox();
+                            checkBox.Location = new Point(390, Yposition);
+                            checkBox.Text = "";
+                            checkBox.Checked = false;
+                        default:
+                            break;
+                    }
+                    Yposition += 24;
+                }
+            }
+
         }
     }
     public static class extensionMethods
@@ -357,11 +408,11 @@ namespace RVC_Project
             return null;
         }
 
-        public static int? findRvcMessageByDgnAndInstance(this ListBox listBox, RvcMessage msg)
+        public static int? findRvcMessageByDgnAndInstance(this ListBox listBox, Rvc msg)
         {
             for (int i = 0; i < listBox.Items.Count; i++)
             {
-                if ((listBox.Items[i] is RvcMessage) && (listBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (listBox.Items[i] as RvcMessage).Instance == msg.Instance)
+                if ((listBox.Items[i] is Rvc) && (listBox.Items[i] as Rvc).Dgn == msg.Dgn && (listBox.Items[i] as Rvc).Instance == msg.Instance)
                     return i;
             }
             return null;

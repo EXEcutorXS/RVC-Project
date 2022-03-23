@@ -65,8 +65,9 @@
             this.ClearRvcButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.VerboseInfoField = new System.Windows.Forms.RichTextBox();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.ParametersPanel = new System.Windows.Forms.Panel();
             this.DgnListComboBox = new System.Windows.Forms.ComboBox();
+            this.WriteToLogCHeckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
@@ -76,7 +77,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // NormalButton
@@ -496,29 +496,42 @@
             this.VerboseInfoField.TabIndex = 29;
             this.VerboseInfoField.Text = "";
             // 
-            // panel4
+            // ParametersPanel
             // 
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Controls.Add(this.DgnListComboBox);
-            this.panel4.Location = new System.Drawing.Point(1166, 261);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(424, 269);
-            this.panel4.TabIndex = 30;
+            this.ParametersPanel.AutoScroll = true;
+            this.ParametersPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ParametersPanel.Location = new System.Drawing.Point(1166, 292);
+            this.ParametersPanel.Name = "ParametersPanel";
+            this.ParametersPanel.Size = new System.Drawing.Size(424, 238);
+            this.ParametersPanel.TabIndex = 30;
             // 
             // DgnListComboBox
             // 
             this.DgnListComboBox.FormattingEnabled = true;
-            this.DgnListComboBox.Location = new System.Drawing.Point(14, 14);
+            this.DgnListComboBox.Location = new System.Drawing.Point(1166, 265);
             this.DgnListComboBox.Name = "DgnListComboBox";
-            this.DgnListComboBox.Size = new System.Drawing.Size(361, 21);
+            this.DgnListComboBox.Size = new System.Drawing.Size(414, 21);
             this.DgnListComboBox.TabIndex = 0;
+            this.DgnListComboBox.SelectedIndexChanged += new System.EventHandler(this.DgnListComboBox_SelectedIndexChanged);
+            // 
+            // WriteToLogCHeckBox
+            // 
+            this.WriteToLogCHeckBox.AutoSize = true;
+            this.WriteToLogCHeckBox.Location = new System.Drawing.Point(524, 183);
+            this.WriteToLogCHeckBox.Name = "WriteToLogCHeckBox";
+            this.WriteToLogCHeckBox.Size = new System.Drawing.Size(44, 17);
+            this.WriteToLogCHeckBox.TabIndex = 31;
+            this.WriteToLogCHeckBox.Text = "Log";
+            this.WriteToLogCHeckBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1592, 542);
-            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.DgnListComboBox);
+            this.Controls.Add(this.WriteToLogCHeckBox);
+            this.Controls.Add(this.ParametersPanel);
             this.Controls.Add(this.VerboseInfoField);
             this.Controls.Add(this.ClearRvcButton);
             this.Controls.Add(this.RvcMessageList);
@@ -551,7 +564,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
-            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -594,8 +606,9 @@
         private System.Windows.Forms.NumericUpDown RvcSourceAdressField;
         private System.Windows.Forms.NumericUpDown RvcPriorityField;
         private System.Windows.Forms.RichTextBox VerboseInfoField;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel ParametersPanel;
         private System.Windows.Forms.ComboBox DgnListComboBox;
+        private System.Windows.Forms.CheckBox WriteToLogCHeckBox;
     }
 }
 

@@ -15,9 +15,9 @@ namespace RVC_Project
 
         public byte[] Data = new byte[8];
 
-        public Rvc ToRvcMessage()
+        public RvcMessage ToRvcMessage()
         {
-            return new Rvc(this);
+            return new RvcMessage(this);
         }
 
         public string GetDataInTextFormat(string beforeString = "", string afterString = "")

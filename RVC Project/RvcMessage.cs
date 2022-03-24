@@ -648,7 +648,7 @@ namespace RVC_Project
             return retString;
         }
     }
-    public sealed class Rvc
+    public sealed class RvcMessage
     {
 
         public byte Priority;
@@ -656,12 +656,12 @@ namespace RVC_Project
         public byte SourceAdress;
         public byte[] Data = new byte[8];
         public byte Instance => Data[0];
-        public Rvc()
+        public RvcMessage()
         { }
         static bool showUnsupportedData = true;
 
         public IEnumerable<Parameter> Parameters => (RVC.DGNs.ContainsKey(Dgn)) ? RVC.DGNs[Dgn].Parameters : null;
-        public Rvc(CanMessage msg)
+        public RvcMessage(CanMessage msg)
         {
             if (msg == null)
                 throw new ArgumentNullException("Source CAN Message can't be null");
@@ -692,9 +692,9 @@ namespace RVC_Project
         {
             if (obj == null)
                 return false;
-            if (!(obj is Rvc))
+            if (!(obj is RvcMessage))
                 return false;
-            var comp = obj as Rvc;
+            var comp = obj as RvcMessage;
             return GetCanMessage().Equals(comp.GetCanMessage());
         }
 
@@ -718,13 +718,13 @@ namespace RVC_Project
             return GetCanMessage().GetHashCode();
         }
 
-        public int? getPosInList(List<Rvc> list)
+        public int? getPosInList(List<RvcMessage> list)
         {
             bool thisOne = false;
 
             for (int i = 0; i < list.Count; i++)
             {
-                Rvc m = list[i];
+                RvcMessage m = list[i];
                 if (m.Dgn != Dgn)
                     continue;
 

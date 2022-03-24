@@ -68,6 +68,7 @@
             this.ParametersPanel = new System.Windows.Forms.Panel();
             this.DgnListComboBox = new System.Windows.Forms.ComboBox();
             this.WriteToLogCHeckBox = new System.Windows.Forms.CheckBox();
+            this.SendRvcButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
@@ -492,7 +493,7 @@
             this.VerboseInfoField.Location = new System.Drawing.Point(1166, 10);
             this.VerboseInfoField.Name = "VerboseInfoField";
             this.VerboseInfoField.ReadOnly = true;
-            this.VerboseInfoField.Size = new System.Drawing.Size(424, 245);
+            this.VerboseInfoField.Size = new System.Drawing.Size(467, 245);
             this.VerboseInfoField.TabIndex = 29;
             this.VerboseInfoField.Text = "";
             // 
@@ -502,7 +503,7 @@
             this.ParametersPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ParametersPanel.Location = new System.Drawing.Point(1166, 292);
             this.ParametersPanel.Name = "ParametersPanel";
-            this.ParametersPanel.Size = new System.Drawing.Size(424, 238);
+            this.ParametersPanel.Size = new System.Drawing.Size(467, 238);
             this.ParametersPanel.TabIndex = 30;
             // 
             // DgnListComboBox
@@ -524,11 +525,22 @@
             this.WriteToLogCHeckBox.Text = "Log";
             this.WriteToLogCHeckBox.UseVisualStyleBackColor = true;
             // 
+            // SendRvcButton
+            // 
+            this.SendRvcButton.Location = new System.Drawing.Point(1586, 265);
+            this.SendRvcButton.Name = "SendRvcButton";
+            this.SendRvcButton.Size = new System.Drawing.Size(47, 23);
+            this.SendRvcButton.TabIndex = 0;
+            this.SendRvcButton.Text = "->";
+            this.SendRvcButton.UseVisualStyleBackColor = true;
+            this.SendRvcButton.Click += new System.EventHandler(this.SendRvcButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1592, 542);
+            this.ClientSize = new System.Drawing.Size(1645, 542);
+            this.Controls.Add(this.SendRvcButton);
             this.Controls.Add(this.DgnListComboBox);
             this.Controls.Add(this.WriteToLogCHeckBox);
             this.Controls.Add(this.ParametersPanel);
@@ -609,6 +621,7 @@
         private System.Windows.Forms.Panel ParametersPanel;
         private System.Windows.Forms.ComboBox DgnListComboBox;
         private System.Windows.Forms.CheckBox WriteToLogCHeckBox;
+        private System.Windows.Forms.Button SendRvcButton;
     }
 }
 

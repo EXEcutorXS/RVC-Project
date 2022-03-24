@@ -15,6 +15,9 @@ namespace RVC_Project
 
     public partial class Form1 : Form
     {
+        List<Parameter> parameters = new List<Parameter>();
+        List<Label> labels = new List<Label>();
+        List<Control> valueSetFields = new List<Control>();
         public Form1()
         {
             InitializeComponent();
@@ -96,7 +99,7 @@ namespace RVC_Project
                     }
                     if (m.RvcCompatible)
                     {
-                        int? rvcNum = m.ToRvcMessage().getPosInList(RvcMessageList.Items.Cast<Rvc>().ToList());
+                        int? rvcNum = m.ToRvcMessage().getPosInList(RvcMessageList.Items.Cast<RvcMessage>().ToList());
 
                         if (rvcNum != null)
                         {
@@ -276,7 +279,7 @@ namespace RVC_Project
 
         private void RvcSendButton_Click(object sender, EventArgs e)
         {
-            var msg = new Rvc();
+            var msg = new RvcMessage();
             msg.Dgn = Convert.ToInt32(RvcDgnField.Value);
             msg.Data = new byte[8];
             msg.SourceAdress = Convert.ToByte(RvcSourceAdressField.Value);
@@ -327,7 +330,7 @@ namespace RVC_Project
 
         private void RvcMessageList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            VerboseInfoField.Text = (RvcMessageList?.SelectedItem as Rvc)?.VerboseInfo()?.Replace(';', '\n');
+            VerboseInfoField.Text = (RvcMessageList?.SelectedItem as RvcMessage)?.VerboseInfo()?.Replace(';', '\n');
         }
 
         private void DgnListComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -335,9 +338,7 @@ namespace RVC_Project
             int Yposition = 5;
             int dgn = Convert.ToInt32(DgnListComboBox.SelectedItem.ToString().Split()[0], 16);
             ParametersPanel.Controls.Clear();
-            List<Label> labels = new List<Label>();
-            List<Control> valueSetFields = new List<Control>();
-            List<CheckBox> checkBoxes = new List<CheckBox>();
+
             if (RVC.DGNs.ContainsKey(dgn))
             {
                 DGN currentDgn = RVC.DGNs[dgn];
@@ -349,7 +350,21 @@ namespace RVC_Project
                     ParametersPanel.Controls.Add(lbl);
 
                     lbl.Location = new Point(10, Yposition);
+                    lbl.Width = 170;
                     lbl.Text = p.Name;
+                    string unitString = "";
+                    switch (p.Type)
+                    {
+                        case parameterType.percent: unitString = ", %"; break;
+                        case parameterType.temperature: unitString = ", C°"; break;
+                        case parameterType.amperage: unitString = ", A"; break;
+                        case parameterType.custom: unitString = ", " + p.Unit; break;
+                        case parameterType.hertz: unitString = ", Hz"; break;
+                        case parameterType.voltage: unitString = ", V"; break;
+                        case parameterType.watts: unitString = ", W"; break;
+                        default: break;
+                    }
+                    lbl.Text += unitString;
                     switch (p.Type)
                     {
                         case parameterType.boolean:
@@ -383,12 +398,8 @@ namespace RVC_Project
                             valueSetFields.Add(txt);
                             ParametersPanel.Controls.Add(txt);
                             txt.Location = new Point(200, Yposition);
-                            txt.Width = 180;
+                            txt.Width = 200;
                             break;
-                            CheckBox checkBox = new CheckBox();
-                            checkBox.Location = new Point(390, Yposition);
-                            checkBox.Text = "";
-                            checkBox.Checked = false;
                         default:
                             break;
                     }
@@ -396,6 +407,34 @@ namespace RVC_Project
                 }
             }
 
+        }
+
+        private void SendRvcButton_Click(object sender, EventArgs e)
+        {
+            RvcMessage m = new RvcMessage();
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                Parameter p = parameters[i];
+                if (valueSetFields[i].Text == "" || valueSetFields[i].Text == "No Change")
+                    continue;
+                switch (p.Type)
+                {
+                    case parameterType.list:
+                        byte raw = 0;
+                        raw |= (byte)(Convert.ToByte(valueSetFields[i].Text.Split()[0]) << p.firstBit);
+                        switch (p.Size)
+                        {
+                            case parameterSize.uint2: raw &= 0b11; break;
+                            case parameterSize.uint4: raw &= 0b1111; break;
+                            case parameterSize.uint6: raw &= 0b111111; break;
+                            default: throw new ArgumentException($"Parameter of type {p.Type} cant have size {p.Size}");
+                        }
+                        m.Data[p.firstByte] |= raw;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
     public static class extensionMethods
@@ -408,14 +447,15 @@ namespace RVC_Project
             return null;
         }
 
-        public static int? findRvcMessageByDgnAndInstance(this ListBox listBox, Rvc msg)
+        public static int? findRvcMessageByDgnAndInstance(this ListBox listBox, RvcMessage msg)
         {
             for (int i = 0; i < listBox.Items.Count; i++)
             {
-                if ((listBox.Items[i] is Rvc) && (listBox.Items[i] as Rvc).Dgn == msg.Dgn && (listBox.Items[i] as Rvc).Instance == msg.Instance)
+                if ((listBox.Items[i] is RvcMessage) && (listBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (listBox.Items[i] as RvcMessage).Instance == msg.Instance)
                     return i;
             }
             return null;
         }
     }
 }
+

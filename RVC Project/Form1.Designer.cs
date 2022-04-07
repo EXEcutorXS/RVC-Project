@@ -69,6 +69,7 @@
             this.DgnListComboBox = new System.Windows.Forms.ComboBox();
             this.WriteToLogCHeckBox = new System.Windows.Forms.CheckBox();
             this.SendRvcButton = new System.Windows.Forms.Button();
+            this.RvcMessagePreview = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
@@ -254,7 +255,7 @@
             this.LogField.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.LogField.Location = new System.Drawing.Point(0, 206);
             this.LogField.Name = "LogField";
-            this.LogField.Size = new System.Drawing.Size(570, 338);
+            this.LogField.Size = new System.Drawing.Size(570, 543);
             this.LogField.TabIndex = 15;
             this.LogField.Text = "";
             this.toolTip1.SetToolTip(this.LogField, "Лог работы адаптера");
@@ -471,9 +472,9 @@
             this.RvcMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RvcMessageList.FormattingEnabled = true;
             this.RvcMessageList.ItemHeight = 16;
-            this.RvcMessageList.Location = new System.Drawing.Point(574, 204);
+            this.RvcMessageList.Location = new System.Drawing.Point(574, 210);
             this.RvcMessageList.Name = "RvcMessageList";
-            this.RvcMessageList.Size = new System.Drawing.Size(586, 340);
+            this.RvcMessageList.Size = new System.Drawing.Size(586, 532);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
             this.RvcMessageList.SelectedIndexChanged += new System.EventHandler(this.RvcMessageList_SelectedIndexChanged);
@@ -493,7 +494,7 @@
             this.VerboseInfoField.Location = new System.Drawing.Point(1166, 10);
             this.VerboseInfoField.Name = "VerboseInfoField";
             this.VerboseInfoField.ReadOnly = true;
-            this.VerboseInfoField.Size = new System.Drawing.Size(467, 245);
+            this.VerboseInfoField.Size = new System.Drawing.Size(467, 290);
             this.VerboseInfoField.TabIndex = 29;
             this.VerboseInfoField.Text = "";
             // 
@@ -501,15 +502,15 @@
             // 
             this.ParametersPanel.AutoScroll = true;
             this.ParametersPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ParametersPanel.Location = new System.Drawing.Point(1166, 292);
+            this.ParametersPanel.Location = new System.Drawing.Point(1166, 359);
             this.ParametersPanel.Name = "ParametersPanel";
-            this.ParametersPanel.Size = new System.Drawing.Size(467, 238);
+            this.ParametersPanel.Size = new System.Drawing.Size(467, 390);
             this.ParametersPanel.TabIndex = 30;
             // 
             // DgnListComboBox
             // 
             this.DgnListComboBox.FormattingEnabled = true;
-            this.DgnListComboBox.Location = new System.Drawing.Point(1166, 265);
+            this.DgnListComboBox.Location = new System.Drawing.Point(1166, 332);
             this.DgnListComboBox.Name = "DgnListComboBox";
             this.DgnListComboBox.Size = new System.Drawing.Size(414, 21);
             this.DgnListComboBox.TabIndex = 0;
@@ -527,7 +528,7 @@
             // 
             // SendRvcButton
             // 
-            this.SendRvcButton.Location = new System.Drawing.Point(1586, 265);
+            this.SendRvcButton.Location = new System.Drawing.Point(1586, 330);
             this.SendRvcButton.Name = "SendRvcButton";
             this.SendRvcButton.Size = new System.Drawing.Size(47, 23);
             this.SendRvcButton.TabIndex = 0;
@@ -535,11 +536,19 @@
             this.SendRvcButton.UseVisualStyleBackColor = true;
             this.SendRvcButton.Click += new System.EventHandler(this.SendRvcButton_Click);
             // 
+            // RvcMessagePreview
+            // 
+            this.RvcMessagePreview.Location = new System.Drawing.Point(1166, 306);
+            this.RvcMessagePreview.Name = "RvcMessagePreview";
+            this.RvcMessagePreview.Size = new System.Drawing.Size(467, 20);
+            this.RvcMessagePreview.TabIndex = 32;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1645, 542);
+            this.ClientSize = new System.Drawing.Size(1645, 761);
+            this.Controls.Add(this.RvcMessagePreview);
             this.Controls.Add(this.SendRvcButton);
             this.Controls.Add(this.DgnListComboBox);
             this.Controls.Add(this.WriteToLogCHeckBox);
@@ -622,6 +631,7 @@
         private System.Windows.Forms.ComboBox DgnListComboBox;
         private System.Windows.Forms.CheckBox WriteToLogCHeckBox;
         private System.Windows.Forms.Button SendRvcButton;
+        private System.Windows.Forms.TextBox RvcMessagePreview;
     }
 }
 

@@ -17,7 +17,27 @@ namespace RVC_Project
     {
         List<Parameter> parameters = new List<Parameter>();
         List<Label> labels = new List<Label>();
-        List<Control> valueSetFields = new List<Control>();
+        RvcMessage formedMessage = new RvcMessage() { };
+
+        public void rebuildMessage(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                formedMessage.Data[i] = 0xFF;
+            }
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                Parameter p = parameters[i];
+                switch (p.Type)
+                {
+                    case parameterType.boolean:
+                        
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         public Form1()
         {
             InitializeComponent();
@@ -112,12 +132,13 @@ namespace RVC_Project
                             }
                         }
                         else
-                            RvcMessageList.Invoke(new Action(() => RvcMessageList.Items.Insert(0, m.ToRvcMessage())));
+                            RvcMessageList.Invoke(new Action(() => { RvcMessageList.Items.Insert(0, m.ToRvcMessage());}));
                     }
                 }
             }
         }
 
+        
         private void NormalButton_Click(object sender, EventArgs e)
         {
             try
@@ -345,13 +366,12 @@ namespace RVC_Project
                 for (int i = 0; i < currentDgn.Parameters.Count; i++)
                 {
                     Parameter p = currentDgn.Parameters[i];
-                    Label lbl = new Label();
-                    labels.Add(lbl);
-                    ParametersPanel.Controls.Add(lbl);
+                    p.assignedLabel = new Label();
+                    ParametersPanel.Controls.Add(p.assignedLabel);
 
-                    lbl.Location = new Point(10, Yposition);
-                    lbl.Width = 170;
-                    lbl.Text = p.Name;
+                    p.assignedLabel.Location = new Point(10, Yposition);
+                    p.assignedLabel.Width = 170;
+                    p.assignedLabel.Text = p.Name;
                     string unitString = "";
                     switch (p.Type)
                     {
@@ -364,19 +384,20 @@ namespace RVC_Project
                         case parameterType.watts: unitString = ", W"; break;
                         default: break;
                     }
-                    lbl.Text += unitString;
+                    p.assignedLabel.Text += unitString;
                     switch (p.Type)
                     {
                         case parameterType.boolean:
                         case parameterType.list:
-                            ComboBox box = new ComboBox();
-                            valueSetFields.Add(box);
-                            ParametersPanel.Controls.Add(box);
-                            box.Location = new Point(200, Yposition);
-                            box.Width = 200;
+                            p.assignedField = new ComboBox();
+                            ComboBox box = (ComboBox)p.assignedField;
+                            ParametersPanel.Controls.Add(p.assignedField);
+                            p.assignedField.Location = new Point(200, Yposition);
+                            p.assignedField.Width = 200;
+                            p.assignedField.TextChanged += rebuildMessage;
                             if (p.Meanings.Count > 0)
                                 foreach (KeyValuePair<uint, string> entry in p.Meanings)
-                                    box.Items.Add(entry.Key.ToString() + " - " + entry.Value.ToString());
+                                    (p.assignedField as ComboBox).Items.Add(entry.Key.ToString() + " - " + entry.Value.ToString());
                             else
                             {
                                 box.Items.Add("0 - False");
@@ -395,10 +416,11 @@ namespace RVC_Project
                         case parameterType.watts:
 
                             TextBox txt = new TextBox();
-                            valueSetFields.Add(txt);
+                            p.assignedField = txt;
                             ParametersPanel.Controls.Add(txt);
                             txt.Location = new Point(200, Yposition);
                             txt.Width = 200;
+                            txt.TextChanged += rebuildMessage;
                             break;
                         default:
                             break;
@@ -415,13 +437,13 @@ namespace RVC_Project
             for (int i = 0; i < parameters.Count; i++)
             {
                 Parameter p = parameters[i];
-                if (valueSetFields[i].Text == "" || valueSetFields[i].Text == "No Change")
+                if (parameters[i].assignedField.Text == "" || parameters[i].assignedField.Text == "No Change")
                     continue;
                 switch (p.Type)
                 {
                     case parameterType.list:
                         byte raw = 0;
-                        raw |= (byte)(Convert.ToByte(valueSetFields[i].Text.Split()[0]) << p.firstBit);
+                        raw |= (byte)(Convert.ToByte(parameters[i].assignedField.Text.Split()[0]) << p.firstBit);
                         switch (p.Size)
                         {
                             case parameterSize.uint2: raw &= 0b11; break;
@@ -435,6 +457,31 @@ namespace RVC_Project
                         break;
                 }
             }
+        }
+
+        private void RvcMessageList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            Graphics g = e.Graphics;
+
+            // draw the background color you want
+            // mine is set to olive, change it to whatever you want
+            /*
+            int dgn = (RvcMessageList.Items[e.Index] as RvcMessage).Dgn;
+            if (RVC.DGNs.ContainsKey(dgn))
+            {
+                if (RVC.DGNs[dgn].Name.Contains("COMMAND"))
+                    g.FillRectangle(new SolidBrush(Color.Blue), e.Bounds);
+                if (RVC.DGNs[dgn].Name.Contains("STATUS"))
+                    g.FillRectangle(new SolidBrush(Color.Green), e.Bounds);
+            }
+            */
+            // draw the text of the list item, not doing this will only show
+            // the background color
+            // you will need to get the text of item to display
+            g.DrawString(RvcMessageList.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), new PointF(e.Bounds.X, e.Bounds.Y));
+
+            e.DrawFocusRectangle();
         }
     }
     public static class extensionMethods

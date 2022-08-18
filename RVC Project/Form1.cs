@@ -134,6 +134,9 @@ namespace RVC_Project
                         else
                             RvcMessageList.Invoke(new Action(() => { RvcMessageList.Items.Insert(0, m.ToRvcMessage());}));
                     }
+
+                        adversCanLogField.Invoke(new Action(() => adversCanLogField.AppendText(new AdversCanMessage(m).ToString())));
+
                 }
             }
         }
@@ -143,7 +146,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.SetMode(CanAdapterMode.Normal);
+                canAdapter.startNormal();
             }
             catch (Exception ex)
             {
@@ -155,7 +158,7 @@ namespace RVC_Project
         {
             try
             {
-                canAdapter.SetMode(CanAdapterMode.Loopback);
+                canAdapter.startSelfReception();
             }
             catch (Exception ex)
             {
@@ -163,41 +166,6 @@ namespace RVC_Project
             }
         }
 
-        private void SilentButton_Click(object sender, EventArgs e)
-        {
-            canAdapter.SetMode(CanAdapterMode.Silent);
-        }
-
-        private void SilentLoopbackButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                canAdapter.SetMode(CanAdapterMode.SilentLoopback);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                canAdapter.GetAdapterVersion();
-                Thread.Sleep(10);
-                VersionField.Text = $"{canAdapter.Version >> 24 & 0xFF:D}.{canAdapter.Version >> 16 & 0xFF:D}.{canAdapter.Version >> 8 & 0xFF:D}.{canAdapter.Version & 0xFF:D}";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void SetBitrateButton_Click(object sender, EventArgs e)
-        {
-            canAdapter.SetBitrate(Convert.ToInt32(BitrateField.Value));
-        }
 
         private void SendButton_Click(object sender, EventArgs e)
         {
@@ -274,28 +242,10 @@ namespace RVC_Project
             CanMessageList.Items.Clear();
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                canAdapter.StartCan();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                canAdapter.StopCan();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            canAdapter.stop();
         }
 
         private void RvcSendButton_Click(object sender, EventArgs e)
@@ -482,6 +432,21 @@ namespace RVC_Project
             g.DrawString(RvcMessageList.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), new PointF(e.Bounds.X, e.Bounds.Y));
 
             e.DrawFocusRectangle();
+        }
+
+        private void ListenButton_Click(object sender, EventArgs e)
+        {
+            canAdapter.startListen();
+        }
+
+        private void SelfReceptionButton_Click(object sender, EventArgs e)
+        {
+            canAdapter.startSelfReception();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            canAdapter.SetBitrate(int.Parse(comboBox1.SelectedIndex.ToString()));
         }
     }
     public static class extensionMethods

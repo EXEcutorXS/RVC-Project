@@ -11,7 +11,7 @@ namespace RVC_Project
     public enum CanAdapterMode { Normal, Silent, Loopback, SilentLoopback }
     public class CanAdapter
     {
-        
+
         private Queue<CanMessage> ReceivedMessages = new Queue<CanMessage>(4096);
         private Queue<string> LogMessages = new Queue<String>(4096);
         private Queue<string> Errors = new Queue<String>(4096);
@@ -46,32 +46,29 @@ namespace RVC_Project
         public void PortOpen() => serialPort.Open();
         public void PortClose() => serialPort.Close();
 
-        public void SetMode(CanAdapterMode mode)
+        public void startNormal()
         {
-            switch (mode)
-            {
-                case CanAdapterMode.Normal:
-                    serialPort.Write("<N>");
-                    break;
-                case CanAdapterMode.Silent:
-                    serialPort.Write("<S>");
-                    break;
-                case CanAdapterMode.Loopback:
-                    serialPort.Write("<L>");
-                    break;
-                case CanAdapterMode.SilentLoopback:
-                    serialPort.Write("<K>");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Wrong work mode");
-            }
+            serialPort.Write("O\r");
         }
+
+        public void startListen()
+        {
+            serialPort.Write("L\r");
+        }
+
+        public void startSelfReception()
+        {
+            serialPort.Write("Y\r");
+        }
+
+        public void stop()
+        {
+            serialPort.Write("C\r");
+        }
+
         public void SetBitrate(int bitrate)
         {
-            if (bitrate > 0 && bitrate <= 1000)
-                serialPort.Write($"<9{bitrate}>");
-            else
-                throw new ArgumentException("Bitrate must be 1..1000 kb/s");
+                serialPort.Write("S{bitrate}");
         }
         public CanMessage GetNextMessage()
         {
@@ -99,14 +96,19 @@ namespace RVC_Project
         {
             if (serialPort.IsOpen == false)
                 return;
-            StringBuilder str = new StringBuilder("T");
-            str.Append(msg.DLC.ToString());
-            str.Append(msg.IdeAsString);
-            str.Append(msg.RtrAsString);
-
+            StringBuilder str = new StringBuilder("");
+            if (msg.IDE && msg.RTR)
+                str.Append('R');
+            if (!msg.IDE && msg.RTR)
+                str.Append('r');
+            if (msg.IDE && !msg.RTR)
+                str.Append('T');
+            if (!msg.IDE && !msg.RTR)
+                str.Append('t');
             str.Append(msg.IdInTextFormat);
+            str.Append(msg.DLC.ToString());
             str.Append(msg.GetDataInTextFormat());
-            str.Append('>');
+            str.Append('\r');
             serialPort.Write(str.ToString());
 
         }
@@ -117,49 +119,41 @@ namespace RVC_Project
             var eventArgs = new EventArgs();
             switch (currentBuf[0])
             {
-                case 'V':
-                    string verString = (new string(currentBuf)).Substring(1, 8);
-                    Version = Convert.ToUInt32(verString, 16);
-                    connected = true;
-                    break;
+                case 'T':
+                case 't':
+                case 'r':
                 case 'R':
                     ReceivedMessages.Enqueue(new CanMessage(new string(currentBuf)));
                     GotNewMessage?.Invoke(this, eventArgs);
                     break;
-                case 'P':
-                    string LogMessage = new string(currentBuf).Substring(1);
-                    LogMessages.Enqueue(LogMessage);
+                case 'Z':
+                    LogMessages.Enqueue("Transmission sucess");
                     GotLogMessage?.Invoke(this, eventArgs);
                     break;
-                case 'E':
-                    string Error = new string(currentBuf).Substring(1);
-                    Errors.Enqueue(Error);
-                    GotError?.Invoke(this, eventArgs);
+                case '\a':
+                    LogMessages.Enqueue("Error reported");
+                    GotLogMessage?.Invoke(this, eventArgs);
                     break;
                 default:
                     break;
+
             }
         }
 
-        public void GetAdapterVersion()
-        {
-            serialPort.Write("<V>");
-        }
+
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs args)
         {
             while (serialPort.IsOpen && serialPort.BytesToRead > 0)
             {
-                char newChar = (char)serialPort.ReadByte();
-                if (newChar == '<')
-                    ptr = 0;
-                else if (newChar == '>')
+                int newByte = serialPort.ReadByte();
+                if (newByte == 13 || newByte == 0)
                 {
                     currentBuf[ptr] = '\0';
                     uartMessageProcess();
+                    ptr = 0;
                 }
                 else
-                    currentBuf[ptr++] = newChar;
-
+                    currentBuf[ptr++] = (char)newByte;
             }
         }
 
@@ -167,16 +161,6 @@ namespace RVC_Project
         {
             serialPort = new SerialPort();
             serialPort.DataReceived += new SerialDataReceivedEventHandler(this.DataReceivedHandler);
-        }
-        public void StartCan()
-        {
-            serialPort.Write("<1>");
-        }
-
-        public void StopCan()
-        {
-            serialPort.Write("<2>");
-
         }
     }
 }

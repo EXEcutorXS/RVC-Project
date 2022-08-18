@@ -541,7 +541,7 @@ namespace RVC_Project
 
             DGNs.Add(newDgn.Dgn, newDgn);
 
-            newDgn = new DGN(true) { Dgn = 0x1FEF4, Name = "THERMOSTAT_SCHEDULE_COMMAND_2",Parameters = DGNs[0x1FEF6].Parameters };
+            newDgn = new DGN(true) { Dgn = 0x1FEF4, Name = "THERMOSTAT_SCHEDULE_COMMAND_2", Parameters = DGNs[0x1FEF6].Parameters };
 
             DGNs.Add(newDgn.Dgn, newDgn);
 
@@ -683,6 +683,75 @@ namespace RVC_Project
                 Meanings = { [0] = "Domestic water priority", [1] = "Heating priority" }
             });
             DGNs.Add(newDgn.Dgn, newDgn);
+
+            newDgn = new DGN(true) { Dgn = 0x1FFBB, Name = "DC_DIMMER_STATUS_1" };
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "Master brightness",
+                Size = parameterSize.uint8,
+                firstByte = 1,
+                Type = parameterType.percent
+            }
+            );
+
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "Red brightnessd",
+                Size = parameterSize.uint8,
+                firstByte = 2,
+                Type = parameterType.percent
+            }
+            );
+
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "Green brightness",
+                Size = parameterSize.uint8,
+                firstByte = 3,
+                Type = parameterType.percent
+            }
+            );
+
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "Blue brightness",
+                Size = parameterSize.uint8,
+                firstByte = 4,
+                Type = parameterType.percent
+            }
+            );
+
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "On duration",
+                Size = parameterSize.uint4,
+                firstByte = 5,
+                Type = parameterType.natural,
+                Unit = "s",
+                Meanings = { [0] = "Always On" }
+            });
+
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "Off duration",
+                Size = parameterSize.uint4,
+                firstByte = 5,
+                firstBit = 4,
+                Type = parameterType.natural,
+                Unit = "s",
+                Meanings = { [0] = "One Shot" }
+            });
+
+            newDgn.Parameters.Add(new Parameter()
+            {
+                Name = "White brightness",
+                Size = parameterSize.uint8,
+                firstByte = 6,
+                Type = parameterType.percent
+            });
+            
+            DGNs.Add(newDgn.Dgn, newDgn);
+
         }
 
 
@@ -823,6 +892,7 @@ namespace RVC_Project
             switch (Type)
             {
                 case parameterType.percent:
+
                     tempValue = rawData / 2;
                     retString += tempValue.ToString() + "%";
                     break;
@@ -888,7 +958,11 @@ namespace RVC_Project
                         retString += Meanings[rawData];
                     break;
                 case parameterType.natural:
-                    retString += rawData.ToString();
+                    if (!Meanings.ContainsKey(rawData))
+                        retString += rawData.ToString();
+                    else
+                        retString += Meanings[rawData].ToString();
+                    if (Unit.Length > 0) retString += " " + Unit;
                     break;
 
                 default: throw new ArgumentException("Bad parameter type");

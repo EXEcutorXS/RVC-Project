@@ -46,30 +46,47 @@ namespace RVC_Project
         { }
         public CanMessage(string str)
         {
-            if (str[0] != 'R')
-                throw new FormatException("Can't parse. String must start with 'R'");
-            DLC = (byte)int.Parse(str[1].ToString());
+            switch (str[0])
+            {
+                case 't': 
+                    IDE = false;
+                    RTR = false;
+                    break;
+                case 'T':
+                    IDE = true;
+                    RTR = false;
+                    break;
+                case 'r':
+                    IDE = false;
+                    RTR = true;
+                    break;
+                case 'R':
+                    IDE = true;
+                    RTR = true;
+                    break;
+                default:
+                    throw new FormatException("Can't parse. String must start with 't','T','r' or 'R' ");
+            }
+            if (IDE)                
+            DLC = (byte)int.Parse(str[9].ToString());
+            else
+                DLC = (byte)int.Parse(str[4].ToString());
             if (DLC > 8)
                 throw new FormatException($"Can't parse. Message length cant be {DLC}, max length is 8");
-            if (str[2] != '0')
-                IDE = true;
-            else if (str[2] == '0')
-                IDE = false;
-            else
-                throw new FormatException($"Can't parse. Message IDE is {str[2]}, must be '0' or '4'");
 
-            if (str[3] == '0')
-                RTR = false;
+            if (IDE)
+                ID = Convert.ToInt32(str.Substring(1,8), 16);
             else
-                RTR = true;
-            var parts = str.Split('_');
-            ID = Convert.ToInt32(parts[1], 16);
+                ID = Convert.ToInt32(str.Substring(1, 3), 16);
             Data = new byte[DLC];
+
+            int shift;
+            if (!IDE)
+                shift = 5;
+            else
+                shift = 10;
             for (int i = 0; i < DLC; i++)
-            {
-                string subString = parts[2].Substring(i * 2, 2);
-                Data[i] = Convert.ToByte(subString, 16);
-            }
+                Data[i] = Convert.ToByte(str.Substring(shift + i * 2, 2),16);
         }
 
         public override bool Equals(object obj)

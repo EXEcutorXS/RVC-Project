@@ -31,18 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.NormalButton = new System.Windows.Forms.Button();
-            this.LoopbackButton = new System.Windows.Forms.Button();
-            this.SilentButton = new System.Windows.Forms.Button();
-            this.SilentLoopbackButton = new System.Windows.Forms.Button();
+            this.SelfReceptionButton = new System.Windows.Forms.Button();
+            this.ListenButton = new System.Windows.Forms.Button();
             this.SendButton = new System.Windows.Forms.Button();
             this.DataField = new System.Windows.Forms.TextBox();
             this.IdeField = new System.Windows.Forms.CheckBox();
             this.RtrField = new System.Windows.Forms.CheckBox();
             this.IdField = new System.Windows.Forms.NumericUpDown();
-            this.SetBitrateButton = new System.Windows.Forms.Button();
-            this.BitrateField = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
-            this.VersionField = new System.Windows.Forms.TextBox();
             this.CanMessageList = new System.Windows.Forms.ListBox();
             this.LogField = new System.Windows.Forms.RichTextBox();
             this.DlcField = new System.Windows.Forms.NumericUpDown();
@@ -50,8 +45,8 @@
             this.ConnectButton = new System.Windows.Forms.Button();
             this.RefreshButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.StopButton = new System.Windows.Forms.Button();
-            this.StartButton = new System.Windows.Forms.Button();
             this.ClearLogButton = new System.Windows.Forms.Button();
             this.ClearMessagesButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -70,8 +65,12 @@
             this.WriteToLogCHeckBox = new System.Windows.Forms.CheckBox();
             this.SendRvcButton = new System.Windows.Forms.Button();
             this.RvcMessagePreview = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.rvcPage = new System.Windows.Forms.TabPage();
+            this.adverCanPAge = new System.Windows.Forms.TabPage();
+            this.adversCanLogField = new System.Windows.Forms.RichTextBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -79,11 +78,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.rvcPage.SuspendLayout();
+            this.adverCanPAge.SuspendLayout();
             this.SuspendLayout();
             // 
             // NormalButton
             // 
-            this.NormalButton.Location = new System.Drawing.Point(3, 27);
+            this.NormalButton.Location = new System.Drawing.Point(3, 4);
             this.NormalButton.Name = "NormalButton";
             this.NormalButton.Size = new System.Drawing.Size(93, 23);
             this.NormalButton.TabIndex = 0;
@@ -91,35 +93,25 @@
             this.NormalButton.UseVisualStyleBackColor = true;
             this.NormalButton.Click += new System.EventHandler(this.NormalButton_Click);
             // 
-            // LoopbackButton
+            // SelfReceptionButton
             // 
-            this.LoopbackButton.Location = new System.Drawing.Point(3, 56);
-            this.LoopbackButton.Name = "LoopbackButton";
-            this.LoopbackButton.Size = new System.Drawing.Size(93, 23);
-            this.LoopbackButton.TabIndex = 1;
-            this.LoopbackButton.Text = "Loopback";
-            this.LoopbackButton.UseVisualStyleBackColor = true;
-            this.LoopbackButton.Click += new System.EventHandler(this.LoopbackButton_Click);
+            this.SelfReceptionButton.Location = new System.Drawing.Point(4, 31);
+            this.SelfReceptionButton.Name = "SelfReceptionButton";
+            this.SelfReceptionButton.Size = new System.Drawing.Size(93, 23);
+            this.SelfReceptionButton.TabIndex = 1;
+            this.SelfReceptionButton.Text = "Self Reception";
+            this.SelfReceptionButton.UseVisualStyleBackColor = true;
+            this.SelfReceptionButton.Click += new System.EventHandler(this.SelfReceptionButton_Click);
             // 
-            // SilentButton
+            // ListenButton
             // 
-            this.SilentButton.Location = new System.Drawing.Point(102, 27);
-            this.SilentButton.Name = "SilentButton";
-            this.SilentButton.Size = new System.Drawing.Size(93, 23);
-            this.SilentButton.TabIndex = 2;
-            this.SilentButton.Text = "Silent";
-            this.SilentButton.UseVisualStyleBackColor = true;
-            this.SilentButton.Click += new System.EventHandler(this.SilentButton_Click);
-            // 
-            // SilentLoopbackButton
-            // 
-            this.SilentLoopbackButton.Location = new System.Drawing.Point(102, 56);
-            this.SilentLoopbackButton.Name = "SilentLoopbackButton";
-            this.SilentLoopbackButton.Size = new System.Drawing.Size(93, 23);
-            this.SilentLoopbackButton.TabIndex = 3;
-            this.SilentLoopbackButton.Text = "Silent Loopback";
-            this.SilentLoopbackButton.UseVisualStyleBackColor = true;
-            this.SilentLoopbackButton.Click += new System.EventHandler(this.SilentLoopbackButton_Click);
+            this.ListenButton.Location = new System.Drawing.Point(100, 4);
+            this.ListenButton.Name = "ListenButton";
+            this.ListenButton.Size = new System.Drawing.Size(93, 23);
+            this.ListenButton.TabIndex = 2;
+            this.ListenButton.Text = "Listen";
+            this.ListenButton.UseVisualStyleBackColor = true;
+            this.ListenButton.Click += new System.EventHandler(this.ListenButton_Click);
             // 
             // SendButton
             // 
@@ -187,75 +179,23 @@
             0,
             0});
             // 
-            // SetBitrateButton
-            // 
-            this.SetBitrateButton.Location = new System.Drawing.Point(214, 73);
-            this.SetBitrateButton.Name = "SetBitrateButton";
-            this.SetBitrateButton.Size = new System.Drawing.Size(93, 23);
-            this.SetBitrateButton.TabIndex = 10;
-            this.SetBitrateButton.Text = "Set bitrate";
-            this.SetBitrateButton.UseVisualStyleBackColor = true;
-            this.SetBitrateButton.Click += new System.EventHandler(this.SetBitrateButton_Click);
-            // 
-            // BitrateField
-            // 
-            this.BitrateField.Location = new System.Drawing.Point(313, 74);
-            this.BitrateField.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.BitrateField.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.BitrateField.Name = "BitrateField";
-            this.BitrateField.Size = new System.Drawing.Size(68, 20);
-            this.BitrateField.TabIndex = 11;
-            this.BitrateField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.BitrateField.Value = new decimal(new int[] {
-            250,
-            0,
-            0,
-            0});
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(214, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Adapter Version";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // VersionField
-            // 
-            this.VersionField.Location = new System.Drawing.Point(313, 45);
-            this.VersionField.Name = "VersionField";
-            this.VersionField.ReadOnly = true;
-            this.VersionField.Size = new System.Drawing.Size(152, 20);
-            this.VersionField.TabIndex = 13;
-            this.VersionField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // CanMessageList
             // 
             this.CanMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CanMessageList.FormattingEnabled = true;
             this.CanMessageList.ItemHeight = 16;
-            this.CanMessageList.Location = new System.Drawing.Point(574, 8);
+            this.CanMessageList.Location = new System.Drawing.Point(0, 210);
             this.CanMessageList.Name = "CanMessageList";
-            this.CanMessageList.Size = new System.Drawing.Size(586, 196);
+            this.CanMessageList.Size = new System.Drawing.Size(568, 356);
             this.CanMessageList.TabIndex = 14;
             this.toolTip1.SetToolTip(this.CanMessageList, "Перечень различных CAN сообщений");
             // 
             // LogField
             // 
             this.LogField.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LogField.Location = new System.Drawing.Point(0, 206);
+            this.LogField.Location = new System.Drawing.Point(0, 569);
             this.LogField.Name = "LogField";
-            this.LogField.Size = new System.Drawing.Size(570, 543);
+            this.LogField.Size = new System.Drawing.Size(570, 180);
             this.LogField.TabIndex = 15;
             this.LogField.Text = "";
             this.toolTip1.SetToolTip(this.LogField, "Лог работы адаптера");
@@ -310,36 +250,44 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.StopButton);
-            this.panel1.Controls.Add(this.StartButton);
             this.panel1.Controls.Add(this.NormalButton);
-            this.panel1.Controls.Add(this.LoopbackButton);
-            this.panel1.Controls.Add(this.SilentButton);
-            this.panel1.Controls.Add(this.SilentLoopbackButton);
+            this.panel1.Controls.Add(this.SelfReceptionButton);
+            this.panel1.Controls.Add(this.ListenButton);
             this.panel1.Location = new System.Drawing.Point(8, 39);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 85);
             this.panel1.TabIndex = 22;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "20",
+            "50",
+            "100",
+            "125",
+            "250",
+            "500",
+            "800",
+            "1000"});
+            this.comboBox1.Location = new System.Drawing.Point(3, 58);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(97, 21);
+            this.comboBox1.TabIndex = 33;
+            this.comboBox1.Text = "250";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // StopButton
             // 
-            this.StopButton.Location = new System.Drawing.Point(102, 0);
+            this.StopButton.Location = new System.Drawing.Point(100, 32);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(93, 23);
             this.StopButton.TabIndex = 5;
             this.StopButton.Text = "Stop";
             this.StopButton.UseVisualStyleBackColor = true;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
-            // 
-            // StartButton
-            // 
-            this.StartButton.Location = new System.Drawing.Point(3, 1);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(93, 23);
-            this.StartButton.TabIndex = 4;
-            this.StartButton.Text = "Start";
-            this.StartButton.UseVisualStyleBackColor = true;
-            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // ClearLogButton
             // 
@@ -472,9 +420,9 @@
             this.RvcMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RvcMessageList.FormattingEnabled = true;
             this.RvcMessageList.ItemHeight = 16;
-            this.RvcMessageList.Location = new System.Drawing.Point(574, 210);
+            this.RvcMessageList.Location = new System.Drawing.Point(3, 6);
             this.RvcMessageList.Name = "RvcMessageList";
-            this.RvcMessageList.Size = new System.Drawing.Size(586, 532);
+            this.RvcMessageList.Size = new System.Drawing.Size(538, 708);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
             this.RvcMessageList.SelectedIndexChanged += new System.EventHandler(this.RvcMessageList_SelectedIndexChanged);
@@ -491,10 +439,10 @@
             // 
             // VerboseInfoField
             // 
-            this.VerboseInfoField.Location = new System.Drawing.Point(1166, 10);
+            this.VerboseInfoField.Location = new System.Drawing.Point(547, 7);
             this.VerboseInfoField.Name = "VerboseInfoField";
             this.VerboseInfoField.ReadOnly = true;
-            this.VerboseInfoField.Size = new System.Drawing.Size(467, 290);
+            this.VerboseInfoField.Size = new System.Drawing.Size(496, 188);
             this.VerboseInfoField.TabIndex = 29;
             this.VerboseInfoField.Text = "";
             // 
@@ -502,17 +450,17 @@
             // 
             this.ParametersPanel.AutoScroll = true;
             this.ParametersPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ParametersPanel.Location = new System.Drawing.Point(1166, 359);
+            this.ParametersPanel.Location = new System.Drawing.Point(547, 254);
             this.ParametersPanel.Name = "ParametersPanel";
-            this.ParametersPanel.Size = new System.Drawing.Size(467, 390);
+            this.ParametersPanel.Size = new System.Drawing.Size(496, 460);
             this.ParametersPanel.TabIndex = 30;
             // 
             // DgnListComboBox
             // 
             this.DgnListComboBox.FormattingEnabled = true;
-            this.DgnListComboBox.Location = new System.Drawing.Point(1166, 332);
+            this.DgnListComboBox.Location = new System.Drawing.Point(547, 227);
             this.DgnListComboBox.Name = "DgnListComboBox";
-            this.DgnListComboBox.Size = new System.Drawing.Size(414, 21);
+            this.DgnListComboBox.Size = new System.Drawing.Size(441, 21);
             this.DgnListComboBox.TabIndex = 0;
             this.DgnListComboBox.SelectedIndexChanged += new System.EventHandler(this.DgnListComboBox_SelectedIndexChanged);
             // 
@@ -528,9 +476,9 @@
             // 
             // SendRvcButton
             // 
-            this.SendRvcButton.Location = new System.Drawing.Point(1586, 330);
+            this.SendRvcButton.Location = new System.Drawing.Point(994, 227);
             this.SendRvcButton.Name = "SendRvcButton";
-            this.SendRvcButton.Size = new System.Drawing.Size(47, 23);
+            this.SendRvcButton.Size = new System.Drawing.Size(30, 23);
             this.SendRvcButton.TabIndex = 0;
             this.SendRvcButton.Text = "->";
             this.SendRvcButton.UseVisualStyleBackColor = true;
@@ -538,24 +486,73 @@
             // 
             // RvcMessagePreview
             // 
-            this.RvcMessagePreview.Location = new System.Drawing.Point(1166, 306);
+            this.RvcMessagePreview.Location = new System.Drawing.Point(547, 201);
             this.RvcMessagePreview.Name = "RvcMessagePreview";
-            this.RvcMessagePreview.Size = new System.Drawing.Size(467, 20);
+            this.RvcMessagePreview.Size = new System.Drawing.Size(477, 20);
             this.RvcMessagePreview.TabIndex = 32;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.rvcPage);
+            this.tabControl1.Controls.Add(this.adverCanPAge);
+            this.tabControl1.Location = new System.Drawing.Point(587, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1057, 746);
+            this.tabControl1.TabIndex = 33;
+            // 
+            // rvcPage
+            // 
+            this.rvcPage.Controls.Add(this.RvcMessageList);
+            this.rvcPage.Controls.Add(this.SendRvcButton);
+            this.rvcPage.Controls.Add(this.ParametersPanel);
+            this.rvcPage.Controls.Add(this.RvcMessagePreview);
+            this.rvcPage.Controls.Add(this.DgnListComboBox);
+            this.rvcPage.Controls.Add(this.VerboseInfoField);
+            this.rvcPage.Location = new System.Drawing.Point(4, 22);
+            this.rvcPage.Name = "rvcPage";
+            this.rvcPage.Padding = new System.Windows.Forms.Padding(3);
+            this.rvcPage.Size = new System.Drawing.Size(1049, 720);
+            this.rvcPage.TabIndex = 0;
+            this.rvcPage.Text = "RV-C";
+            this.rvcPage.UseVisualStyleBackColor = true;
+            // 
+            // adverCanPAge
+            // 
+            this.adverCanPAge.Controls.Add(this.listBox1);
+            this.adverCanPAge.Controls.Add(this.adversCanLogField);
+            this.adverCanPAge.Location = new System.Drawing.Point(4, 22);
+            this.adverCanPAge.Name = "adverCanPAge";
+            this.adverCanPAge.Padding = new System.Windows.Forms.Padding(3);
+            this.adverCanPAge.Size = new System.Drawing.Size(1049, 720);
+            this.adverCanPAge.TabIndex = 1;
+            this.adverCanPAge.Text = "Advers CAN";
+            this.adverCanPAge.UseVisualStyleBackColor = true;
+            // 
+            // adversCanLogField
+            // 
+            this.adversCanLogField.Location = new System.Drawing.Point(6, 330);
+            this.adversCanLogField.Name = "adversCanLogField";
+            this.adversCanLogField.Size = new System.Drawing.Size(1036, 384);
+            this.adversCanLogField.TabIndex = 34;
+            this.adversCanLogField.Text = "";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(6, 3);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(1043, 316);
+            this.listBox1.TabIndex = 35;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1645, 761);
-            this.Controls.Add(this.RvcMessagePreview);
-            this.Controls.Add(this.SendRvcButton);
-            this.Controls.Add(this.DgnListComboBox);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.WriteToLogCHeckBox);
-            this.Controls.Add(this.ParametersPanel);
-            this.Controls.Add(this.VerboseInfoField);
             this.Controls.Add(this.ClearRvcButton);
-            this.Controls.Add(this.RvcMessageList);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.ClearMessagesButton);
@@ -566,16 +563,11 @@
             this.Controls.Add(this.PortNamesListField);
             this.Controls.Add(this.LogField);
             this.Controls.Add(this.CanMessageList);
-            this.Controls.Add(this.VersionField);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.BitrateField);
-            this.Controls.Add(this.SetBitrateButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "CAN Tester";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BitrateField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -585,6 +577,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.rvcPage.ResumeLayout(false);
+            this.rvcPage.PerformLayout();
+            this.adverCanPAge.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -593,18 +589,13 @@
         #endregion
         public CanAdapter canAdapter;
         private System.Windows.Forms.Button NormalButton;
-        private System.Windows.Forms.Button LoopbackButton;
-        private System.Windows.Forms.Button SilentButton;
-        private System.Windows.Forms.Button SilentLoopbackButton;
+        private System.Windows.Forms.Button SelfReceptionButton;
+        private System.Windows.Forms.Button ListenButton;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.TextBox DataField;
         private System.Windows.Forms.CheckBox IdeField;
         private System.Windows.Forms.CheckBox RtrField;
         private System.Windows.Forms.NumericUpDown IdField;
-        private System.Windows.Forms.Button SetBitrateButton;
-        private System.Windows.Forms.NumericUpDown BitrateField;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox VersionField;
         private System.Windows.Forms.ListBox CanMessageList;
         private System.Windows.Forms.RichTextBox LogField;
         private System.Windows.Forms.NumericUpDown DlcField;
@@ -616,7 +607,6 @@
         private System.Windows.Forms.Button ClearMessagesButton;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button StopButton;
-        private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button RvcSendButton;
         private System.Windows.Forms.NumericUpDown RvcDgnField;
@@ -632,6 +622,12 @@
         private System.Windows.Forms.CheckBox WriteToLogCHeckBox;
         private System.Windows.Forms.Button SendRvcButton;
         private System.Windows.Forms.TextBox RvcMessagePreview;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage rvcPage;
+        private System.Windows.Forms.TabPage adverCanPAge;
+        private System.Windows.Forms.RichTextBox adversCanLogField;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

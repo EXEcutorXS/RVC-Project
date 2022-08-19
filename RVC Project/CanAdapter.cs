@@ -68,7 +68,7 @@ namespace RVC_Project
 
         public void SetBitrate(int bitrate)
         {
-                serialPort.Write("S{bitrate}");
+                serialPort.Write($"S{bitrate}\r");
         }
         public CanMessage GetNextMessage()
         {

@@ -15,7 +15,7 @@ namespace RVC_Project
 
     public partial class Form1 : Form
     {
-        List<Parameter> parameters = new List<Parameter>();
+        List<RVCParameter> parameters = new List<RVCParameter>();
         List<Label> labels = new List<Label>();
         RvcMessage formedMessage = new RvcMessage() { };
 
@@ -27,11 +27,11 @@ namespace RVC_Project
             }
             for (int i = 0; i < parameters.Count; i++)
             {
-                Parameter p = parameters[i];
+                RVCParameter p = parameters[i];
                 switch (p.Type)
                 {
                     case parameterType.boolean:
-                        
+
                         break;
                     default:
                         break;
@@ -132,16 +132,30 @@ namespace RVC_Project
                             }
                         }
                         else
-                            RvcMessageList.Invoke(new Action(() => { RvcMessageList.Items.Insert(0, m.ToRvcMessage());}));
+                            RvcMessageList.Invoke(new Action(() => { RvcMessageList.Items.Insert(0, m.ToRvcMessage()); }));
                     }
 
-                        adversCanLogField.Invoke(new Action(() => adversCanLogField.AppendText(new AdversCanMessage(m).ToString())));
+                    //adversCanLogField.Invoke(new Action(() => adversCanLogField.AppendText(new AdversCanMessage(m).ToString())));
+                    int? adversNum = AdversCanMessageList.findAdversMessage(m.ToAdversCanMessage());
+                    if (adversNum != null)
+                    {
+                        if (!AdversCanMessageList.Items[(int)adversNum].Equals(m.ToAdversCanMessage()))
+                        {
+                            AdversCanMessageList.Invoke(new Action(() => AdversCanMessageList.Items[(int)adversNum] = m.ToAdversCanMessage()));
+                            int selcectedIndex = (int)RvcMessageList.Invoke(new Func<int>(() => RvcMessageList.SelectedIndex));
+                            if (selcectedIndex == adversNum)
+                                adversCanVerboseField.Invoke(new Action(() => adversCanVerboseField.Text = m.ToAdversCanMessage().VerboseInfo().Replace(';', '\n')));
+                        }
 
+
+                    }
+                    else
+                        AdversCanMessageList.Invoke(new Action(() => { AdversCanMessageList.Items.Insert(0, m.ToAdversCanMessage()); }));
                 }
             }
         }
 
-        
+
         private void NormalButton_Click(object sender, EventArgs e)
         {
             try
@@ -315,7 +329,7 @@ namespace RVC_Project
                 DGN currentDgn = RVC.DGNs[dgn];
                 for (int i = 0; i < currentDgn.Parameters.Count; i++)
                 {
-                    Parameter p = currentDgn.Parameters[i];
+                    RVCParameter p = currentDgn.Parameters[i];
                     p.assignedLabel = new Label();
                     ParametersPanel.Controls.Add(p.assignedLabel);
 
@@ -386,7 +400,7 @@ namespace RVC_Project
             RvcMessage m = new RvcMessage();
             for (int i = 0; i < parameters.Count; i++)
             {
-                Parameter p = parameters[i];
+                RVCParameter p = parameters[i];
                 if (parameters[i].assignedField.Text == "" || parameters[i].assignedField.Text == "No Change")
                     continue;
                 switch (p.Type)
@@ -409,30 +423,6 @@ namespace RVC_Project
             }
         }
 
-        private void RvcMessageList_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            e.DrawBackground();
-            Graphics g = e.Graphics;
-
-            // draw the background color you want
-            // mine is set to olive, change it to whatever you want
-            /*
-            int dgn = (RvcMessageList.Items[e.Index] as RvcMessage).Dgn;
-            if (RVC.DGNs.ContainsKey(dgn))
-            {
-                if (RVC.DGNs[dgn].Name.Contains("COMMAND"))
-                    g.FillRectangle(new SolidBrush(Color.Blue), e.Bounds);
-                if (RVC.DGNs[dgn].Name.Contains("STATUS"))
-                    g.FillRectangle(new SolidBrush(Color.Green), e.Bounds);
-            }
-            */
-            // draw the text of the list item, not doing this will only show
-            // the background color
-            // you will need to get the text of item to display
-            g.DrawString(RvcMessageList.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), new PointF(e.Bounds.X, e.Bounds.Y));
-
-            e.DrawFocusRectangle();
-        }
 
         private void ListenButton_Click(object sender, EventArgs e)
         {
@@ -446,7 +436,13 @@ namespace RVC_Project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            canAdapter.SetBitrate(int.Parse(comboBox1.SelectedIndex.ToString()));
+            canAdapter.SetBitrate(int.Parse((comboBox1.SelectedIndex + 1).ToString()));
+        }
+
+        private void AdversCanMessageList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (AdversCanMessageList.SelectedItem != null)
+                adversCanVerboseField.Text = (AdversCanMessageList.SelectedItem as AdversCanMessage).VerboseInfo().Replace(';','\n') ;
         }
     }
     public static class extensionMethods
@@ -465,6 +461,25 @@ namespace RVC_Project
             {
                 if ((listBox.Items[i] is RvcMessage) && (listBox.Items[i] as RvcMessage).Dgn == msg.Dgn && (listBox.Items[i] as RvcMessage).Instance == msg.Instance)
                     return i;
+            }
+            return null;
+        }
+
+        public static int? findAdversMessage(this ListBox listBox, AdversCanMessage msg)
+        {
+
+            for (int i = 0; i < listBox.Items.Count; i++)
+            {
+                AdversCanMessage m = listBox.Items[i] as AdversCanMessage;
+                if (m.PGN == msg.PGN)
+                    if (msg.PGN != 1 && AdversCanProtocol.PGNs[msg.PGN].multipack == false)                //Не мультипакет и не комманда
+                        return i;
+                    else if (msg.PGN == 1 && msg.data[0] == m.data[0] && msg.data[1] == m.data[1])         //Комманда и её номер совпал
+                        return i;
+                    else if (AdversCanProtocol.PGNs[msg.PGN].multipack == true && m.data[0] == msg.data[0])      //Мультипакетный PGN с совпадающим номером пакета
+                        return i;
+
+
             }
             return null;
         }

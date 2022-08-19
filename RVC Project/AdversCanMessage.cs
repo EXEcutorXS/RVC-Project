@@ -4,45 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace RVC_Project
 {
-    internal class AdversCanMessage
+
+    class PGN
     {
-        private Dictionary<int, string> DeviceTypes = new Dictionary<int, string>() {
-            { 0, "Любой" } ,
-            { 1, "14ТС-Мини" } ,
-            { 2, "Планар 2" } ,
-            { 3, "Планар 44Д" } ,
-            { 4, "30ТСД" } ,
-            { 5, "30ТСГ" } ,
-            { 6, "Binar-5S (бензин)" } ,
-            { 7, "Планар 8Д" } ,
-            { 8, "OB-8" } ,
-            { 9, "Планар 4Д" } ,
-            { 10, "Binar-5S diesel" } ,
-            { 11, "Планар-9Д, ОВ-8ДК" } ,
-            { 12, "Планар-44Б" } ,
-            { 13, "Планар-4Б" } ,
-            { 14, "Плита" } ,
-            { 15, "Планар-44Г" } ,
-            { 16, "ОВ-4" } ,
-            { 17, "14ТСД-10" } ,
-            { 18, "Планар 2Б" } ,
-            { 19, "Блок управления клапанами." } ,
-            { 20, "Планар-6Д" } ,
-            { 21, "14ТС-10" } ,
-            { 22, "30SP (впрысковый)" } ,
-            { 23, "Бинар 5Б-Компакт" } ,
-            { 25, "35SP (впрысковый)" } ,
-            { 27, "Бинар 5Д-Компакт" } ,
-            { 29, "Бинар 6Г-Компакт" } ,
-            { 31, "14ТСГ-Мини" } ,
-            { 32, "30SPG (на базе 30SP)" } ,
-            { 34, "Binar-10Д" } ,
-            { 35, "Binar-10Б" } ,
-            { 123, "Bootloader" } ,
-            { 126, "Устройство управления" }
-        };
+        public int id;
+        public string name;
+        public bool multipack;
+        public List<CanParameter> parameters = new List<CanParameter>();
+    }
+    public class CanParameter
+    {
+        public int id;
+        public string paramsName;//from ParamsName.h
+        public int startByte;   //Начальный байт в пакете
+        public int startBit;    //Начальный бит в байте
+        public int bitLength;   //Ддина параметра в битах
+        public string name;     //Имя параметра
+        public string unit = "";     //Единица измерения
+        public double a = 1;         //коэффициент приведение
+        public double b = 0;         //смещение
+        //value = rawData*a+b
+        public string outputFormat;
+        public Dictionary<int, string> meanings;
+        public string tip;
+        public int packNumber;
+
+    }
+    class CanCommand
+    {
+        public int firstByte;
+        public int secondByte;
+        public string name;
+        public List<CanParameter> parameters;
+    }
+    public class AdversCanMessage
+    {
+
         public int PGN;
         public int receiverType;
         public int receiverAdr;
@@ -59,106 +59,96 @@ namespace RVC_Project
             data = msg.Data;
         }
 
-        public string GetVerboseInfo()
+        public string printParameter(CanParameter p)
         {
             StringBuilder retString = new StringBuilder();
-
-            string meaning = "";
-
-            switch (PGN)
+            int rawValue;
+            retString.Append(p.name + ": ");
+            switch (p.bitLength)
             {
-                case 0:
-                    meaning = $"Пустая комманда";
-                    break;
-                case 1:
-                    retString.Append("Комманда: ");
-                    switch (data[0])
-                    {
-                        case 0: meaning = "Кто здесь"; break;
-                        case 1: meaning = $"Пуск устройства на {data[2] * 256 + data[3]} минут"; break;
-                        case 3: meaning = "остановка устройства"; break;
-                        case 4: meaning = $"пуск только помпы на {data[2] * 256 + data[3]} минут"; break;
-                        case 5: meaning = "сброс неисправностей"; break;
-                        case 6:
-                            meaning = "задать параметры работы жидкостного подогревателя\n";
-                            meaning += $"Время работы: {data[2] * 256 + data[3]} минут\n";
-                            switch (data[4] & 0b1111)
-                            {
-                                case 0: meaning += "Режим: Обычный\n"; break;
-                                case 1: meaning += "Режим: Экономичный\n"; break;
-                                case 2: meaning += "Режим: Догреватель\n"; break;
-                                case 3: meaning += "Режим: Отопление\n"; break;
-                                case 4: meaning += "Режим: Отопительные системы\n"; break;
-                                default: meaning += "Режим: Неизвестен\n"; break;
-                            }
-                            break;
-                            switch ((data[4] >> 4) & 0b1111)
-                            {
-                                case 0: meaning += "Режим догрева: Отключен\n"; break;
-                                case 1: meaning += "Режим догрева: Автоматический\n"; break;
-                                case 2: meaning += "Режим догрева: Ручной\n"; break;
-                                default: break;
-                            }
-                            break;
-                            meaning += $"Уставка температуры: {data[5] * 256 + data[6]} градусов\n";
-                            meaning += $"Работа помпы в ждущем режиме:{data[7] & 0b11}\n";
-                            meaning += $"Работа помпы на заведённом двигателе:{(data[7] >> 2) & 0b11}\n";
-
-                        case 7:
-                            meaning = "запрос температурных переходов по режимам жидкостного подогревателя\n";
-                            meaning += $"Номер мощности: {data[2]}";
-                            if (data[3] + data[4] != 0 || data[5] + data[6] != 0)
-                            {
-                                meaning += $"Переход на большую мощность: {data[3] * 256 + data[4]} С\n";
-                                meaning += $"Переход на меньшую мощность: {data[5] * 256 + data[6]} С\n";
-                            }
-                            break;
-                        case 8:
-                            meaning = "задать состояние клапанов устройства ”Блок управления клапанами”\n";
-                            meaning = $"Клапан 1:{(data[2] >> 0) & 0b11}\n";
-                            meaning = $"Клапан 2:{(data[2] >> 2) & 0b11}\n";
-                            meaning = $"Клапан 3:{(data[2] >> 4) & 0b11}\n";
-                            meaning = $"Клапан 4:{(data[2] >> 6) & 0b11}\n";
-                            meaning = $"Клапан 5:{(data[3] >> 0) & 0b11}\n";
-                            meaning = $"Клапан 6:{(data[3] >> 2) & 0b11}\n";
-                            meaning = $"Клапан 7:{(data[3] >> 4) & 0b11}\n";
-                            meaning = $"Клапан 8:{(data[3] >> 6) & 0b11}\n";
-                            meaning = $"Сброс ошибок:{data[4] & 0b1}\n";
-                            break;
-                        case 9: meaning = "задать параметры работы воздушного отопителя"; break;
-                        case 10: meaning = "апуск в режиме вентиляции (для воздушных отопителей)"; break;
-                        case 20: meaning = "калибровка термопар"; break;
-                        case 21: meaning = "задать параметры частоты ШИМ нагнетателя воздуха"; break;
-                        case 22: meaning = "Reset CPU"; break;
-                        case 45: meaning = "биты реакции на неисправности"; break;
-                        case 65: meaning = "установить значение температуры"; break;
-                        case 66: meaning = "сброс неисправностей"; break;
-                        case 67: meaning = "вход/выход в стадию M (ручное управление) или T (тестирование блока управления)"; break;
-                        case 68: meaning = "задание параметров устройств в стадии M (ручное управление)"; break;
-                        case 69: meaning = "управление устройствами"; break;
-                        default: meaning = "Неизвестная команда"; break;
-                    }
-                    break;
+                case 1: rawValue = data[p.startByte] >> p.startBit & 0b1; break;
+                case 2: rawValue = data[p.startByte] >> p.startBit & 0b11; break;
+                case 3: rawValue = data[p.startByte] >> p.startBit & 0b111; break;
+                case 4: rawValue = data[p.startByte] >> p.startBit & 0b1111; break;
+                case 8: rawValue = data[p.startByte]; break;
+                case 16: rawValue = data[p.startByte] * 256 + data[p.startByte + 1]; break;
+                case 24: rawValue = data[p.startByte] * 65536 + data[p.startByte + 1] * 256 + data[p.startByte + 2]; break;
+                case 32: rawValue = data[p.startByte] * 16777216 + data[p.startByte + 1] * 65536 + data[p.startByte + 2] * 256 + data[p.startByte + 3]; break;
+                default: throw new Exception("Bad parameter size");
             }
-            retString.Append(meaning);
-
+            if (p.meanings != null && p.meanings.Count > 0)
+                retString.Append(rawValue.ToString() + " - " + p.meanings[rawValue]);
+            else
+            {
+                if (rawValue == Math.Pow(2, p.bitLength) - 1)
+                    retString.Append($"Нет данных({rawValue})");
+                else
+                {
+                    double rawDouble = (double)rawValue;
+                    double value = rawDouble * p.a + p.b;
+                    retString.Append(value.ToString(p.outputFormat) + p.unit + '(' + rawValue.ToString() + ')');
+                }
+            }
+            retString.Append(';');
             return retString.ToString();
         }
+
         public override string ToString()
         {
             StringBuilder retString = new StringBuilder();
-            string transmitterName = "Unknown";
-            string receiverName = "Unknown";
-            if (DeviceTypes.ContainsKey(receiverType))
-                receiverName = DeviceTypes[receiverType];
-            if (DeviceTypes.ContainsKey(transmitterType))
-                transmitterName = DeviceTypes[transmitterType];
-            retString.Append($"[{transmitterType}]({transmitterAdr})->[{receiverType}]({receiverAdr}):");
+            retString.Append($"<{PGN:D02}>[{transmitterType}]({transmitterAdr})->[{receiverType}]({receiverAdr}):");
             foreach (byte b in data)
                 retString.Append($"{b:X02} ");
-
-
             retString.Append("\n");
+            return retString.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is AdversCanMessage)) return false;
+            AdversCanMessage msg = obj as AdversCanMessage;
+            if (msg.PGN != this.PGN) return false;
+            if (msg.transmitterType != this.transmitterType) return false;
+            if (msg.transmitterAdr != this.transmitterAdr) return false;
+            if (msg.receiverAdr != this.receiverAdr) return false;
+            if (msg.receiverType != this.receiverType) return false;
+            for (int i = 0; i < data.Length; i++)
+                if (msg.data[i] != this.data[i])
+                    return false;
+            return true;
+        }
+
+        public string VerboseInfo()
+        {
+            StringBuilder retString = new StringBuilder();
+            PGN pgn = AdversCanProtocol.PGNs[this.PGN];
+            string sender,receiver;
+            if (AdversCanProtocol.DeviceTypes.ContainsKey(transmitterType))
+                sender = AdversCanProtocol.DeviceTypes[transmitterType];
+            else
+                sender = $"(неизвестное устройство №{transmitterType})";
+            if (AdversCanProtocol.DeviceTypes.ContainsKey(receiverType))
+                receiver = AdversCanProtocol.DeviceTypes[receiverType];
+            else
+                receiver = $"(неизвестное устройство №{receiverType})";
+            retString.Append($"{sender}({transmitterAdr})->{receiver}({receiverAdr});");
+
+
+            retString.Append(pgn.name + ';');
+            if (pgn.multipack)
+                retString.Append($"Мультипакет №{data[0]};");
+            if (PGN == 1 && AdversCanProtocol.commands.ContainsKey(new commandId(data[0], data[1])))
+            {
+                CanCommand cmd = AdversCanProtocol.commands[new commandId(data[0], data[1])];
+                retString.Append(cmd.name + ";");
+                if (cmd.parameters != null)
+                    foreach (CanParameter p in cmd.parameters)
+                        retString.Append(printParameter(p));
+            }
+            if (pgn.parameters != null)
+                foreach (CanParameter p in pgn.parameters)
+                    if (!pgn.multipack || data[0]==p.packNumber)
+                    retString.Append(printParameter(p));
             return retString.ToString();
         }
     }

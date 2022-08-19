@@ -20,6 +20,11 @@ namespace RVC_Project
             return new RvcMessage(this);
         }
 
+        public AdversCanMessage ToAdversCanMessage()
+        { 
+        return new AdversCanMessage(this);
+        }
+
         public string GetDataInTextFormat(string beforeString = "", string afterString = "")
         {
             StringBuilder sb = new StringBuilder("");

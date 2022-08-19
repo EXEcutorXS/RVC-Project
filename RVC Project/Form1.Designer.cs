@@ -67,9 +67,10 @@
             this.RvcMessagePreview = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.rvcPage = new System.Windows.Forms.TabPage();
-            this.adverCanPAge = new System.Windows.Forms.TabPage();
+            this.adverCanPage = new System.Windows.Forms.TabPage();
+            this.AdversCanMessageList = new System.Windows.Forms.ListBox();
             this.adversCanLogField = new System.Windows.Forms.RichTextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.adversCanVerboseField = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
             this.panel1.SuspendLayout();
@@ -80,7 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.rvcPage.SuspendLayout();
-            this.adverCanPAge.SuspendLayout();
+            this.adverCanPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // NormalButton
@@ -184,7 +185,7 @@
             this.CanMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CanMessageList.FormattingEnabled = true;
             this.CanMessageList.ItemHeight = 16;
-            this.CanMessageList.Location = new System.Drawing.Point(0, 210);
+            this.CanMessageList.Location = new System.Drawing.Point(8, 207);
             this.CanMessageList.Name = "CanMessageList";
             this.CanMessageList.Size = new System.Drawing.Size(568, 356);
             this.CanMessageList.TabIndex = 14;
@@ -193,7 +194,7 @@
             // LogField
             // 
             this.LogField.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LogField.Location = new System.Drawing.Point(0, 569);
+            this.LogField.Location = new System.Drawing.Point(8, 568);
             this.LogField.Name = "LogField";
             this.LogField.Size = new System.Drawing.Size(570, 180);
             this.LogField.TabIndex = 15;
@@ -450,6 +451,7 @@
             // 
             this.ParametersPanel.AutoScroll = true;
             this.ParametersPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ParametersPanel.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ParametersPanel.Location = new System.Drawing.Point(547, 254);
             this.ParametersPanel.Name = "ParametersPanel";
             this.ParametersPanel.Size = new System.Drawing.Size(496, 460);
@@ -494,7 +496,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.rvcPage);
-            this.tabControl1.Controls.Add(this.adverCanPAge);
+            this.tabControl1.Controls.Add(this.adverCanPage);
             this.tabControl1.Location = new System.Drawing.Point(587, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -517,33 +519,47 @@
             this.rvcPage.Text = "RV-C";
             this.rvcPage.UseVisualStyleBackColor = true;
             // 
-            // adverCanPAge
+            // adverCanPage
             // 
-            this.adverCanPAge.Controls.Add(this.listBox1);
-            this.adverCanPAge.Controls.Add(this.adversCanLogField);
-            this.adverCanPAge.Location = new System.Drawing.Point(4, 22);
-            this.adverCanPAge.Name = "adverCanPAge";
-            this.adverCanPAge.Padding = new System.Windows.Forms.Padding(3);
-            this.adverCanPAge.Size = new System.Drawing.Size(1049, 720);
-            this.adverCanPAge.TabIndex = 1;
-            this.adverCanPAge.Text = "Advers CAN";
-            this.adverCanPAge.UseVisualStyleBackColor = true;
+            this.adverCanPage.Controls.Add(this.adversCanVerboseField);
+            this.adverCanPage.Controls.Add(this.AdversCanMessageList);
+            this.adverCanPage.Controls.Add(this.adversCanLogField);
+            this.adverCanPage.Location = new System.Drawing.Point(4, 22);
+            this.adverCanPage.Name = "adverCanPage";
+            this.adverCanPage.Padding = new System.Windows.Forms.Padding(3);
+            this.adverCanPage.Size = new System.Drawing.Size(1049, 720);
+            this.adverCanPage.TabIndex = 1;
+            this.adverCanPage.Text = "Advers CAN";
+            this.adverCanPage.UseVisualStyleBackColor = true;
+            // 
+            // AdversCanMessageList
+            // 
+            this.AdversCanMessageList.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AdversCanMessageList.FormattingEnabled = true;
+            this.AdversCanMessageList.ItemHeight = 14;
+            this.AdversCanMessageList.Location = new System.Drawing.Point(6, 3);
+            this.AdversCanMessageList.Name = "AdversCanMessageList";
+            this.AdversCanMessageList.Size = new System.Drawing.Size(525, 312);
+            this.AdversCanMessageList.TabIndex = 35;
+            this.AdversCanMessageList.SelectedIndexChanged += new System.EventHandler(this.AdversCanMessageList_SelectedIndexChanged);
             // 
             // adversCanLogField
             // 
+            this.adversCanLogField.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.adversCanLogField.Location = new System.Drawing.Point(6, 330);
             this.adversCanLogField.Name = "adversCanLogField";
             this.adversCanLogField.Size = new System.Drawing.Size(1036, 384);
             this.adversCanLogField.TabIndex = 34;
             this.adversCanLogField.Text = "";
             // 
-            // listBox1
+            // adversCanVerboseField
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(6, 3);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(1043, 316);
-            this.listBox1.TabIndex = 35;
+            this.adversCanVerboseField.Location = new System.Drawing.Point(537, 3);
+            this.adversCanVerboseField.Name = "adversCanVerboseField";
+            this.adversCanVerboseField.ReadOnly = true;
+            this.adversCanVerboseField.Size = new System.Drawing.Size(505, 321);
+            this.adversCanVerboseField.TabIndex = 36;
+            this.adversCanVerboseField.Text = "";
             // 
             // Form1
             // 
@@ -580,7 +596,7 @@
             this.tabControl1.ResumeLayout(false);
             this.rvcPage.ResumeLayout(false);
             this.rvcPage.PerformLayout();
-            this.adverCanPAge.ResumeLayout(false);
+            this.adverCanPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -625,9 +641,10 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage rvcPage;
-        private System.Windows.Forms.TabPage adverCanPAge;
+        private System.Windows.Forms.TabPage adverCanPage;
         private System.Windows.Forms.RichTextBox adversCanLogField;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox AdversCanMessageList;
+        private System.Windows.Forms.RichTextBox adversCanVerboseField;
     }
 }
 

@@ -31,12 +31,12 @@ namespace RVC_Project
             DGN newDgn;
 
             newDgn = new DGN(true) { Dgn = 0x1FF9C, Name = "THERMOSTAT_AMBIENT_STATUS" };
-            newDgn.Parameters.Add(new Parameter { Name = "Ambient temperature", ShortName = "Tamb", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 1 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Ambient temperature", ShortName = "Tamb", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 1 });
             DGNs.Add(newDgn.Dgn, newDgn);
 
             newDgn = new DGN(true) { Dgn = 0x1FFE4, Name = "FURNACE_STATUS" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Operating mode",
                 ShortName = "Op mode",
@@ -45,7 +45,7 @@ namespace RVC_Project
                 firstByte = 1,
                 Meanings = { [0] = "Automatic", [1] = "Manual" }
             });
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Heat Source",
                 ShortName = "Heat Src",
@@ -56,13 +56,13 @@ namespace RVC_Project
                 Meanings = { [0] = "Combustion", [1] = "AC power primary", [2] = "AC power secondary", [3] = "Engine Heat" }
             });
 
-            newDgn.Parameters.Add(new Parameter { Name = "Circulation fan speed", ShortName = "Fan%", Type = parameterType.percent, firstByte = 2, firstBit = 0 });
-            newDgn.Parameters.Add(new Parameter { Name = "Heat output level", ShortName = "Heat%", Type = parameterType.percent, firstByte = 3, firstBit = 0 });
-            newDgn.Parameters.Add(new Parameter { Name = "Dead band", ShortName = "Db", Type = parameterType.custom, firstByte = 4, coefficient = 0.1, Unit = "C" });
-            newDgn.Parameters.Add(new Parameter { Name = "Dead band level 2", ShortName = "Db2", Type = parameterType.custom, firstByte = 5, coefficient = 0.1, Unit = "C" });
-            newDgn.Parameters.Add(new Parameter { Name = "Zone overcurrent status", ShortName = "Zone OC", Type = parameterType.boolean, Size = parameterSize.uint2, firstByte = 6, firstBit = 0 });
-            newDgn.Parameters.Add(new Parameter { Name = "Zone undercurrent status", ShortName = "Zone UC", Type = parameterType.boolean, Size = parameterSize.uint2, firstByte = 6, firstBit = 2 });
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter { Name = "Circulation fan speed", ShortName = "Fan%", Type = parameterType.percent, firstByte = 2, firstBit = 0 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Heat output level", ShortName = "Heat%", Type = parameterType.percent, firstByte = 3, firstBit = 0 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Dead band", ShortName = "Db", Type = parameterType.custom, firstByte = 4, coefficient = 0.1, Unit = "C" });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Dead band level 2", ShortName = "Db2", Type = parameterType.custom, firstByte = 5, coefficient = 0.1, Unit = "C" });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Zone overcurrent status", ShortName = "Zone OC", Type = parameterType.boolean, Size = parameterSize.uint2, firstByte = 6, firstBit = 0 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Zone undercurrent status", ShortName = "Zone UC", Type = parameterType.boolean, Size = parameterSize.uint2, firstByte = 6, firstBit = 2 });
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Zone temperature status",
                 ShortName = "Zone t Status",
@@ -72,7 +72,7 @@ namespace RVC_Project
                 firstBit = 4,
                 Meanings = { [0] = "Normal", [1] = "Warning" }
             });
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Zone analog input status",
                 ShortName = "Zone an",
@@ -86,7 +86,7 @@ namespace RVC_Project
 
             newDgn = new DGN(true) { Dgn = 0x1FFE3, Name = "FURNACE_COMMAND" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Operating mode",
                 ShortName = "Op mode",
@@ -95,7 +95,7 @@ namespace RVC_Project
                 firstByte = 1,
                 Meanings = { [0] = "Automatic", [1] = "Manual" }
             });
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Heat Source",
                 ShortName = "Heat Src",
@@ -106,16 +106,16 @@ namespace RVC_Project
                 Meanings = { [0] = "Combustion", [1] = "AC power primary", [2] = "AC power secondary", [3] = "Engine Heat" }
             });
 
-            newDgn.Parameters.Add(new Parameter { Name = "Circulation fan speed", ShortName = "Fan%", Type = parameterType.percent, firstByte = 2, firstBit = 0 });
-            newDgn.Parameters.Add(new Parameter { Name = "Heat output level", ShortName = "Heat%", Type = parameterType.percent, firstByte = 3, firstBit = 0 });
-            newDgn.Parameters.Add(new Parameter { Name = "Dead band", ShortName = "Db", Type = parameterType.custom, firstByte = 4, coefficient = 0.1, Unit = "C" });
-            newDgn.Parameters.Add(new Parameter { Name = "Dead band level 2", ShortName = "Db2", Type = parameterType.custom, firstByte = 5, coefficient = 0.1, Unit = "C" });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Circulation fan speed", ShortName = "Fan%", Type = parameterType.percent, firstByte = 2, firstBit = 0 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Heat output level", ShortName = "Heat%", Type = parameterType.percent, firstByte = 3, firstBit = 0 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Dead band", ShortName = "Db", Type = parameterType.custom, firstByte = 4, coefficient = 0.1, Unit = "C" });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Dead band level 2", ShortName = "Db2", Type = parameterType.custom, firstByte = 5, coefficient = 0.1, Unit = "C" });
 
             DGNs.Add(newDgn.Dgn, newDgn);
 
             newDgn = new DGN(true) { Dgn = 0x1FFF7, Name = "WATERHEATER_STATUS" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Operating modes",
                 ShortName = "Mode",
@@ -125,11 +125,11 @@ namespace RVC_Project
                 Meanings = { [0] = "off", [1] = "combustion", [2] = "electric", [3] = "gas/electric (both)", [4] = "test combustion (forced on)", [5] = "test combustion (forced on)", [6] = "test electric (forced on)" }
             });
 
-            newDgn.Parameters.Add(new Parameter { Name = "Set point temperature", ShortName = "SP T", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 2 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Set point temperature", ShortName = "SP T", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 2 });
 
-            newDgn.Parameters.Add(new Parameter { Name = "Water temperature", ShortName = "Twater", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 4 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Water temperature", ShortName = "Twater", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 4 });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Thermostat status",
                 Type = parameterType.boolean,
@@ -139,7 +139,7 @@ namespace RVC_Project
                 Meanings = { [0] = "set point met", [1] = "set point not met (heat is being applied)" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Burner status",
                 Type = parameterType.boolean,
@@ -149,7 +149,7 @@ namespace RVC_Project
                 Meanings = { [0] = "off", [1] = "burner is lit" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "AC element status",
                 Type = parameterType.boolean,
@@ -160,7 +160,7 @@ namespace RVC_Project
             });
 
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "High temperature limit switch status",
                 Type = parameterType.boolean,
@@ -170,7 +170,7 @@ namespace RVC_Project
                 Meanings = { [0] = "limit switch not tripped", [1] = "limit switch tripped" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Failure to ignite status",
                 Type = parameterType.boolean,
@@ -180,7 +180,7 @@ namespace RVC_Project
                 Meanings = { [0] = "no failure", [1] = "device has failed to ignite" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "AC power failure status",
                 Type = parameterType.boolean,
@@ -190,7 +190,7 @@ namespace RVC_Project
                 Meanings = { [0] = "AC power present", [1] = "AC power not present" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "DC power failure status",
                 Type = parameterType.boolean,
@@ -200,7 +200,7 @@ namespace RVC_Project
                 Meanings = { [0] = "DC power present", [1] = "DC power not present" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "DC power warning status",
                 Type = parameterType.boolean,
@@ -214,7 +214,7 @@ namespace RVC_Project
 
             newDgn = new DGN(true) { Dgn = 0x1FFF6, Name = "WATERHEATER_COMMAND" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Operating modes",
                 ShortName = "Mode",
@@ -224,14 +224,14 @@ namespace RVC_Project
                 Meanings = { [0] = "off", [1] = "combustion", [2] = "electric", [3] = "gas/electric (both)", [4] = "test combustion (forced on)", [5] = "test combustion (forced on)", [6] = "test electric (forced on)" }
             });
 
-            newDgn.Parameters.Add(new Parameter { Name = "Set point temperature", ShortName = "SP T", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 2 });
-            newDgn.Parameters.Add(new Parameter { Name = "Electric Element Level", ShortName = "Elec lvl", Type = parameterType.natural, Size = parameterSize.uint4, firstByte = 6 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Set point temperature", ShortName = "SP T", Type = parameterType.temperature, Size = parameterSize.uint16, firstByte = 2 });
+            newDgn.Parameters.Add(new RVCParameter { Name = "Electric Element Level", ShortName = "Elec lvl", Type = parameterType.natural, Size = parameterSize.uint4, firstByte = 6 });
 
             DGNs.Add(newDgn.Dgn, newDgn);
 
             newDgn = new DGN(true) { Dgn = 0x1FFE2, Name = "THERMOSTAT_STATUS_1" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Operating mode",
                 Type = parameterType.list,
@@ -240,7 +240,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Off", [1] = "Cool", [2] = "Heat", [3] = "Auto heat/Cool", [4] = "Fan only", [5] = "Aux heat", [6] = "Window Defrost/Dehumidify" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Fan mode",
                 Type = parameterType.boolean,
@@ -250,7 +250,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Auto", [1] = "On" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Schedule mode",
                 Type = parameterType.boolean,
@@ -260,7 +260,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Disabled", [1] = "Enabled" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Fan speed",
                 Type = parameterType.percent,
@@ -268,7 +268,7 @@ namespace RVC_Project
                 firstByte = 2,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Setopint temp - Heat",
                 Type = parameterType.temperature,
@@ -276,7 +276,7 @@ namespace RVC_Project
                 firstByte = 3,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Setopint temp - Cool",
                 Type = parameterType.temperature,
@@ -289,7 +289,7 @@ namespace RVC_Project
 
             newDgn = new DGN(true) { Dgn = 0x1FEF9, Name = "THERMOSTAT_COMMAND_1" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Operating mode",
                 Type = parameterType.list,
@@ -298,7 +298,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Off", [1] = "Cool", [2] = "Heat", [3] = "Auto heat/Cool", [4] = "Fan only", [5] = "Aux heat", [6] = "Window Defrost/Dehumidify" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Fan mode",
                 Type = parameterType.boolean,
@@ -308,7 +308,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Auto", [1] = "On" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Schedule mode",
                 Type = parameterType.boolean,
@@ -318,7 +318,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Disabled", [1] = "Enabled" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Fan speed",
                 Type = parameterType.percent,
@@ -326,7 +326,7 @@ namespace RVC_Project
                 firstByte = 2,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Setopint temp - Heat",
                 Type = parameterType.temperature,
@@ -334,7 +334,7 @@ namespace RVC_Project
                 firstByte = 3,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Setopint temp - Cool",
                 Type = parameterType.temperature,
@@ -346,7 +346,7 @@ namespace RVC_Project
 
 
             newDgn = new DGN(true) { Dgn = 0x1FEFA, Name = "THERMOSTAT_STATUS_2" };
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Current schedule instatnce",
                 Type = parameterType.list,
@@ -355,7 +355,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Number of schedule instances",
                 Type = parameterType.custom,
@@ -364,7 +364,7 @@ namespace RVC_Project
             });
 
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Reduced noise mode",
                 Type = parameterType.boolean,
@@ -376,7 +376,7 @@ namespace RVC_Project
             DGNs.Add(newDgn.Dgn, newDgn);
 
             newDgn = new DGN(true) { Dgn = 0x1FEF8, Name = "THERMOSTAT_COMMAND_2" };
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Current schedule instatnce",
                 Type = parameterType.list,
@@ -385,7 +385,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage", [251] = "Reset to \"current\" instance" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Number of schedule instances",
                 Type = parameterType.custom,
@@ -394,7 +394,7 @@ namespace RVC_Project
             });
 
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Reduced noise mode",
                 Type = parameterType.boolean,
@@ -407,7 +407,7 @@ namespace RVC_Project
 
             newDgn = new DGN(true) { Dgn = 0x1FEF7, Name = "THERMOSTAT_SCHEDULE_STATUS_1" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Schedule mode instance",
                 Type = parameterType.list,
@@ -417,7 +417,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Start hour",
                 Type = parameterType.custom,
@@ -425,7 +425,7 @@ namespace RVC_Project
                 firstByte = 2,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Start minute",
                 Type = parameterType.custom,
@@ -433,7 +433,7 @@ namespace RVC_Project
                 firstByte = 3,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Setopint temp - Heat",
                 Type = parameterType.temperature,
@@ -441,7 +441,7 @@ namespace RVC_Project
                 firstByte = 4,
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Setopint temp - Cool",
                 Type = parameterType.temperature,
@@ -457,7 +457,7 @@ namespace RVC_Project
 
             newDgn = new DGN(true) { Dgn = 0x1FEF6, Name = "THERMOSTAT_SCHEDULE_STATUS_2" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Schedule mode instance",
                 Type = parameterType.list,
@@ -467,7 +467,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Sleep", [1] = "Wake", [2] = "Away", [3] = "Return", [250] = "Storage" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Sunday",
                 Type = parameterType.boolean,
@@ -479,7 +479,7 @@ namespace RVC_Project
 
 
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Monday",
                 Type = parameterType.boolean,
@@ -489,7 +489,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Tuesday",
                 Type = parameterType.list,
@@ -499,7 +499,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Wednesday",
                 Type = parameterType.boolean,
@@ -509,7 +509,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Thursday",
                 Type = parameterType.boolean,
@@ -519,7 +519,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Friday",
                 Type = parameterType.boolean,
@@ -529,7 +529,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Not scheduled for this day", [1] = "Schedule applies to this day" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Saturday",
                 Type = parameterType.boolean,
@@ -547,7 +547,7 @@ namespace RVC_Project
 
             newDgn = new DGN(true) { Dgn = 0x1FE97, Name = "CIRCULATION_PUMP_STATUS" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Output status",
                 Type = parameterType.list,
@@ -556,7 +556,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Off", [1] = "On", [5] = "Test (Forced On)" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Pump Overcurrent Status",
                 Type = parameterType.boolean,
@@ -564,7 +564,7 @@ namespace RVC_Project
                 firstByte = 2,
                 Meanings = { [0] = "No overcurrent detected", [1] = "Overcurrent detected" }
             });
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Pump Undercurrent Status",
                 Type = parameterType.boolean,
@@ -574,7 +574,7 @@ namespace RVC_Project
                 Meanings = { [0] = "No undercurrent detected", [1] = "Undercurrent detected" }
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Pump Temperature Status",
                 Type = parameterType.boolean,
@@ -587,48 +587,48 @@ namespace RVC_Project
 
             newDgn = new DGN() { Dgn = 0x1FFFF, Name = "DATE_TIME_STATUS" };
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Year",
                 Type = parameterType.natural
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Month",
                 Type = parameterType.natural,
                 firstByte = 1
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Day of month",
                 Type = parameterType.natural,
                 firstByte = 2
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Day of week",
                 Type = parameterType.natural,
                 firstByte = 3
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Hour",
                 Type = parameterType.natural,
                 firstByte = 4
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Minute",
                 Type = parameterType.natural,
                 firstByte = 5
             });
 
-            newDgn.Parameters.Add(new Parameter
+            newDgn.Parameters.Add(new RVCParameter
             {
                 Name = "Second",
                 Type = parameterType.natural,
@@ -639,14 +639,14 @@ namespace RVC_Project
 
             newDgn = new DGN() { Dgn = 0x1FE99, Name = "WATERHEATER_STATUS_2" };
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Electric Element Level",
                 Size = parameterSize.uint4,
                 firstByte = 1
             });
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Max Electric Element Leve",
                 Size = parameterSize.uint4,
@@ -654,7 +654,7 @@ namespace RVC_Project
                 firstBit = 4
             });
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Engine Preheat",
                 Size = parameterSize.uint4,
@@ -663,7 +663,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Off", [1] = "On", [5] = "Test(Forced On)" }
             });
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Coolant Level Warning",
                 Size = parameterSize.uint2,
@@ -673,7 +673,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Coolant level sufficient", [1] = "Coolant level low" }
             });
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Hot Water Priority",
                 Size = parameterSize.uint2,
@@ -685,7 +685,7 @@ namespace RVC_Project
             DGNs.Add(newDgn.Dgn, newDgn);
 
             newDgn = new DGN(true) { Dgn = 0x1FFBB, Name = "DC_DIMMER_STATUS_1" };
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Master brightness",
                 Size = parameterSize.uint8,
@@ -694,7 +694,7 @@ namespace RVC_Project
             }
             );
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Red brightnessd",
                 Size = parameterSize.uint8,
@@ -703,7 +703,7 @@ namespace RVC_Project
             }
             );
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Green brightness",
                 Size = parameterSize.uint8,
@@ -712,7 +712,7 @@ namespace RVC_Project
             }
             );
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Blue brightness",
                 Size = parameterSize.uint8,
@@ -721,7 +721,7 @@ namespace RVC_Project
             }
             );
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "On duration",
                 Size = parameterSize.uint4,
@@ -731,7 +731,7 @@ namespace RVC_Project
                 Meanings = { [0] = "Always On" }
             });
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "Off duration",
                 Size = parameterSize.uint4,
@@ -742,7 +742,7 @@ namespace RVC_Project
                 Meanings = { [0] = "One Shot" }
             });
 
-            newDgn.Parameters.Add(new Parameter()
+            newDgn.Parameters.Add(new RVCParameter()
             {
                 Name = "White brightness",
                 Size = parameterSize.uint8,
@@ -789,17 +789,17 @@ namespace RVC_Project
         public string Name;
         public int MaxBroadcastGap = 5000;
         public int MinBroadcastGap = 500;
-        public List<Parameter> Parameters;
+        public List<RVCParameter> Parameters;
 
         public DGN(bool addInstance = false)
         {
-            Parameters = new List<Parameter>();
-            if (addInstance) this.Parameters.Add(new Parameter { Name = "Instance", ShortName = "#", Type = parameterType.instance, Size = parameterSize.uint8, firstByte = 0, Id = true });
+            Parameters = new List<RVCParameter>();
+            if (addInstance) this.Parameters.Add(new RVCParameter { Name = "Instance", ShortName = "#", Type = parameterType.instance, Size = parameterSize.uint8, firstByte = 0, Id = true });
         }
         public string Decode(byte[] data)
         {
             string ret = Name + ":{;";
-            foreach (Parameter p in Parameters)
+            foreach (RVCParameter p in Parameters)
             {
                 ret += p.ToString(data) + "; ";
             }
@@ -809,7 +809,7 @@ namespace RVC_Project
 
 
     }
-    public class Parameter
+    public class RVCParameter
     {
         public string Name;
         public string ShortName;
@@ -824,7 +824,7 @@ namespace RVC_Project
         public bool Id = false;
         public Control assignedLabel;
         public Control assignedField;
-        public Parameter()
+        public RVCParameter()
         {
             Meanings = new Dictionary<uint, string>();
         }
@@ -983,7 +983,7 @@ namespace RVC_Project
         { }
         static bool showUnsupportedData = true;
 
-        public IEnumerable<Parameter> Parameters => (RVC.DGNs.ContainsKey(Dgn)) ? RVC.DGNs[Dgn].Parameters : null;
+        public IEnumerable<RVCParameter> Parameters => (RVC.DGNs.ContainsKey(Dgn)) ? RVC.DGNs[Dgn].Parameters : null;
         public RvcMessage(CanMessage msg)
         {
             if (msg == null)
@@ -1053,7 +1053,7 @@ namespace RVC_Project
 
                 thisOne = true;
                 if (RVC.DGNs.ContainsKey(m.Dgn))
-                    foreach (Parameter p in m.Parameters)
+                    foreach (RVCParameter p in m.Parameters)
                     {
                         if (p.Id == true && p.RawData(m.Data) != p.RawData(Data))
                             thisOne = false;

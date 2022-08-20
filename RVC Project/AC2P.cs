@@ -27,7 +27,7 @@ namespace RVC_Project
         public string nameEn;
 
     }
-    static class AdversCanProtocol
+    static class AC2P
     {
         public static Dictionary<int, string> DeviceTypes = new Dictionary<int, string>() {
             { 0, "Любой" } ,
@@ -67,11 +67,11 @@ namespace RVC_Project
 
         public static Dictionary<int, PGN> PGNs = new Dictionary<int, PGN>();
 
-        public static Dictionary<commandId, CanCommand> commands = new Dictionary<commandId, CanCommand>();
+        public static Dictionary<commandId, AC2Pcommand> commands = new Dictionary<commandId, AC2Pcommand>();
 
         static Dictionary<int, string> defMeaningsYesNo = new Dictionary<int, string>() { [0] = "Нет", [1] = "Да", [2] = "Нет данных", [3] = "Нет данных" };
         static Dictionary<int, string> defMeaningsOnOff = new Dictionary<int, string>() { [0] = "Выкл", [1] = "Вкл", [2] = "Нет данных", [3] = "Нет данных" };
-        static AdversCanProtocol()
+        static AC2P()
         {
             PGNs.Add(0, new PGN() { id = 0, name = "Пустая команда" });
             PGNs.Add(1, new PGN() { id = 1, name = "Комманда управления" });
@@ -115,48 +115,48 @@ namespace RVC_Project
             PGNs.Add(100, new PGN() { id = 100, name = "Управления памятью (Мультипакет)", multipack = true });
             PGNs.Add(101, new PGN() { id = 101, name = "Заполнение буферного массива для последующей записи во флэш" });
 
-            commands.Add(new commandId(0, 0), new CanCommand() { firstByte = 0, secondByte = 0, name = "Кто здесь?" });
-            commands.Add(new commandId(0, 1), new CanCommand() { firstByte = 0, secondByte = 1, name = "пуск устройства" });
-            commands.Add(new commandId(0, 3), new CanCommand() { firstByte = 0, secondByte = 3, name = "остановка устройства" });
-            commands.Add(new commandId(0, 4), new CanCommand() { firstByte = 0, secondByte = 4, name = "пуск только помпы" });
-            commands.Add(new commandId(0, 5), new CanCommand() { firstByte = 0, secondByte = 5, name = "сброс неисправностей" });
-            commands.Add(new commandId(0, 6), new CanCommand() { firstByte = 0, secondByte = 6, name = "задать параметры работы жидкостного подогревателя" });
-            commands.Add(new commandId(0, 7), new CanCommand() { firstByte = 0, secondByte = 7, name = "запрос температурных переходов по режимам жидкостного подогревателя" });
-            commands.Add(new commandId(0, 8), new CanCommand() { firstByte = 0, secondByte = 8, name = "задать состояние клапанов устройства ”Блок управления клапанами”" });
-            commands.Add(new commandId(0, 9), new CanCommand() { firstByte = 0, secondByte = 9, name = "задать параметры работы воздушного отопителя" });
-            commands.Add(new commandId(0, 10), new CanCommand() { firstByte = 0, secondByte = 10, name = "запуск в режиме вентиляции (для воздушных отопителей)" });
-            commands.Add(new commandId(0, 20), new CanCommand() { firstByte = 0, secondByte = 20, name = "калибровка термопар" });
-            commands.Add(new commandId(0, 21), new CanCommand() { firstByte = 0, secondByte = 21, name = "задать параметры частоты ШИМ нагнетателя воздуха" });
-            commands.Add(new commandId(0, 22), new CanCommand() { firstByte = 0, secondByte = 22, name = "Reset CPU" });
-            commands.Add(new commandId(0, 45), new CanCommand() { firstByte = 0, secondByte = 45, name = "биты реакции на неисправности" });
-            commands.Add(new commandId(0, 65), new CanCommand() { firstByte = 0, secondByte = 65, name = "установить значение температуры" });
-            commands.Add(new commandId(0, 66), new CanCommand() { firstByte = 0, secondByte = 66, name = "сброс неисправностей" });
-            commands.Add(new commandId(0, 67), new CanCommand() { firstByte = 0, secondByte = 67, name = "вход/выход в стадию M (ручное управление) или T (тестирование блока управления)" });
-            commands.Add(new commandId(0, 68), new CanCommand() { firstByte = 0, secondByte = 68, name = "задание параметров устройств в стадии M (ручное управление)" });
-            commands.Add(new commandId(0, 69), new CanCommand() { firstByte = 0, secondByte = 69, name = "управление устройствами" });
+            commands.Add(new commandId(0, 0), new AC2Pcommand() { firstByte = 0, secondByte = 0, name = "Кто здесь?" });
+            commands.Add(new commandId(0, 1), new AC2Pcommand() { firstByte = 0, secondByte = 1, name = "пуск устройства" });
+            commands.Add(new commandId(0, 3), new AC2Pcommand() { firstByte = 0, secondByte = 3, name = "остановка устройства" });
+            commands.Add(new commandId(0, 4), new AC2Pcommand() { firstByte = 0, secondByte = 4, name = "пуск только помпы" });
+            commands.Add(new commandId(0, 5), new AC2Pcommand() { firstByte = 0, secondByte = 5, name = "сброс неисправностей" });
+            commands.Add(new commandId(0, 6), new AC2Pcommand() { firstByte = 0, secondByte = 6, name = "задать параметры работы жидкостного подогревателя" });
+            commands.Add(new commandId(0, 7), new AC2Pcommand() { firstByte = 0, secondByte = 7, name = "запрос температурных переходов по режимам жидкостного подогревателя" });
+            commands.Add(new commandId(0, 8), new AC2Pcommand() { firstByte = 0, secondByte = 8, name = "задать состояние клапанов устройства ”Блок управления клапанами”" });
+            commands.Add(new commandId(0, 9), new AC2Pcommand() { firstByte = 0, secondByte = 9, name = "задать параметры работы воздушного отопителя" });
+            commands.Add(new commandId(0, 10), new AC2Pcommand() { firstByte = 0, secondByte = 10, name = "запуск в режиме вентиляции (для воздушных отопителей)" });
+            commands.Add(new commandId(0, 20), new AC2Pcommand() { firstByte = 0, secondByte = 20, name = "калибровка термопар" });
+            commands.Add(new commandId(0, 21), new AC2Pcommand() { firstByte = 0, secondByte = 21, name = "задать параметры частоты ШИМ нагнетателя воздуха" });
+            commands.Add(new commandId(0, 22), new AC2Pcommand() { firstByte = 0, secondByte = 22, name = "Reset CPU" });
+            commands.Add(new commandId(0, 45), new AC2Pcommand() { firstByte = 0, secondByte = 45, name = "биты реакции на неисправности" });
+            commands.Add(new commandId(0, 65), new AC2Pcommand() { firstByte = 0, secondByte = 65, name = "установить значение температуры" });
+            commands.Add(new commandId(0, 66), new AC2Pcommand() { firstByte = 0, secondByte = 66, name = "сброс неисправностей" });
+            commands.Add(new commandId(0, 67), new AC2Pcommand() { firstByte = 0, secondByte = 67, name = "вход/выход в стадию M (ручное управление) или T (тестирование блока управления)" });
+            commands.Add(new commandId(0, 68), new AC2Pcommand() { firstByte = 0, secondByte = 68, name = "задание параметров устройств в стадии M (ручное управление)" });
+            commands.Add(new commandId(0, 69), new AC2Pcommand() { firstByte = 0, secondByte = 69, name = "управление устройствами" });
 
-            PGNs[19].parameters.Add(new CanParameter() { name = "Подогреватель", bitLength = 2, startBit = 0, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Помпы", bitLength = 2, startBit = 2, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Вода", bitLength = 2, startBit = 4, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Быстрый нагрев воды", bitLength = 2, startBit = 6, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Температура бака", bitLength = 8, startByte = 2, b = -75, unit = "°С", packNumber = 1 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Атмосферное давление", bitLength = 8, startByte = 3, unit = "кПа", packNumber = 1 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Сработал датчик бытовой воды", bitLength = 2, startByte = 4, packNumber = 1, meanings = defMeaningsYesNo });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Подогреватель", bitLength = 2, startBit = 0, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Помпы", bitLength = 2, startBit = 2, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Вода", bitLength = 2, startBit = 4, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Быстрый нагрев воды", bitLength = 2, startBit = 6, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Температура бака", bitLength = 8, startByte = 2, b = -75, unit = "°С", packNumber = 1 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Атмосферное давление", bitLength = 8, startByte = 3, unit = "кПа", packNumber = 1 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Сработал датчик бытовой воды", bitLength = 2, startByte = 4, packNumber = 1, meanings = defMeaningsYesNo });
 
-            PGNs[19].parameters.Add(new CanParameter() { name = "Уставка температуры жидкости подогревателя для перехода в ждущий.", bitLength = 8, startByte = 1, b = -75, packNumber = 2 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Уставка температуры жидкости подогревателя для выхода из ждущего.", bitLength = 8, startByte = 2, b = -75, packNumber = 2 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Уставка температуры жидкости подогревателя для выхода из ждущего при разборе воды.", bitLength = 8, startByte = 3, b = -75, packNumber = 2 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Уставка температуры бака для перехода в ждущий.", bitLength = 8, startByte = 4, b = -75, packNumber = 2 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Уставка температуры бака для выхода из ждущего.", bitLength = 8, startByte = 5, b = -75, packNumber = 2 });
-            PGNs[19].parameters.Add(new CanParameter() { name = "Уставка температуры бака для выхода из ждущего при разборе воды.", bitLength = 8, startByte = 6, b = -75, packNumber = 2 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Уставка температуры жидкости подогревателя для перехода в ждущий.", bitLength = 8, startByte = 1, b = -75, packNumber = 2 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Уставка температуры жидкости подогревателя для выхода из ждущего.", bitLength = 8, startByte = 2, b = -75, packNumber = 2 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Уставка температуры жидкости подогревателя для выхода из ждущего при разборе воды.", bitLength = 8, startByte = 3, b = -75, packNumber = 2 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Уставка температуры бака для перехода в ждущий.", bitLength = 8, startByte = 4, b = -75, packNumber = 2 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Уставка температуры бака для выхода из ждущего.", bitLength = 8, startByte = 5, b = -75, packNumber = 2 });
+            PGNs[19].parameters.Add(new AC2Pparam() { name = "Уставка температуры бака для выхода из ждущего при разборе воды.", bitLength = 8, startByte = 6, b = -75, packNumber = 2 });
 
-            PGNs[29].parameters.Add(new CanParameter() { name = "Атмосферное давление", bitLength = 8, startByte = 1, unit = "кПа", packNumber = 1 });
-            PGNs[29].parameters.Add(new CanParameter() { name = "Среднее максимальное значение давления", bitLength = 24, startByte = 2, unit = "кПа", a = 0.001, packNumber = 1 });
-            PGNs[29].parameters.Add(new CanParameter() { name = "Среднее минимальное значение давления", bitLength = 24, startByte = 4, unit = "кПа", a = 0.001, packNumber = 1 });
+            PGNs[29].parameters.Add(new AC2Pparam() { name = "Атмосферное давление", bitLength = 8, startByte = 1, unit = "кПа", packNumber = 1 });
+            PGNs[29].parameters.Add(new AC2Pparam() { name = "Среднее максимальное значение давления", bitLength = 24, startByte = 2, unit = "кПа", a = 0.001, packNumber = 1 });
+            PGNs[29].parameters.Add(new AC2Pparam() { name = "Среднее минимальное значение давления", bitLength = 24, startByte = 4, unit = "кПа", a = 0.001, packNumber = 1 });
 
-            PGNs[29].parameters.Add(new CanParameter() { name = "Разница между max и min  значениями", bitLength = 16, startByte = 1, a = 0.01, unit = "кПа", packNumber = 2 });
-            PGNs[29].parameters.Add(new CanParameter() { name = "Флаг появления пламени по пульсации давления", bitLength = 2, startByte = 3, meanings = defMeaningsYesNo, packNumber = 2 });
-            PGNs[29].parameters.Add(new CanParameter() { name = "Атмосферное давление", bitLength = 24, startByte = 4, unit = "кПа", a = 0.001, packNumber = 2 });
+            PGNs[29].parameters.Add(new AC2Pparam() { name = "Разница между max и min  значениями", bitLength = 16, startByte = 1, a = 0.01, unit = "кПа", packNumber = 2 });
+            PGNs[29].parameters.Add(new AC2Pparam() { name = "Флаг появления пламени по пульсации давления", bitLength = 2, startByte = 3, meanings = defMeaningsYesNo, packNumber = 2 });
+            PGNs[29].parameters.Add(new AC2Pparam() { name = "Атмосферное давление", bitLength = 24, startByte = 4, unit = "кПа", a = 0.001, packNumber = 2 });
         }
 
 

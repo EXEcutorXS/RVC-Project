@@ -13,9 +13,9 @@ namespace RVC_Project
         public int id;
         public string name;
         public bool multipack;
-        public List<CanParameter> parameters = new List<CanParameter>();
+        public List<AC2Pparam> parameters = new List<AC2Pparam>();
     }
-    public class CanParameter
+    public class AC2Pparam
     {
         public int id;
         public string paramsName;//from ParamsName.h
@@ -33,14 +33,14 @@ namespace RVC_Project
         public int packNumber;
 
     }
-    class CanCommand
+    class AC2Pcommand
     {
         public int firstByte;
         public int secondByte;
         public string name;
-        public List<CanParameter> parameters;
+        public List<AC2Pparam> parameters;
     }
-    public class AdversCanMessage
+    public class AC2Pmessage
     {
 
         public int PGN;
@@ -49,7 +49,7 @@ namespace RVC_Project
         public int transmitterType;
         public int transmitterAdr;
         public byte[] data;
-        public AdversCanMessage(CanMessage msg)
+        public AC2Pmessage(CanMessage msg)
         {
             PGN = (msg.ID >> 20) & 0b111111111;
             receiverType = (msg.ID >> 13) & 0b1111111;
@@ -59,7 +59,7 @@ namespace RVC_Project
             data = msg.Data;
         }
 
-        public string printParameter(CanParameter p)
+        public string printParameter(AC2Pparam p)
         {
             StringBuilder retString = new StringBuilder();
             int rawValue;
@@ -105,8 +105,8 @@ namespace RVC_Project
 
         public override bool Equals(object obj)
         {
-            if (!(obj is AdversCanMessage)) return false;
-            AdversCanMessage msg = obj as AdversCanMessage;
+            if (!(obj is AC2Pmessage)) return false;
+            AC2Pmessage msg = obj as AC2Pmessage;
             if (msg.PGN != this.PGN) return false;
             if (msg.transmitterType != this.transmitterType) return false;
             if (msg.transmitterAdr != this.transmitterAdr) return false;
@@ -121,14 +121,14 @@ namespace RVC_Project
         public string VerboseInfo()
         {
             StringBuilder retString = new StringBuilder();
-            PGN pgn = AdversCanProtocol.PGNs[this.PGN];
+            PGN pgn = AC2P.PGNs[this.PGN];
             string sender,receiver;
-            if (AdversCanProtocol.DeviceTypes.ContainsKey(transmitterType))
-                sender = AdversCanProtocol.DeviceTypes[transmitterType];
+            if (AC2P.DeviceTypes.ContainsKey(transmitterType))
+                sender = AC2P.DeviceTypes[transmitterType];
             else
                 sender = $"(неизвестное устройство №{transmitterType})";
-            if (AdversCanProtocol.DeviceTypes.ContainsKey(receiverType))
-                receiver = AdversCanProtocol.DeviceTypes[receiverType];
+            if (AC2P.DeviceTypes.ContainsKey(receiverType))
+                receiver = AC2P.DeviceTypes[receiverType];
             else
                 receiver = $"(неизвестное устройство №{receiverType})";
             retString.Append($"{sender}({transmitterAdr})->{receiver}({receiverAdr});");
@@ -137,16 +137,16 @@ namespace RVC_Project
             retString.Append(pgn.name + ';');
             if (pgn.multipack)
                 retString.Append($"Мультипакет №{data[0]};");
-            if (PGN == 1 && AdversCanProtocol.commands.ContainsKey(new commandId(data[0], data[1])))
+            if (PGN == 1 && AC2P.commands.ContainsKey(new commandId(data[0], data[1])))
             {
-                CanCommand cmd = AdversCanProtocol.commands[new commandId(data[0], data[1])];
+                AC2Pcommand cmd = AC2P.commands[new commandId(data[0], data[1])];
                 retString.Append(cmd.name + ";");
                 if (cmd.parameters != null)
-                    foreach (CanParameter p in cmd.parameters)
+                    foreach (AC2Pparam p in cmd.parameters)
                         retString.Append(printParameter(p));
             }
             if (pgn.parameters != null)
-                foreach (CanParameter p in pgn.parameters)
+                foreach (AC2Pparam p in pgn.parameters)
                     if (!pgn.multipack || data[0]==p.packNumber)
                     retString.Append(printParameter(p));
             return retString.ToString();

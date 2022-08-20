@@ -1,6 +1,6 @@
 ﻿namespace RVC_Project
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,25 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.NormalButton = new System.Windows.Forms.Button();
-            this.SelfReceptionButton = new System.Windows.Forms.Button();
-            this.ListenButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.SendButton = new System.Windows.Forms.Button();
             this.DataField = new System.Windows.Forms.TextBox();
             this.IdeField = new System.Windows.Forms.CheckBox();
             this.RtrField = new System.Windows.Forms.CheckBox();
             this.IdField = new System.Windows.Forms.NumericUpDown();
             this.CanMessageList = new System.Windows.Forms.ListBox();
-            this.LogField = new System.Windows.Forms.RichTextBox();
             this.DlcField = new System.Windows.Forms.NumericUpDown();
             this.PortNamesListField = new System.Windows.Forms.ComboBox();
             this.ConnectButton = new System.Windows.Forms.Button();
             this.RefreshButton = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.StopButton = new System.Windows.Forms.Button();
-            this.ClearLogButton = new System.Windows.Forms.Button();
             this.ClearMessagesButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -56,67 +48,43 @@
             this.RvcSendButton = new System.Windows.Forms.Button();
             this.RvcDgnField = new System.Windows.Forms.NumericUpDown();
             this.RvcDataField = new System.Windows.Forms.TextBox();
-            this.RvcMessageList = new System.Windows.Forms.ListBox();
             this.ClearRvcButton = new System.Windows.Forms.Button();
+            this.RvcMessageList = new System.Windows.Forms.ListBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.VerboseInfoField = new System.Windows.Forms.RichTextBox();
             this.ParametersPanel = new System.Windows.Forms.Panel();
             this.DgnListComboBox = new System.Windows.Forms.ComboBox();
-            this.WriteToLogCHeckBox = new System.Windows.Forms.CheckBox();
             this.SendRvcButton = new System.Windows.Forms.Button();
             this.RvcMessagePreview = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.rvcPage = new System.Windows.Forms.TabPage();
             this.adverCanPage = new System.Windows.Forms.TabPage();
+            this.adversCanVerboseField = new System.Windows.Forms.RichTextBox();
             this.AdversCanMessageList = new System.Windows.Forms.ListBox();
             this.adversCanLogField = new System.Windows.Forms.RichTextBox();
-            this.adversCanVerboseField = new System.Windows.Forms.RichTextBox();
+            this.rvcPage = new System.Windows.Forms.TabPage();
+            this.regularCanPage = new System.Windows.Forms.TabPage();
+            this.ListenButton = new System.Windows.Forms.Button();
+            this.SelfReceptionButton = new System.Windows.Forms.Button();
+            this.NormalButton = new System.Windows.Forms.Button();
+            this.StopButton = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RvcPriorityField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.rvcPage.SuspendLayout();
             this.adverCanPage.SuspendLayout();
+            this.rvcPage.SuspendLayout();
+            this.regularCanPage.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // NormalButton
-            // 
-            this.NormalButton.Location = new System.Drawing.Point(3, 4);
-            this.NormalButton.Name = "NormalButton";
-            this.NormalButton.Size = new System.Drawing.Size(93, 23);
-            this.NormalButton.TabIndex = 0;
-            this.NormalButton.Text = "Normal";
-            this.NormalButton.UseVisualStyleBackColor = true;
-            this.NormalButton.Click += new System.EventHandler(this.NormalButton_Click);
-            // 
-            // SelfReceptionButton
-            // 
-            this.SelfReceptionButton.Location = new System.Drawing.Point(4, 31);
-            this.SelfReceptionButton.Name = "SelfReceptionButton";
-            this.SelfReceptionButton.Size = new System.Drawing.Size(93, 23);
-            this.SelfReceptionButton.TabIndex = 1;
-            this.SelfReceptionButton.Text = "Self Reception";
-            this.SelfReceptionButton.UseVisualStyleBackColor = true;
-            this.SelfReceptionButton.Click += new System.EventHandler(this.SelfReceptionButton_Click);
-            // 
-            // ListenButton
-            // 
-            this.ListenButton.Location = new System.Drawing.Point(100, 4);
-            this.ListenButton.Name = "ListenButton";
-            this.ListenButton.Size = new System.Drawing.Size(93, 23);
-            this.ListenButton.TabIndex = 2;
-            this.ListenButton.Text = "Listen";
-            this.ListenButton.UseVisualStyleBackColor = true;
-            this.ListenButton.Click += new System.EventHandler(this.ListenButton_Click);
             // 
             // SendButton
             // 
-            this.SendButton.Location = new System.Drawing.Point(3, 2);
+            this.SendButton.Location = new System.Drawing.Point(3, 3);
             this.SendButton.Name = "SendButton";
             this.SendButton.Size = new System.Drawing.Size(77, 23);
             this.SendButton.TabIndex = 4;
@@ -126,7 +94,7 @@
             // 
             // DataField
             // 
-            this.DataField.Location = new System.Drawing.Point(350, 3);
+            this.DataField.Location = new System.Drawing.Point(350, 4);
             this.DataField.Name = "DataField";
             this.DataField.Size = new System.Drawing.Size(137, 20);
             this.DataField.TabIndex = 6;
@@ -140,7 +108,7 @@
             this.IdeField.AutoSize = true;
             this.IdeField.Checked = true;
             this.IdeField.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IdeField.Location = new System.Drawing.Point(88, 5);
+            this.IdeField.Location = new System.Drawing.Point(88, 6);
             this.IdeField.Name = "IdeField";
             this.IdeField.Size = new System.Drawing.Size(44, 17);
             this.IdeField.TabIndex = 7;
@@ -152,7 +120,7 @@
             // RtrField
             // 
             this.RtrField.AutoSize = true;
-            this.RtrField.Location = new System.Drawing.Point(133, 5);
+            this.RtrField.Location = new System.Drawing.Point(133, 6);
             this.RtrField.Name = "RtrField";
             this.RtrField.Size = new System.Drawing.Size(49, 17);
             this.RtrField.TabIndex = 8;
@@ -163,7 +131,7 @@
             // IdField
             // 
             this.IdField.Hexadecimal = true;
-            this.IdField.Location = new System.Drawing.Point(237, 3);
+            this.IdField.Location = new System.Drawing.Point(237, 4);
             this.IdField.Maximum = new decimal(new int[] {
             536870911,
             0,
@@ -185,25 +153,15 @@
             this.CanMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CanMessageList.FormattingEnabled = true;
             this.CanMessageList.ItemHeight = 16;
-            this.CanMessageList.Location = new System.Drawing.Point(8, 207);
+            this.CanMessageList.Location = new System.Drawing.Point(8, 45);
             this.CanMessageList.Name = "CanMessageList";
-            this.CanMessageList.Size = new System.Drawing.Size(568, 356);
+            this.CanMessageList.Size = new System.Drawing.Size(583, 484);
             this.CanMessageList.TabIndex = 14;
             this.toolTip1.SetToolTip(this.CanMessageList, "Перечень различных CAN сообщений");
             // 
-            // LogField
-            // 
-            this.LogField.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LogField.Location = new System.Drawing.Point(8, 568);
-            this.LogField.Name = "LogField";
-            this.LogField.Size = new System.Drawing.Size(570, 180);
-            this.LogField.TabIndex = 15;
-            this.LogField.Text = "";
-            this.toolTip1.SetToolTip(this.LogField, "Лог работы адаптера");
-            // 
             // DlcField
             // 
-            this.DlcField.Location = new System.Drawing.Point(184, 3);
+            this.DlcField.Location = new System.Drawing.Point(184, 4);
             this.DlcField.Maximum = new decimal(new int[] {
             8,
             0,
@@ -223,14 +181,14 @@
             // PortNamesListField
             // 
             this.PortNamesListField.FormattingEnabled = true;
-            this.PortNamesListField.Location = new System.Drawing.Point(116, 10);
+            this.PortNamesListField.Location = new System.Drawing.Point(116, 9);
             this.PortNamesListField.Name = "PortNamesListField";
             this.PortNamesListField.Size = new System.Drawing.Size(121, 21);
             this.PortNamesListField.TabIndex = 19;
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(11, 10);
+            this.ConnectButton.Location = new System.Drawing.Point(11, 8);
             this.ConnectButton.Name = "ConnectButton";
             this.ConnectButton.Size = new System.Drawing.Size(99, 23);
             this.ConnectButton.TabIndex = 20;
@@ -248,61 +206,9 @@
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.StopButton);
-            this.panel1.Controls.Add(this.NormalButton);
-            this.panel1.Controls.Add(this.SelfReceptionButton);
-            this.panel1.Controls.Add(this.ListenButton);
-            this.panel1.Location = new System.Drawing.Point(8, 39);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 85);
-            this.panel1.TabIndex = 22;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "20",
-            "50",
-            "100",
-            "125",
-            "250",
-            "500",
-            "800",
-            "1000"});
-            this.comboBox1.Location = new System.Drawing.Point(3, 58);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(97, 21);
-            this.comboBox1.TabIndex = 33;
-            this.comboBox1.Text = "250";
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // StopButton
-            // 
-            this.StopButton.Location = new System.Drawing.Point(100, 32);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(93, 23);
-            this.StopButton.TabIndex = 5;
-            this.StopButton.Text = "Stop";
-            this.StopButton.UseVisualStyleBackColor = true;
-            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
-            // 
-            // ClearLogButton
-            // 
-            this.ClearLogButton.Location = new System.Drawing.Point(495, 68);
-            this.ClearLogButton.Name = "ClearLogButton";
-            this.ClearLogButton.Size = new System.Drawing.Size(75, 23);
-            this.ClearLogButton.TabIndex = 23;
-            this.ClearLogButton.Text = "Clear Log";
-            this.ClearLogButton.UseVisualStyleBackColor = true;
-            this.ClearLogButton.Click += new System.EventHandler(this.ClearLogButton_Click);
-            // 
             // ClearMessagesButton
             // 
-            this.ClearMessagesButton.Location = new System.Drawing.Point(495, 10);
+            this.ClearMessagesButton.Location = new System.Drawing.Point(493, 3);
             this.ClearMessagesButton.Name = "ClearMessagesButton";
             this.ClearMessagesButton.Size = new System.Drawing.Size(75, 23);
             this.ClearMessagesButton.TabIndex = 24;
@@ -319,9 +225,10 @@
             this.panel2.Controls.Add(this.DlcField);
             this.panel2.Controls.Add(this.IdField);
             this.panel2.Controls.Add(this.DataField);
-            this.panel2.Location = new System.Drawing.Point(8, 130);
+            this.panel2.Controls.Add(this.ClearMessagesButton);
+            this.panel2.Location = new System.Drawing.Point(8, 7);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(495, 32);
+            this.panel2.Size = new System.Drawing.Size(583, 32);
             this.panel2.TabIndex = 25;
             // 
             // panel3
@@ -332,9 +239,10 @@
             this.panel3.Controls.Add(this.RvcSendButton);
             this.panel3.Controls.Add(this.RvcDgnField);
             this.panel3.Controls.Add(this.RvcDataField);
-            this.panel3.Location = new System.Drawing.Point(8, 168);
+            this.panel3.Controls.Add(this.ClearRvcButton);
+            this.panel3.Location = new System.Drawing.Point(6, 9);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(425, 32);
+            this.panel3.Size = new System.Drawing.Size(535, 32);
             this.panel3.TabIndex = 26;
             // 
             // RvcPriorityField
@@ -358,7 +266,7 @@
             // 
             // RvcSourceAdressField
             // 
-            this.RvcSourceAdressField.Location = new System.Drawing.Point(220, 2);
+            this.RvcSourceAdressField.Location = new System.Drawing.Point(220, 3);
             this.RvcSourceAdressField.Maximum = new decimal(new int[] {
             255,
             0,
@@ -407,7 +315,7 @@
             // 
             // RvcDataField
             // 
-            this.RvcDataField.Location = new System.Drawing.Point(281, 2);
+            this.RvcDataField.Location = new System.Drawing.Point(281, 3);
             this.RvcDataField.Name = "RvcDataField";
             this.RvcDataField.Size = new System.Drawing.Size(137, 20);
             this.RvcDataField.TabIndex = 6;
@@ -416,34 +324,34 @@
             this.toolTip1.SetToolTip(this.RvcDataField, "Данные для передачи");
             this.RvcDataField.TextChanged += new System.EventHandler(this.RvcDataField_TextChanged);
             // 
+            // ClearRvcButton
+            // 
+            this.ClearRvcButton.Location = new System.Drawing.Point(460, 2);
+            this.ClearRvcButton.Name = "ClearRvcButton";
+            this.ClearRvcButton.Size = new System.Drawing.Size(57, 23);
+            this.ClearRvcButton.TabIndex = 28;
+            this.ClearRvcButton.Text = "Clear list";
+            this.ClearRvcButton.UseVisualStyleBackColor = true;
+            this.ClearRvcButton.Click += new System.EventHandler(this.ClearRvcButton_Click);
+            // 
             // RvcMessageList
             // 
             this.RvcMessageList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RvcMessageList.FormattingEnabled = true;
             this.RvcMessageList.ItemHeight = 16;
-            this.RvcMessageList.Location = new System.Drawing.Point(3, 6);
+            this.RvcMessageList.Location = new System.Drawing.Point(6, 44);
             this.RvcMessageList.Name = "RvcMessageList";
-            this.RvcMessageList.Size = new System.Drawing.Size(538, 708);
+            this.RvcMessageList.Size = new System.Drawing.Size(538, 804);
             this.RvcMessageList.TabIndex = 27;
             this.toolTip1.SetToolTip(this.RvcMessageList, "Перечень различных RV-C сообщений");
             this.RvcMessageList.SelectedIndexChanged += new System.EventHandler(this.RvcMessageList_SelectedIndexChanged);
-            // 
-            // ClearRvcButton
-            // 
-            this.ClearRvcButton.Location = new System.Drawing.Point(495, 39);
-            this.ClearRvcButton.Name = "ClearRvcButton";
-            this.ClearRvcButton.Size = new System.Drawing.Size(75, 23);
-            this.ClearRvcButton.TabIndex = 28;
-            this.ClearRvcButton.Text = "Clear RV-C";
-            this.ClearRvcButton.UseVisualStyleBackColor = true;
-            this.ClearRvcButton.Click += new System.EventHandler(this.ClearRvcButton_Click);
             // 
             // VerboseInfoField
             // 
             this.VerboseInfoField.Location = new System.Drawing.Point(547, 7);
             this.VerboseInfoField.Name = "VerboseInfoField";
             this.VerboseInfoField.ReadOnly = true;
-            this.VerboseInfoField.Size = new System.Drawing.Size(496, 188);
+            this.VerboseInfoField.Size = new System.Drawing.Size(513, 271);
             this.VerboseInfoField.TabIndex = 29;
             this.VerboseInfoField.Text = "";
             // 
@@ -452,35 +360,25 @@
             this.ParametersPanel.AutoScroll = true;
             this.ParametersPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ParametersPanel.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ParametersPanel.Location = new System.Drawing.Point(547, 254);
+            this.ParametersPanel.Location = new System.Drawing.Point(547, 339);
             this.ParametersPanel.Name = "ParametersPanel";
-            this.ParametersPanel.Size = new System.Drawing.Size(496, 460);
+            this.ParametersPanel.Size = new System.Drawing.Size(513, 336);
             this.ParametersPanel.TabIndex = 30;
             // 
             // DgnListComboBox
             // 
             this.DgnListComboBox.FormattingEnabled = true;
-            this.DgnListComboBox.Location = new System.Drawing.Point(547, 227);
+            this.DgnListComboBox.Location = new System.Drawing.Point(547, 312);
             this.DgnListComboBox.Name = "DgnListComboBox";
-            this.DgnListComboBox.Size = new System.Drawing.Size(441, 21);
+            this.DgnListComboBox.Size = new System.Drawing.Size(460, 21);
             this.DgnListComboBox.TabIndex = 0;
             this.DgnListComboBox.SelectedIndexChanged += new System.EventHandler(this.DgnListComboBox_SelectedIndexChanged);
             // 
-            // WriteToLogCHeckBox
-            // 
-            this.WriteToLogCHeckBox.AutoSize = true;
-            this.WriteToLogCHeckBox.Location = new System.Drawing.Point(524, 183);
-            this.WriteToLogCHeckBox.Name = "WriteToLogCHeckBox";
-            this.WriteToLogCHeckBox.Size = new System.Drawing.Size(44, 17);
-            this.WriteToLogCHeckBox.TabIndex = 31;
-            this.WriteToLogCHeckBox.Text = "Log";
-            this.WriteToLogCHeckBox.UseVisualStyleBackColor = true;
-            // 
             // SendRvcButton
             // 
-            this.SendRvcButton.Location = new System.Drawing.Point(994, 227);
+            this.SendRvcButton.Location = new System.Drawing.Point(1013, 310);
             this.SendRvcButton.Name = "SendRvcButton";
-            this.SendRvcButton.Size = new System.Drawing.Size(30, 23);
+            this.SendRvcButton.Size = new System.Drawing.Size(47, 23);
             this.SendRvcButton.TabIndex = 0;
             this.SendRvcButton.Text = "->";
             this.SendRvcButton.UseVisualStyleBackColor = true;
@@ -488,36 +386,21 @@
             // 
             // RvcMessagePreview
             // 
-            this.RvcMessagePreview.Location = new System.Drawing.Point(547, 201);
+            this.RvcMessagePreview.Location = new System.Drawing.Point(547, 284);
             this.RvcMessagePreview.Name = "RvcMessagePreview";
-            this.RvcMessagePreview.Size = new System.Drawing.Size(477, 20);
+            this.RvcMessagePreview.Size = new System.Drawing.Size(513, 20);
             this.RvcMessagePreview.TabIndex = 32;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.rvcPage);
             this.tabControl1.Controls.Add(this.adverCanPage);
-            this.tabControl1.Location = new System.Drawing.Point(587, 12);
+            this.tabControl1.Controls.Add(this.rvcPage);
+            this.tabControl1.Controls.Add(this.regularCanPage);
+            this.tabControl1.Location = new System.Drawing.Point(11, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1057, 746);
+            this.tabControl1.Size = new System.Drawing.Size(1074, 719);
             this.tabControl1.TabIndex = 33;
-            // 
-            // rvcPage
-            // 
-            this.rvcPage.Controls.Add(this.RvcMessageList);
-            this.rvcPage.Controls.Add(this.SendRvcButton);
-            this.rvcPage.Controls.Add(this.ParametersPanel);
-            this.rvcPage.Controls.Add(this.RvcMessagePreview);
-            this.rvcPage.Controls.Add(this.DgnListComboBox);
-            this.rvcPage.Controls.Add(this.VerboseInfoField);
-            this.rvcPage.Location = new System.Drawing.Point(4, 22);
-            this.rvcPage.Name = "rvcPage";
-            this.rvcPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rvcPage.Size = new System.Drawing.Size(1049, 720);
-            this.rvcPage.TabIndex = 0;
-            this.rvcPage.Text = "RV-C";
-            this.rvcPage.UseVisualStyleBackColor = true;
             // 
             // adverCanPage
             // 
@@ -527,10 +410,19 @@
             this.adverCanPage.Location = new System.Drawing.Point(4, 22);
             this.adverCanPage.Name = "adverCanPage";
             this.adverCanPage.Padding = new System.Windows.Forms.Padding(3);
-            this.adverCanPage.Size = new System.Drawing.Size(1049, 720);
+            this.adverCanPage.Size = new System.Drawing.Size(1066, 693);
             this.adverCanPage.TabIndex = 1;
-            this.adverCanPage.Text = "Advers CAN";
+            this.adverCanPage.Text = "Advers CAN2 protocol";
             this.adverCanPage.UseVisualStyleBackColor = true;
+            // 
+            // adversCanVerboseField
+            // 
+            this.adversCanVerboseField.Location = new System.Drawing.Point(537, 3);
+            this.adversCanVerboseField.Name = "adversCanVerboseField";
+            this.adversCanVerboseField.ReadOnly = true;
+            this.adversCanVerboseField.Size = new System.Drawing.Size(523, 312);
+            this.adversCanVerboseField.TabIndex = 36;
+            this.adversCanVerboseField.Text = "";
             // 
             // AdversCanMessageList
             // 
@@ -546,46 +438,129 @@
             // adversCanLogField
             // 
             this.adversCanLogField.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.adversCanLogField.Location = new System.Drawing.Point(6, 330);
+            this.adversCanLogField.Location = new System.Drawing.Point(6, 321);
             this.adversCanLogField.Name = "adversCanLogField";
-            this.adversCanLogField.Size = new System.Drawing.Size(1036, 384);
+            this.adversCanLogField.Size = new System.Drawing.Size(1054, 393);
             this.adversCanLogField.TabIndex = 34;
             this.adversCanLogField.Text = "";
             // 
-            // adversCanVerboseField
+            // rvcPage
             // 
-            this.adversCanVerboseField.Location = new System.Drawing.Point(537, 3);
-            this.adversCanVerboseField.Name = "adversCanVerboseField";
-            this.adversCanVerboseField.ReadOnly = true;
-            this.adversCanVerboseField.Size = new System.Drawing.Size(505, 321);
-            this.adversCanVerboseField.TabIndex = 36;
-            this.adversCanVerboseField.Text = "";
+            this.rvcPage.Controls.Add(this.RvcMessageList);
+            this.rvcPage.Controls.Add(this.SendRvcButton);
+            this.rvcPage.Controls.Add(this.ParametersPanel);
+            this.rvcPage.Controls.Add(this.RvcMessagePreview);
+            this.rvcPage.Controls.Add(this.DgnListComboBox);
+            this.rvcPage.Controls.Add(this.VerboseInfoField);
+            this.rvcPage.Controls.Add(this.panel3);
+            this.rvcPage.Location = new System.Drawing.Point(4, 22);
+            this.rvcPage.Name = "rvcPage";
+            this.rvcPage.Padding = new System.Windows.Forms.Padding(3);
+            this.rvcPage.Size = new System.Drawing.Size(1066, 693);
+            this.rvcPage.TabIndex = 0;
+            this.rvcPage.Text = "RV-C protocol";
+            this.rvcPage.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // regularCanPage
+            // 
+            this.regularCanPage.Controls.Add(this.CanMessageList);
+            this.regularCanPage.Controls.Add(this.panel2);
+            this.regularCanPage.Location = new System.Drawing.Point(4, 22);
+            this.regularCanPage.Name = "regularCanPage";
+            this.regularCanPage.Size = new System.Drawing.Size(1066, 693);
+            this.regularCanPage.TabIndex = 2;
+            this.regularCanPage.Text = "Basic CAN";
+            this.regularCanPage.UseVisualStyleBackColor = true;
+            // 
+            // ListenButton
+            // 
+            this.ListenButton.Location = new System.Drawing.Point(447, 8);
+            this.ListenButton.Name = "ListenButton";
+            this.ListenButton.Size = new System.Drawing.Size(93, 23);
+            this.ListenButton.TabIndex = 2;
+            this.ListenButton.Text = "Listen";
+            this.ListenButton.UseVisualStyleBackColor = true;
+            this.ListenButton.Click += new System.EventHandler(this.ListenButton_Click);
+            // 
+            // SelfReceptionButton
+            // 
+            this.SelfReceptionButton.Location = new System.Drawing.Point(546, 8);
+            this.SelfReceptionButton.Name = "SelfReceptionButton";
+            this.SelfReceptionButton.Size = new System.Drawing.Size(93, 23);
+            this.SelfReceptionButton.TabIndex = 1;
+            this.SelfReceptionButton.Text = "Self Reception";
+            this.SelfReceptionButton.UseVisualStyleBackColor = true;
+            this.SelfReceptionButton.Click += new System.EventHandler(this.SelfReceptionButton_Click);
+            // 
+            // NormalButton
+            // 
+            this.NormalButton.Location = new System.Drawing.Point(348, 8);
+            this.NormalButton.Name = "NormalButton";
+            this.NormalButton.Size = new System.Drawing.Size(93, 23);
+            this.NormalButton.TabIndex = 0;
+            this.NormalButton.Text = "Normal";
+            this.NormalButton.UseVisualStyleBackColor = true;
+            this.NormalButton.Click += new System.EventHandler(this.NormalButton_Click);
+            // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(645, 8);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(93, 23);
+            this.StopButton.TabIndex = 5;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "20",
+            "50",
+            "100",
+            "125",
+            "250",
+            "500",
+            "800",
+            "1000"});
+            this.comboBox1.Location = new System.Drawing.Point(744, 9);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(97, 21);
+            this.comboBox1.TabIndex = 33;
+            this.comboBox1.Text = "250";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(847, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 37;
+            this.label1.Text = "kB/s";
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1645, 761);
+            this.ClientSize = new System.Drawing.Size(1083, 761);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.WriteToLogCHeckBox);
-            this.Controls.Add(this.ClearRvcButton);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.ClearMessagesButton);
-            this.Controls.Add(this.ClearLogButton);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.StopButton);
+            this.Controls.Add(this.SelfReceptionButton);
+            this.Controls.Add(this.NormalButton);
+            this.Controls.Add(this.ListenButton);
             this.Controls.Add(this.RefreshButton);
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.PortNamesListField);
-            this.Controls.Add(this.LogField);
-            this.Controls.Add(this.CanMessageList);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
-            this.Text = "CAN Tester";
+            this.Name = "MainForm";
+            this.Text = "11111111";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -594,9 +569,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcSourceAdressField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.adverCanPage.ResumeLayout(false);
             this.rvcPage.ResumeLayout(false);
             this.rvcPage.PerformLayout();
-            this.adverCanPage.ResumeLayout(false);
+            this.regularCanPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -604,25 +580,18 @@
 
         #endregion
         public CanAdapter canAdapter;
-        private System.Windows.Forms.Button NormalButton;
-        private System.Windows.Forms.Button SelfReceptionButton;
-        private System.Windows.Forms.Button ListenButton;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.TextBox DataField;
         private System.Windows.Forms.CheckBox IdeField;
         private System.Windows.Forms.CheckBox RtrField;
         private System.Windows.Forms.NumericUpDown IdField;
         private System.Windows.Forms.ListBox CanMessageList;
-        private System.Windows.Forms.RichTextBox LogField;
         private System.Windows.Forms.NumericUpDown DlcField;
         private System.Windows.Forms.ComboBox PortNamesListField;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button RefreshButton;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button ClearLogButton;
         private System.Windows.Forms.Button ClearMessagesButton;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button RvcSendButton;
         private System.Windows.Forms.NumericUpDown RvcDgnField;
@@ -635,16 +604,21 @@
         private System.Windows.Forms.RichTextBox VerboseInfoField;
         private System.Windows.Forms.Panel ParametersPanel;
         private System.Windows.Forms.ComboBox DgnListComboBox;
-        private System.Windows.Forms.CheckBox WriteToLogCHeckBox;
         private System.Windows.Forms.Button SendRvcButton;
         private System.Windows.Forms.TextBox RvcMessagePreview;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage rvcPage;
         private System.Windows.Forms.TabPage adverCanPage;
         private System.Windows.Forms.RichTextBox adversCanLogField;
         private System.Windows.Forms.ListBox AdversCanMessageList;
         private System.Windows.Forms.RichTextBox adversCanVerboseField;
+        private System.Windows.Forms.TabPage regularCanPage;
+        private System.Windows.Forms.Button ListenButton;
+        private System.Windows.Forms.Button SelfReceptionButton;
+        private System.Windows.Forms.Button NormalButton;
+        private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

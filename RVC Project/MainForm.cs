@@ -13,7 +13,7 @@ using System.Threading;
 namespace RVC_Project
 {
 
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         List<RVCParameter> parameters = new List<RVCParameter>();
         List<Label> labels = new List<Label>();
@@ -38,7 +38,7 @@ namespace RVC_Project
                 }
             }
         }
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -51,29 +51,12 @@ namespace RVC_Project
             canAdapter = new CanAdapter();
             canAdapter.GotNewMessage += CanAdapterGotMessage;
             canAdapter.GotError += CanAdapter_GotError;
-            canAdapter.GotLogMessage += CanAdapter_GotLogMessage;
 
             if (SerialPort.GetPortNames().Length > 0)
                 PortNamesListField.Text = SerialPort.GetPortNames()[0];
 
         }
 
-        private void CanAdapter_GotLogMessage(object sender, EventArgs e)
-        {
-            try
-            {
-                while (canAdapter.UnreadLogMessages > 0)
-                {
-                    string s = canAdapter?.GetNextLogMessage();
-                    if (s != null)
-                        LogField.Invoke(new Action(() => LogField.AppendText(s.ToString() + Environment.NewLine)));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         private void CanAdapter_GotError(object sender, EventArgs e)
         {
@@ -82,8 +65,6 @@ namespace RVC_Project
                 while (canAdapter.UnreadErrors > 0)
                 {
                     string s = canAdapter?.GetNextError();
-                    if (s != null)
-                        LogField.Invoke(new Action(() => LogField.AppendText("Error: " + s.ToString() + Environment.NewLine)));
                 }
             }
             catch (Exception ex)
@@ -99,8 +80,6 @@ namespace RVC_Project
                 CanMessage m = canAdapter?.GetNextMessage();
                 if (m != null)
                 {
-                    if (WriteToLogCHeckBox.Checked)
-                        LogField.Invoke(new Action(() => LogField.AppendText(m.ToString() + Environment.NewLine)));
 
                     int? num = CanMessageList.findCanMessageById(m);
                     try
@@ -246,10 +225,6 @@ namespace RVC_Project
                 IdField.Maximum = 0x7FF;
         }
 
-        private void ClearLogButton_Click(object sender, EventArgs e)
-        {
-            LogField.Clear();
-        }
 
         private void ClearMessagesButton_Click(object sender, EventArgs e)
         {
@@ -442,7 +417,7 @@ namespace RVC_Project
         private void AdversCanMessageList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (AdversCanMessageList.SelectedItem != null)
-                adversCanVerboseField.Text = (AdversCanMessageList.SelectedItem as AdversCanMessage).VerboseInfo().Replace(';','\n') ;
+                adversCanVerboseField.Text = (AdversCanMessageList.SelectedItem as AC2Pmessage).VerboseInfo().Replace(';','\n') ;
         }
     }
     public static class extensionMethods
@@ -465,18 +440,18 @@ namespace RVC_Project
             return null;
         }
 
-        public static int? findAdversMessage(this ListBox listBox, AdversCanMessage msg)
+        public static int? findAdversMessage(this ListBox listBox, AC2Pmessage msg)
         {
 
             for (int i = 0; i < listBox.Items.Count; i++)
             {
-                AdversCanMessage m = listBox.Items[i] as AdversCanMessage;
+                AC2Pmessage m = listBox.Items[i] as AC2Pmessage;
                 if (m.PGN == msg.PGN)
-                    if (msg.PGN != 1 && AdversCanProtocol.PGNs[msg.PGN].multipack == false)                //Не мультипакет и не комманда
+                    if (msg.PGN != 1 && AC2P.PGNs[msg.PGN].multipack == false)                //Не мультипакет и не комманда
                         return i;
                     else if (msg.PGN == 1 && msg.data[0] == m.data[0] && msg.data[1] == m.data[1])         //Комманда и её номер совпал
                         return i;
-                    else if (AdversCanProtocol.PGNs[msg.PGN].multipack == true && m.data[0] == msg.data[0])      //Мультипакетный PGN с совпадающим номером пакета
+                    else if (AC2P.PGNs[msg.PGN].multipack == true && m.data[0] == msg.data[0])      //Мультипакетный PGN с совпадающим номером пакета
                         return i;
 
 

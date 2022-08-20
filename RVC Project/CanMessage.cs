@@ -20,9 +20,9 @@ namespace RVC_Project
             return new RvcMessage(this);
         }
 
-        public AdversCanMessage ToAdversCanMessage()
+        public AC2Pmessage ToAdversCanMessage()
         { 
-        return new AdversCanMessage(this);
+        return new AC2Pmessage(this);
         }
 
         public string GetDataInTextFormat(string beforeString = "", string afterString = "")

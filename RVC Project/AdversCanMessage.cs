@@ -123,12 +123,12 @@ namespace RVC_Project
             StringBuilder retString = new StringBuilder();
             PGN pgn = AC2P.PGNs[this.PGN];
             string sender,receiver;
-            if (AC2P.DeviceTypes.ContainsKey(transmitterType))
-                sender = AC2P.DeviceTypes[transmitterType];
+            if (AC2P.Devices.ContainsKey(transmitterType))
+                sender = AC2P.Devices[transmitterType].Name;
             else
                 sender = $"(неизвестное устройство №{transmitterType})";
-            if (AC2P.DeviceTypes.ContainsKey(receiverType))
-                receiver = AC2P.DeviceTypes[receiverType];
+            if (AC2P.Devices.ContainsKey(receiverType))
+                receiver = AC2P.Devices[receiverType].Name;
             else
                 receiver = $"(неизвестное устройство №{receiverType})";
             retString.Append($"{sender}({transmitterAdr})->{receiver}({receiverAdr});");

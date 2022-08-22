@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.SendButton = new System.Windows.Forms.Button();
             this.DataField = new System.Windows.Forms.TextBox();
@@ -58,17 +60,35 @@
             this.RvcMessagePreview = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.adverCanPage = new System.Windows.Forms.TabPage();
-            this.adversCanVerboseField = new System.Windows.Forms.RichTextBox();
+            this.AC2PtabControl = new System.Windows.Forms.TabControl();
+            this.msgManagerTab = new System.Windows.Forms.TabPage();
             this.AdversCanMessageList = new System.Windows.Forms.ListBox();
             this.adversCanLogField = new System.Windows.Forms.RichTextBox();
+            this.adversCanVerboseField = new System.Windows.Forms.RichTextBox();
+            this.deviceControlTab = new System.Windows.Forms.TabPage();
+            this.GraphTab = new System.Windows.Forms.TabPage();
+            this.ManualModeTab = new System.Windows.Forms.TabPage();
+            this.DeviceConfigTab = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.PARName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PARValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PARDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirmwareTab = new System.Windows.Forms.TabPage();
             this.rvcPage = new System.Windows.Forms.TabPage();
             this.regularCanPage = new System.Windows.Forms.TabPage();
+            this.CanMessageListView = new System.Windows.Forms.ListView();
+            this.idColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ideColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.rtrColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.dlcColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.dataColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ListenButton = new System.Windows.Forms.Button();
             this.SelfReceptionButton = new System.Windows.Forms.Button();
             this.NormalButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.addSample = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
             this.panel2.SuspendLayout();
@@ -78,6 +98,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.adverCanPage.SuspendLayout();
+            this.AC2PtabControl.SuspendLayout();
+            this.msgManagerTab.SuspendLayout();
+            this.DeviceConfigTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.rvcPage.SuspendLayout();
             this.regularCanPage.SuspendLayout();
             this.SuspendLayout();
@@ -155,7 +179,7 @@
             this.CanMessageList.ItemHeight = 16;
             this.CanMessageList.Location = new System.Drawing.Point(8, 45);
             this.CanMessageList.Name = "CanMessageList";
-            this.CanMessageList.Size = new System.Drawing.Size(583, 484);
+            this.CanMessageList.Size = new System.Drawing.Size(489, 484);
             this.CanMessageList.TabIndex = 14;
             this.toolTip1.SetToolTip(this.CanMessageList, "Перечень различных CAN сообщений");
             // 
@@ -228,7 +252,7 @@
             this.panel2.Controls.Add(this.ClearMessagesButton);
             this.panel2.Location = new System.Drawing.Point(8, 7);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(583, 32);
+            this.panel2.Size = new System.Drawing.Size(793, 32);
             this.panel2.TabIndex = 25;
             // 
             // panel3
@@ -404,9 +428,7 @@
             // 
             // adverCanPage
             // 
-            this.adverCanPage.Controls.Add(this.adversCanVerboseField);
-            this.adverCanPage.Controls.Add(this.AdversCanMessageList);
-            this.adverCanPage.Controls.Add(this.adversCanLogField);
+            this.adverCanPage.Controls.Add(this.AC2PtabControl);
             this.adverCanPage.Location = new System.Drawing.Point(4, 22);
             this.adverCanPage.Name = "adverCanPage";
             this.adverCanPage.Padding = new System.Windows.Forms.Padding(3);
@@ -415,34 +437,137 @@
             this.adverCanPage.Text = "Advers CAN2 protocol";
             this.adverCanPage.UseVisualStyleBackColor = true;
             // 
-            // adversCanVerboseField
+            // AC2PtabControl
             // 
-            this.adversCanVerboseField.Location = new System.Drawing.Point(537, 3);
-            this.adversCanVerboseField.Name = "adversCanVerboseField";
-            this.adversCanVerboseField.ReadOnly = true;
-            this.adversCanVerboseField.Size = new System.Drawing.Size(523, 312);
-            this.adversCanVerboseField.TabIndex = 36;
-            this.adversCanVerboseField.Text = "";
+            this.AC2PtabControl.Controls.Add(this.msgManagerTab);
+            this.AC2PtabControl.Controls.Add(this.deviceControlTab);
+            this.AC2PtabControl.Controls.Add(this.GraphTab);
+            this.AC2PtabControl.Controls.Add(this.ManualModeTab);
+            this.AC2PtabControl.Controls.Add(this.DeviceConfigTab);
+            this.AC2PtabControl.Controls.Add(this.FirmwareTab);
+            this.AC2PtabControl.Location = new System.Drawing.Point(6, 6);
+            this.AC2PtabControl.Name = "AC2PtabControl";
+            this.AC2PtabControl.SelectedIndex = 0;
+            this.AC2PtabControl.Size = new System.Drawing.Size(1050, 687);
+            this.AC2PtabControl.TabIndex = 37;
+            // 
+            // msgManagerTab
+            // 
+            this.msgManagerTab.Controls.Add(this.AdversCanMessageList);
+            this.msgManagerTab.Controls.Add(this.adversCanLogField);
+            this.msgManagerTab.Controls.Add(this.adversCanVerboseField);
+            this.msgManagerTab.Location = new System.Drawing.Point(4, 22);
+            this.msgManagerTab.Name = "msgManagerTab";
+            this.msgManagerTab.Padding = new System.Windows.Forms.Padding(3);
+            this.msgManagerTab.Size = new System.Drawing.Size(1042, 661);
+            this.msgManagerTab.TabIndex = 0;
+            this.msgManagerTab.Text = "Message manager";
+            this.msgManagerTab.UseVisualStyleBackColor = true;
             // 
             // AdversCanMessageList
             // 
             this.AdversCanMessageList.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AdversCanMessageList.FormattingEnabled = true;
             this.AdversCanMessageList.ItemHeight = 14;
-            this.AdversCanMessageList.Location = new System.Drawing.Point(6, 3);
+            this.AdversCanMessageList.Location = new System.Drawing.Point(6, 6);
             this.AdversCanMessageList.Name = "AdversCanMessageList";
-            this.AdversCanMessageList.Size = new System.Drawing.Size(525, 312);
+            this.AdversCanMessageList.Size = new System.Drawing.Size(499, 326);
             this.AdversCanMessageList.TabIndex = 35;
             this.AdversCanMessageList.SelectedIndexChanged += new System.EventHandler(this.AdversCanMessageList_SelectedIndexChanged);
             // 
             // adversCanLogField
             // 
             this.adversCanLogField.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.adversCanLogField.Location = new System.Drawing.Point(6, 321);
+            this.adversCanLogField.Location = new System.Drawing.Point(6, 338);
             this.adversCanLogField.Name = "adversCanLogField";
-            this.adversCanLogField.Size = new System.Drawing.Size(1054, 393);
+            this.adversCanLogField.Size = new System.Drawing.Size(1033, 317);
             this.adversCanLogField.TabIndex = 34;
             this.adversCanLogField.Text = "";
+            // 
+            // adversCanVerboseField
+            // 
+            this.adversCanVerboseField.Location = new System.Drawing.Point(511, 6);
+            this.adversCanVerboseField.Name = "adversCanVerboseField";
+            this.adversCanVerboseField.ReadOnly = true;
+            this.adversCanVerboseField.Size = new System.Drawing.Size(528, 326);
+            this.adversCanVerboseField.TabIndex = 36;
+            this.adversCanVerboseField.Text = "";
+            // 
+            // deviceControlTab
+            // 
+            this.deviceControlTab.Location = new System.Drawing.Point(4, 22);
+            this.deviceControlTab.Name = "deviceControlTab";
+            this.deviceControlTab.Padding = new System.Windows.Forms.Padding(3);
+            this.deviceControlTab.Size = new System.Drawing.Size(1042, 661);
+            this.deviceControlTab.TabIndex = 1;
+            this.deviceControlTab.Text = "Device Control";
+            this.deviceControlTab.UseVisualStyleBackColor = true;
+            // 
+            // GraphTab
+            // 
+            this.GraphTab.Location = new System.Drawing.Point(4, 22);
+            this.GraphTab.Name = "GraphTab";
+            this.GraphTab.Size = new System.Drawing.Size(1042, 661);
+            this.GraphTab.TabIndex = 2;
+            this.GraphTab.Text = "Graph";
+            this.GraphTab.UseVisualStyleBackColor = true;
+            // 
+            // ManualModeTab
+            // 
+            this.ManualModeTab.Location = new System.Drawing.Point(4, 22);
+            this.ManualModeTab.Name = "ManualModeTab";
+            this.ManualModeTab.Size = new System.Drawing.Size(1042, 661);
+            this.ManualModeTab.TabIndex = 3;
+            this.ManualModeTab.Text = "Manual Mode";
+            this.ManualModeTab.UseVisualStyleBackColor = true;
+            // 
+            // DeviceConfigTab
+            // 
+            this.DeviceConfigTab.Controls.Add(this.dataGridView1);
+            this.DeviceConfigTab.Location = new System.Drawing.Point(4, 22);
+            this.DeviceConfigTab.Name = "DeviceConfigTab";
+            this.DeviceConfigTab.Size = new System.Drawing.Size(1042, 661);
+            this.DeviceConfigTab.TabIndex = 4;
+            this.DeviceConfigTab.Text = "Device configurator";
+            this.DeviceConfigTab.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PARName,
+            this.PARValue,
+            this.PARDescription});
+            this.dataGridView1.Location = new System.Drawing.Point(14, 60);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(1009, 581);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // PARName
+            // 
+            this.PARName.HeaderText = "Parameter name";
+            this.PARName.Name = "PARName";
+            this.PARName.ReadOnly = true;
+            // 
+            // PARValue
+            // 
+            this.PARValue.HeaderText = "Value";
+            this.PARValue.Name = "PARValue";
+            // 
+            // PARDescription
+            // 
+            this.PARDescription.HeaderText = "Description";
+            this.PARDescription.Name = "PARDescription";
+            this.PARDescription.ReadOnly = true;
+            // 
+            // FirmwareTab
+            // 
+            this.FirmwareTab.Location = new System.Drawing.Point(4, 22);
+            this.FirmwareTab.Name = "FirmwareTab";
+            this.FirmwareTab.Size = new System.Drawing.Size(1042, 661);
+            this.FirmwareTab.TabIndex = 5;
+            this.FirmwareTab.Text = "Firmware";
+            this.FirmwareTab.UseVisualStyleBackColor = true;
             // 
             // rvcPage
             // 
@@ -463,6 +588,7 @@
             // 
             // regularCanPage
             // 
+            this.regularCanPage.Controls.Add(this.CanMessageListView);
             this.regularCanPage.Controls.Add(this.CanMessageList);
             this.regularCanPage.Controls.Add(this.panel2);
             this.regularCanPage.Location = new System.Drawing.Point(4, 22);
@@ -471,6 +597,62 @@
             this.regularCanPage.TabIndex = 2;
             this.regularCanPage.Text = "Basic CAN";
             this.regularCanPage.UseVisualStyleBackColor = true;
+            // 
+            // CanMessageListView
+            // 
+            this.CanMessageListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.idColumn,
+            this.ideColumn,
+            this.rtrColumn,
+            this.dlcColumn,
+            this.dataColumn});
+            this.CanMessageListView.FullRowSelect = true;
+            this.CanMessageListView.GridLines = true;
+            listViewGroup1.Header = "ListViewGroup";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "ListViewGroup";
+            listViewGroup2.Name = "listViewGroup2";
+            this.CanMessageListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+            this.CanMessageListView.HideSelection = false;
+            this.CanMessageListView.LabelEdit = true;
+            this.CanMessageListView.Location = new System.Drawing.Point(503, 45);
+            this.CanMessageListView.Name = "CanMessageListView";
+            this.CanMessageListView.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.CanMessageListView.Size = new System.Drawing.Size(532, 484);
+            this.CanMessageListView.TabIndex = 26;
+            this.CanMessageListView.UseCompatibleStateImageBehavior = false;
+            this.CanMessageListView.View = System.Windows.Forms.View.Details;
+            // 
+            // idColumn
+            // 
+            this.idColumn.Text = "ID";
+            this.idColumn.Width = 59;
+            // 
+            // ideColumn
+            // 
+            this.ideColumn.Text = "IDE";
+            this.ideColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ideColumn.Width = 30;
+            // 
+            // rtrColumn
+            // 
+            this.rtrColumn.Text = "RTR";
+            this.rtrColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.rtrColumn.Width = 36;
+            // 
+            // dlcColumn
+            // 
+            this.dlcColumn.Text = "DLC";
+            this.dlcColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.dlcColumn.Width = 33;
+            // 
+            // dataColumn
+            // 
+            this.dataColumn.Text = "DATA";
+            this.dataColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.dataColumn.Width = 228;
             // 
             // ListenButton
             // 
@@ -540,11 +722,22 @@
             this.label1.TabIndex = 37;
             this.label1.Text = "kB/s";
             // 
+            // addSample
+            // 
+            this.addSample.Location = new System.Drawing.Point(918, 13);
+            this.addSample.Name = "addSample";
+            this.addSample.Size = new System.Drawing.Size(75, 23);
+            this.addSample.TabIndex = 25;
+            this.addSample.Text = "Sample";
+            this.addSample.UseVisualStyleBackColor = true;
+            this.addSample.Click += new System.EventHandler(this.addSample_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1083, 761);
+            this.Controls.Add(this.addSample);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.tabControl1);
@@ -570,6 +763,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.RvcDgnField)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.adverCanPage.ResumeLayout(false);
+            this.AC2PtabControl.ResumeLayout(false);
+            this.msgManagerTab.ResumeLayout(false);
+            this.DeviceConfigTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.rvcPage.ResumeLayout(false);
             this.rvcPage.PerformLayout();
             this.regularCanPage.ResumeLayout(false);
@@ -619,6 +816,24 @@
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button addSample;
+        private System.Windows.Forms.TabControl AC2PtabControl;
+        private System.Windows.Forms.TabPage msgManagerTab;
+        private System.Windows.Forms.TabPage deviceControlTab;
+        private System.Windows.Forms.TabPage GraphTab;
+        private System.Windows.Forms.TabPage ManualModeTab;
+        private System.Windows.Forms.TabPage DeviceConfigTab;
+        private System.Windows.Forms.TabPage FirmwareTab;
+        private System.Windows.Forms.ListView CanMessageListView;
+        private System.Windows.Forms.ColumnHeader idColumn;
+        private System.Windows.Forms.ColumnHeader ideColumn;
+        private System.Windows.Forms.ColumnHeader rtrColumn;
+        private System.Windows.Forms.ColumnHeader dlcColumn;
+        private System.Windows.Forms.ColumnHeader dataColumn;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PARName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PARValue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PARDescription;
     }
 }
 

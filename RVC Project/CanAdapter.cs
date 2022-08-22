@@ -113,7 +113,14 @@ namespace RVC_Project
 
         }
 
-
+        public void addSampleMessage(CanMessage msg = null)
+        {
+            if (msg != null)
+                ReceivedMessages.Enqueue(msg);
+            else
+                ReceivedMessages.Enqueue(new CanMessage() { ID = 0x1FF, Data = new byte[] { 11, 22, 33, 44, 55, 66, 77, 88 }, IDE = true, DLC = 8, RTR = false });
+            GotNewMessage?.Invoke(this, new EventArgs());
+        }
         private void uartMessageProcess()
         {
             var eventArgs = new EventArgs();

@@ -130,6 +130,14 @@ namespace RVC_Project
                     }
                     else
                         AdversCanMessageList.Invoke(new Action(() => { AdversCanMessageList.Items.Insert(0, m.ToAdversCanMessage()); }));
+                    ListViewItem item = new ListViewItem(m.ID.ToString("X07"));
+                    item.SubItems.Add(m.IdeAsString);
+                    item.SubItems.Add(m.RtrAsString);
+                    item.SubItems.Add(m.DLC.ToString());
+                    item.SubItems.Add(m.GetDataInTextFormat());
+                    CanMessageListView.Items.Add(item);
+
+
                 }
             }
         }
@@ -419,6 +427,12 @@ namespace RVC_Project
             if (AdversCanMessageList.SelectedItem != null)
                 adversCanVerboseField.Text = (AdversCanMessageList.SelectedItem as AC2Pmessage).VerboseInfo().Replace(';','\n') ;
         }
+
+        private void addSample_Click(object sender, EventArgs e)
+        {
+            canAdapter.addSampleMessage();
+        }
+
     }
     public static class extensionMethods
     {

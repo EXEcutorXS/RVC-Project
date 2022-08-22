@@ -4,8 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace RVC_Project
 {
+    public class Device
+    {
+        public int ID;
+        public string Name;
+        public List<commandId> SupportedCommands;
+        public string photo;
+        
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+    }
+    public class DeviceStatus
+    {
+        public Dictionary<string, double> Variables;
+    }
+    public class ConnectedDevice
+    {
+        int ID;
+        int Adress;
+        public Dictionary<DateTime,DeviceStatus>;
+    }
     public struct commandId
     {
         public byte firstByte;
@@ -29,40 +54,41 @@ namespace RVC_Project
     }
     static class AC2P
     {
-        public static Dictionary<int, string> DeviceTypes = new Dictionary<int, string>() {
-            { 0, "Любой" } ,
-            { 1, "14ТС-Мини" } ,
-            { 2, "Планар 2" } ,
-            { 3, "Планар 44Д" } ,
-            { 4, "30ТСД" } ,
-            { 5, "30ТСГ" } ,
-            { 6, "Binar-5S B" } ,
-            { 7, "Планар 8Д" } ,
-            { 8, "OB-8" } ,
-            { 9, "Планар 4Д" } ,
-            { 10, "Binar-5S D" } ,
-            { 11, "Планар-9Д, ОВ-8ДК" } ,
-            { 12, "Планар-44Б" } ,
-            { 13, "Планар-4Б" } ,
-            { 14, "Плита" } ,
-            { 15, "Планар-44Г" } ,
-            { 16, "ОВ-4" } ,
-            { 17, "14ТСД-10" } ,
-            { 18, "Планар 2Б" } ,
-            { 19, "Блок управления клапанами." } ,
-            { 20, "Планар-6Д" } ,
-            { 21, "14ТС-10" } ,
-            { 22, "30SP (впрысковый)" } ,
-            { 23, "Бинар 5Б-Компакт" } ,
-            { 25, "35SP (впрысковый)" } ,
-            { 27, "Бинар 5Д-Компакт" } ,
-            { 29, "Бинар 6Г-Компакт" } ,
-            { 31, "14ТСГ-Мини" } ,
-            { 32, "30SPG (на базе 30SP)" } ,
-            { 34, "Binar-10Д" } ,
-            { 35, "Binar-10Б" } ,
-            { 123, "Bootloader" } ,
-            { 126, "Устройство управления" }
+        
+        public static Dictionary<int, Device> Devices = new Dictionary<int, Device>() {
+            { 0, new Device(){ID=0,Name="Любой" } } ,
+            { 1, new Device(){ID=1,Name="14ТС-Мини" } } ,
+            { 2, new Device(){ID=2,Name="Планар 2" }} ,
+            { 3, new Device(){ID=3,Name="Планар 44Д" }} ,
+            { 4, new Device(){ID=4,Name="30ТСД" }} ,
+            { 5, new Device(){ID=5,Name="30ТСГ" }} ,
+            { 6, new Device(){ID=6,Name="Binar-5S B" }} ,
+            { 7, new Device(){ID=7,Name="Планар 8Д" }} ,
+            { 8, new Device(){ID=8,Name="OB-8" }} ,
+            { 9, new Device(){ID=9,Name="Планар 4Д" }} ,
+            { 10, new Device(){ID=10,Name="Binar-5S D" }} ,
+            { 11, new Device(){ID=11,Name="Планар-9Д, ОВ-8ДК" }} ,
+            { 12, new Device(){ID=12,Name="Планар-44Б" }} ,
+            { 13, new Device(){ID=13,Name="Планар-4Б" }} ,
+            { 14, new Device(){ID=14,Name="Плита" }} ,
+            { 15, new Device(){ID=15,Name="Планар-44Г" }} ,
+            { 16, new Device(){ID=16,Name="ОВ-4" }} ,
+            { 17, new Device(){ID=17,Name="14ТСД-10" }} ,
+            { 18, new Device(){ID=18,Name="Планар 2Б" }} ,
+            { 19, new Device(){ID=19,Name="Блок управления клапанами." }} ,
+            { 20, new Device(){ID=20,Name="Планар-6Д" }} ,
+            { 21, new Device(){ID=21,Name="14ТС-10" }} ,
+            { 22, new Device(){ID=22,Name="30SP (впрысковый)" }} ,
+            { 23, new Device(){ID=23,Name="Бинар 5Б-Компакт" }} ,
+            { 25, new Device(){ID=25,Name="35SP (впрысковый)" }} ,
+            { 27, new Device(){ID=27,Name="Бинар 5Д-Компакт" }} ,
+            { 29, new Device(){ID=29,Name="Бинар 6Г-Компакт" }} ,
+            { 31, new Device(){ID=31,Name="14ТСГ-Мини" }} ,
+            { 32, new Device(){ID=32,Name="30SPG (на базе 30SP)" }} ,
+            { 34, new Device(){ID=34,Name="Binar-10Д" }} ,
+            { 35, new Device(){ID=35,Name="Binar-10Б" }} ,
+            { 123, new Device(){ID=123,Name="Bootloader" }} ,
+            { 126, new Device(){ID=126,Name="Устройство управления" }}
         };
 
         public static Dictionary<int, PGN> PGNs = new Dictionary<int, PGN>();

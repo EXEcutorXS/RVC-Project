@@ -62,17 +62,26 @@
             this.adverCanPage = new System.Windows.Forms.TabPage();
             this.AC2PtabControl = new System.Windows.Forms.TabControl();
             this.msgManagerTab = new System.Windows.Forms.TabPage();
-            this.AdversCanMessageList = new System.Windows.Forms.ListBox();
+            this.AC2PSendButton = new System.Windows.Forms.Button();
+            this.AC2PDataField = new System.Windows.Forms.TextBox();
+            this.AC2PAdrField = new System.Windows.Forms.TextBox();
+            this.AC2PTypeField = new System.Windows.Forms.TextBox();
+            this.AC2PPGNField = new System.Windows.Forms.TextBox();
+            this.clearAC2PlistButton = new System.Windows.Forms.Button();
+            this.AC2PMessageList = new System.Windows.Forms.ListBox();
             this.adversCanLogField = new System.Windows.Forms.RichTextBox();
             this.adversCanVerboseField = new System.Windows.Forms.RichTextBox();
             this.deviceControlTab = new System.Windows.Forms.TabPage();
             this.GraphTab = new System.Windows.Forms.TabPage();
             this.ManualModeTab = new System.Windows.Forms.TabPage();
             this.DeviceConfigTab = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.PARName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PARValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PARDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BindButton = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.deviceAdrField = new System.Windows.Forms.TextBox();
+            this.deviceTypeField = new System.Windows.Forms.TextBox();
+            this.Read = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
+            this.connectedDeviceListField = new System.Windows.Forms.ComboBox();
             this.FirmwareTab = new System.Windows.Forms.TabPage();
             this.rvcPage = new System.Windows.Forms.TabPage();
             this.regularCanPage = new System.Windows.Forms.TabPage();
@@ -89,6 +98,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.addSample = new System.Windows.Forms.Button();
+            this.paramtersList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).BeginInit();
             this.panel2.SuspendLayout();
@@ -101,7 +111,6 @@
             this.AC2PtabControl.SuspendLayout();
             this.msgManagerTab.SuspendLayout();
             this.DeviceConfigTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.rvcPage.SuspendLayout();
             this.regularCanPage.SuspendLayout();
             this.SuspendLayout();
@@ -453,7 +462,13 @@
             // 
             // msgManagerTab
             // 
-            this.msgManagerTab.Controls.Add(this.AdversCanMessageList);
+            this.msgManagerTab.Controls.Add(this.AC2PSendButton);
+            this.msgManagerTab.Controls.Add(this.AC2PDataField);
+            this.msgManagerTab.Controls.Add(this.AC2PAdrField);
+            this.msgManagerTab.Controls.Add(this.AC2PTypeField);
+            this.msgManagerTab.Controls.Add(this.AC2PPGNField);
+            this.msgManagerTab.Controls.Add(this.clearAC2PlistButton);
+            this.msgManagerTab.Controls.Add(this.AC2PMessageList);
             this.msgManagerTab.Controls.Add(this.adversCanLogField);
             this.msgManagerTab.Controls.Add(this.adversCanVerboseField);
             this.msgManagerTab.Location = new System.Drawing.Point(4, 22);
@@ -464,16 +479,68 @@
             this.msgManagerTab.Text = "Message manager";
             this.msgManagerTab.UseVisualStyleBackColor = true;
             // 
-            // AdversCanMessageList
+            // AC2PSendButton
             // 
-            this.AdversCanMessageList.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AdversCanMessageList.FormattingEnabled = true;
-            this.AdversCanMessageList.ItemHeight = 14;
-            this.AdversCanMessageList.Location = new System.Drawing.Point(6, 6);
-            this.AdversCanMessageList.Name = "AdversCanMessageList";
-            this.AdversCanMessageList.Size = new System.Drawing.Size(499, 326);
-            this.AdversCanMessageList.TabIndex = 35;
-            this.AdversCanMessageList.SelectedIndexChanged += new System.EventHandler(this.AdversCanMessageList_SelectedIndexChanged);
+            this.AC2PSendButton.Location = new System.Drawing.Point(381, 309);
+            this.AC2PSendButton.Name = "AC2PSendButton";
+            this.AC2PSendButton.Size = new System.Drawing.Size(43, 23);
+            this.AC2PSendButton.TabIndex = 42;
+            this.AC2PSendButton.Text = "->";
+            this.AC2PSendButton.UseVisualStyleBackColor = true;
+            this.AC2PSendButton.Click += new System.EventHandler(this.AC2PSendButton_Click);
+            // 
+            // AC2PDataField
+            // 
+            this.AC2PDataField.Location = new System.Drawing.Point(147, 310);
+            this.AC2PDataField.Name = "AC2PDataField";
+            this.AC2PDataField.Size = new System.Drawing.Size(222, 20);
+            this.AC2PDataField.TabIndex = 41;
+            this.AC2PDataField.Text = "FFFFFFFFFFFFFFFF";
+            // 
+            // AC2PAdrField
+            // 
+            this.AC2PAdrField.Location = new System.Drawing.Point(91, 310);
+            this.AC2PAdrField.Name = "AC2PAdrField";
+            this.AC2PAdrField.Size = new System.Drawing.Size(50, 20);
+            this.AC2PAdrField.TabIndex = 40;
+            this.AC2PAdrField.Text = "0";
+            // 
+            // AC2PTypeField
+            // 
+            this.AC2PTypeField.Location = new System.Drawing.Point(43, 310);
+            this.AC2PTypeField.Name = "AC2PTypeField";
+            this.AC2PTypeField.Size = new System.Drawing.Size(42, 20);
+            this.AC2PTypeField.TabIndex = 39;
+            this.AC2PTypeField.Text = "126";
+            // 
+            // AC2PPGNField
+            // 
+            this.AC2PPGNField.Location = new System.Drawing.Point(6, 310);
+            this.AC2PPGNField.Name = "AC2PPGNField";
+            this.AC2PPGNField.Size = new System.Drawing.Size(31, 20);
+            this.AC2PPGNField.TabIndex = 38;
+            this.AC2PPGNField.Text = "3";
+            // 
+            // clearAC2PlistButton
+            // 
+            this.clearAC2PlistButton.Location = new System.Drawing.Point(430, 309);
+            this.clearAC2PlistButton.Name = "clearAC2PlistButton";
+            this.clearAC2PlistButton.Size = new System.Drawing.Size(75, 23);
+            this.clearAC2PlistButton.TabIndex = 37;
+            this.clearAC2PlistButton.Text = "Clear";
+            this.clearAC2PlistButton.UseVisualStyleBackColor = true;
+            this.clearAC2PlistButton.Click += new System.EventHandler(this.clearAC2PlistButton_Click);
+            // 
+            // AC2PMessageList
+            // 
+            this.AC2PMessageList.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AC2PMessageList.FormattingEnabled = true;
+            this.AC2PMessageList.ItemHeight = 14;
+            this.AC2PMessageList.Location = new System.Drawing.Point(6, 6);
+            this.AC2PMessageList.Name = "AC2PMessageList";
+            this.AC2PMessageList.Size = new System.Drawing.Size(499, 298);
+            this.AC2PMessageList.TabIndex = 35;
+            this.AC2PMessageList.SelectedIndexChanged += new System.EventHandler(this.AdversCanMessageList_SelectedIndexChanged);
             // 
             // adversCanLogField
             // 
@@ -523,7 +590,14 @@
             // 
             // DeviceConfigTab
             // 
-            this.DeviceConfigTab.Controls.Add(this.dataGridView1);
+            this.DeviceConfigTab.Controls.Add(this.paramtersList);
+            this.DeviceConfigTab.Controls.Add(this.BindButton);
+            this.DeviceConfigTab.Controls.Add(this.richTextBox1);
+            this.DeviceConfigTab.Controls.Add(this.deviceAdrField);
+            this.DeviceConfigTab.Controls.Add(this.deviceTypeField);
+            this.DeviceConfigTab.Controls.Add(this.Read);
+            this.DeviceConfigTab.Controls.Add(this.searchButton);
+            this.DeviceConfigTab.Controls.Add(this.connectedDeviceListField);
             this.DeviceConfigTab.Location = new System.Drawing.Point(4, 22);
             this.DeviceConfigTab.Name = "DeviceConfigTab";
             this.DeviceConfigTab.Size = new System.Drawing.Size(1042, 661);
@@ -531,34 +605,68 @@
             this.DeviceConfigTab.Text = "Device configurator";
             this.DeviceConfigTab.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // BindButton
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PARName,
-            this.PARValue,
-            this.PARDescription});
-            this.dataGridView1.Location = new System.Drawing.Point(14, 60);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1009, 581);
-            this.dataGridView1.TabIndex = 0;
+            this.BindButton.Location = new System.Drawing.Point(710, 11);
+            this.BindButton.Name = "BindButton";
+            this.BindButton.Size = new System.Drawing.Size(75, 23);
+            this.BindButton.TabIndex = 7;
+            this.BindButton.Text = "Bind";
+            this.BindButton.UseVisualStyleBackColor = true;
+            this.BindButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // PARName
+            // richTextBox1
             // 
-            this.PARName.HeaderText = "Parameter name";
-            this.PARName.Name = "PARName";
-            this.PARName.ReadOnly = true;
+            this.richTextBox1.Location = new System.Drawing.Point(14, 352);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(1009, 290);
+            this.richTextBox1.TabIndex = 6;
+            this.richTextBox1.Text = "";
             // 
-            // PARValue
+            // deviceAdrField
             // 
-            this.PARValue.HeaderText = "Value";
-            this.PARValue.Name = "PARValue";
+            this.deviceAdrField.Location = new System.Drawing.Point(495, 12);
+            this.deviceAdrField.Name = "deviceAdrField";
+            this.deviceAdrField.Size = new System.Drawing.Size(47, 20);
+            this.deviceAdrField.TabIndex = 5;
+            this.deviceAdrField.Text = "0";
             // 
-            // PARDescription
+            // deviceTypeField
             // 
-            this.PARDescription.HeaderText = "Description";
-            this.PARDescription.Name = "PARDescription";
-            this.PARDescription.ReadOnly = true;
+            this.deviceTypeField.Location = new System.Drawing.Point(442, 12);
+            this.deviceTypeField.Name = "deviceTypeField";
+            this.deviceTypeField.Size = new System.Drawing.Size(47, 20);
+            this.deviceTypeField.TabIndex = 4;
+            this.deviceTypeField.Text = "126";
+            // 
+            // Read
+            // 
+            this.Read.Location = new System.Drawing.Point(629, 11);
+            this.Read.Name = "Read";
+            this.Read.Size = new System.Drawing.Size(75, 23);
+            this.Read.TabIndex = 3;
+            this.Read.Text = "Read All";
+            this.Read.UseVisualStyleBackColor = true;
+            this.Read.Click += new System.EventHandler(this.Read_Click);
+            // 
+            // searchButton
+            // 
+            this.searchButton.Location = new System.Drawing.Point(548, 11);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(75, 23);
+            this.searchButton.TabIndex = 2;
+            this.searchButton.Text = "Search";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
+            // connectedDeviceListField
+            // 
+            this.connectedDeviceListField.FormattingEnabled = true;
+            this.connectedDeviceListField.Location = new System.Drawing.Point(14, 11);
+            this.connectedDeviceListField.Name = "connectedDeviceListField";
+            this.connectedDeviceListField.Size = new System.Drawing.Size(422, 21);
+            this.connectedDeviceListField.TabIndex = 1;
+            this.connectedDeviceListField.SelectedIndexChanged += new System.EventHandler(this.connectedDeviceListField_SelectedIndexChanged);
             // 
             // FirmwareTab
             // 
@@ -732,6 +840,15 @@
             this.addSample.UseVisualStyleBackColor = true;
             this.addSample.Click += new System.EventHandler(this.addSample_Click);
             // 
+            // paramtersList
+            // 
+            this.paramtersList.FormattingEnabled = true;
+            this.paramtersList.Location = new System.Drawing.Point(14, 45);
+            this.paramtersList.MultiColumn = true;
+            this.paramtersList.Name = "paramtersList";
+            this.paramtersList.Size = new System.Drawing.Size(1009, 290);
+            this.paramtersList.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -750,7 +867,7 @@
             this.Controls.Add(this.PortNamesListField);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "11111111";
+            this.Text = "Advers CAN Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.IdField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DlcField)).EndInit();
@@ -765,8 +882,9 @@
             this.adverCanPage.ResumeLayout(false);
             this.AC2PtabControl.ResumeLayout(false);
             this.msgManagerTab.ResumeLayout(false);
+            this.msgManagerTab.PerformLayout();
             this.DeviceConfigTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.DeviceConfigTab.PerformLayout();
             this.rvcPage.ResumeLayout(false);
             this.rvcPage.PerformLayout();
             this.regularCanPage.ResumeLayout(false);
@@ -807,7 +925,7 @@
         private System.Windows.Forms.TabPage rvcPage;
         private System.Windows.Forms.TabPage adverCanPage;
         private System.Windows.Forms.RichTextBox adversCanLogField;
-        private System.Windows.Forms.ListBox AdversCanMessageList;
+        private System.Windows.Forms.ListBox AC2PMessageList;
         private System.Windows.Forms.RichTextBox adversCanVerboseField;
         private System.Windows.Forms.TabPage regularCanPage;
         private System.Windows.Forms.Button ListenButton;
@@ -830,10 +948,20 @@
         private System.Windows.Forms.ColumnHeader rtrColumn;
         private System.Windows.Forms.ColumnHeader dlcColumn;
         private System.Windows.Forms.ColumnHeader dataColumn;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PARName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PARValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PARDescription;
+        private System.Windows.Forms.Button clearAC2PlistButton;
+        private System.Windows.Forms.Button Read;
+        private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.ComboBox connectedDeviceListField;
+        private System.Windows.Forms.TextBox deviceTypeField;
+        private System.Windows.Forms.TextBox deviceAdrField;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button BindButton;
+        private System.Windows.Forms.Button AC2PSendButton;
+        private System.Windows.Forms.TextBox AC2PDataField;
+        private System.Windows.Forms.TextBox AC2PAdrField;
+        private System.Windows.Forms.TextBox AC2PTypeField;
+        private System.Windows.Forms.TextBox AC2PPGNField;
+        private System.Windows.Forms.ListBox paramtersList;
     }
 }
 

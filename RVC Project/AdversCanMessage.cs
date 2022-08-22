@@ -49,6 +49,11 @@ namespace RVC_Project
         public int transmitterType;
         public int transmitterAdr;
         public byte[] data;
+
+        public AC2Pmessage()
+        {
+            data = new byte[8];
+        }
         public AC2Pmessage(CanMessage msg)
         {
             PGN = (msg.ID >> 20) & 0b111111111;
@@ -121,6 +126,8 @@ namespace RVC_Project
         public string VerboseInfo()
         {
             StringBuilder retString = new StringBuilder();
+            if (!AC2P.PGNs.ContainsKey(this.PGN))
+                return "PGN not found";
             PGN pgn = AC2P.PGNs[this.PGN];
             string sender,receiver;
             if (AC2P.Devices.ContainsKey(transmitterType))
@@ -150,6 +157,19 @@ namespace RVC_Project
                     if (!pgn.multipack || data[0]==p.packNumber)
                     retString.Append(printParameter(p));
             return retString.ToString();
+        }
+
+        public CanMessage ToCanMessage()
+        { 
+        CanMessage ret = new CanMessage();
+            {
+                ret.IDE = true;
+                ret.RTR = false;
+                ret.DLC = 8;
+                ret.Data = data;
+                ret.ID = (PGN&0b111111111) << 20 | (receiverType&0b1111111) << 13 | (receiverAdr&0b111) << 10 | (transmitterType&0b1111111) << 3 | (transmitterAdr&0b111);
+            }
+            return ret;
         }
     }
 }

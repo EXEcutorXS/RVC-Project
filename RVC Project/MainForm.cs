@@ -54,7 +54,15 @@ namespace RVC_Project
 
             if (SerialPort.GetPortNames().Length > 0)
                 PortNamesListField.Text = SerialPort.GetPortNames()[0];
+            AC2P.Parce();
+            AC2P.adapter = canAdapter;
 
+            connectedDeviceListField.DataSource = new BindingSource(AC2P.connectedDevices, null);
+            connectedDeviceListField.DisplayMember = "Key";
+            connectedDeviceListField.ValueMember = "Value";
+            paramtersList.DataSource = new BindingSource(AC2P.connectedDevices[new deviceId(0, 0)].Parameters, null);
+            paramtersList.DisplayMember = "Key";
+            paramtersList.ValueMember = "Value";
         }
 
 
@@ -114,13 +122,13 @@ namespace RVC_Project
                             RvcMessageList.Invoke(new Action(() => { RvcMessageList.Items.Insert(0, m.ToRvcMessage()); }));
                     }
 
-                    //adversCanLogField.Invoke(new Action(() => adversCanLogField.AppendText(new AdversCanMessage(m).ToString())));
-                    int? adversNum = AdversCanMessageList.findAdversMessage(m.ToAdversCanMessage());
+                    AC2P.ParceCanMessage(m);
+                    int? adversNum = AC2PMessageList.findAdversMessage(m.ToAdversCanMessage());
                     if (adversNum != null)
                     {
-                        if (!AdversCanMessageList.Items[(int)adversNum].Equals(m.ToAdversCanMessage()))
+                        if (!AC2PMessageList.Items[(int)adversNum].Equals(m.ToAdversCanMessage()))
                         {
-                            AdversCanMessageList.Invoke(new Action(() => AdversCanMessageList.Items[(int)adversNum] = m.ToAdversCanMessage()));
+                            AC2PMessageList.Invoke(new Action(() => AC2PMessageList.Items[(int)adversNum] = m.ToAdversCanMessage()));
                             int selcectedIndex = (int)RvcMessageList.Invoke(new Func<int>(() => RvcMessageList.SelectedIndex));
                             if (selcectedIndex == adversNum)
                                 adversCanVerboseField.Invoke(new Action(() => adversCanVerboseField.Text = m.ToAdversCanMessage().VerboseInfo().Replace(';', '\n')));
@@ -129,14 +137,7 @@ namespace RVC_Project
 
                     }
                     else
-                        AdversCanMessageList.Invoke(new Action(() => { AdversCanMessageList.Items.Insert(0, m.ToAdversCanMessage()); }));
-                    ListViewItem item = new ListViewItem(m.ID.ToString("X07"));
-                    item.SubItems.Add(m.IdeAsString);
-                    item.SubItems.Add(m.RtrAsString);
-                    item.SubItems.Add(m.DLC.ToString());
-                    item.SubItems.Add(m.GetDataInTextFormat());
-                    CanMessageListView.Items.Add(item);
-
+                        AC2PMessageList.Invoke(new Action(() => { AC2PMessageList.Items.Insert(0, m.ToAdversCanMessage()); }));
 
                 }
             }
@@ -424,8 +425,8 @@ namespace RVC_Project
 
         private void AdversCanMessageList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (AdversCanMessageList.SelectedItem != null)
-                adversCanVerboseField.Text = (AdversCanMessageList.SelectedItem as AC2Pmessage).VerboseInfo().Replace(';','\n') ;
+            if (AC2PMessageList.SelectedItem != null)
+                adversCanVerboseField.Text = (AC2PMessageList.SelectedItem as AC2Pmessage).VerboseInfo().Replace(';','\n') ;
         }
 
         private void addSample_Click(object sender, EventArgs e)
@@ -433,6 +434,61 @@ namespace RVC_Project
             canAdapter.addSampleMessage();
         }
 
+        private void clearAC2PlistButton_Click(object sender, EventArgs e)
+        {
+            AC2PMessageList.Items.Clear();
+        }
+
+        private void Read_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AC2P.ReadParameters(int.Parse(deviceTypeField.Text), int.Parse(deviceAdrField.Text));
+            }
+            catch (Exception ex)
+            { 
+            MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            connectedDeviceListField.DataSource = new BindingSource(AC2P.connectedDevices, null);
+            connectedDeviceListField.DisplayMember = "Key";
+            connectedDeviceListField.ValueMember = "Value";
+            paramtersList.DataSource = new BindingSource(AC2P.connectedDevices[new deviceId(0, 0)].Parameters, null);
+            paramtersList.DisplayMember = "Key";
+            paramtersList.ValueMember = "Value";
+
+        }
+
+        private void connectedDeviceListField_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            deviceTypeField.Text = connectedDeviceListField.Text.ToString().Split(' ')[0];
+            deviceAdrField.Text = connectedDeviceListField.Text.ToString().Split(' ')[2];
+            paramtersList.DataSource = new BindingSource(AC2P.connectedDevices[new deviceId(int.Parse(deviceTypeField.Text), int.Parse(deviceAdrField.Text))].Parameters, null);
+            paramtersList.DisplayMember = "Key";
+            paramtersList.ValueMember = "Value";
+        }
+
+        private void AC2PSendButton_Click(object sender, EventArgs e)
+        {
+            AC2Pmessage msg = new AC2Pmessage();
+            msg.PGN = int.Parse(AC2PPGNField.Text);
+            msg.transmitterAdr = 6;
+            msg.transmitterType = 126;
+            msg.receiverAdr = int.Parse(AC2PAdrField.Text);
+            msg.receiverType = int.Parse(AC2PTypeField.Text);
+            for (int i = 0; i < 8; i++)
+                msg.data[i] = Convert.ToByte(AC2PDataField.Text.Substring(i * 2, 2), 16);
+            CanMessage m = msg.ToCanMessage();
+            canAdapter.SendMessage(m);
+        }
     }
     public static class extensionMethods
     {
@@ -461,11 +517,11 @@ namespace RVC_Project
             {
                 AC2Pmessage m = listBox.Items[i] as AC2Pmessage;
                 if (m.PGN == msg.PGN)
-                    if (msg.PGN != 1 && AC2P.PGNs[msg.PGN].multipack == false)                //Не мультипакет и не комманда
+                    if (msg.PGN != 1 && AC2P.PGNs.ContainsKey(msg.PGN) && AC2P.PGNs[msg.PGN].multipack == false)                //Не мультипакет и не комманда
                         return i;
                     else if (msg.PGN == 1 && msg.data[0] == m.data[0] && msg.data[1] == m.data[1])         //Комманда и её номер совпал
                         return i;
-                    else if (AC2P.PGNs[msg.PGN].multipack == true && m.data[0] == msg.data[0])      //Мультипакетный PGN с совпадающим номером пакета
+                    else if (AC2P.PGNs.ContainsKey(msg.PGN) && AC2P.PGNs[msg.PGN].multipack == true && m.data[0] == msg.data[0])      //Мультипакетный PGN с совпадающим номером пакета
                         return i;
 
 

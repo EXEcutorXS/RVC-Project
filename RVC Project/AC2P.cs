@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Threading;
-using System.ComponentModel;
+
 
 namespace RVC_Project
 {
-
     public class Device
     {
         public int ID;
         public string Name;
         public List<commandId> SupportedCommands;
         public string photo;
-
+        
 
         public override string ToString()
         {
@@ -30,17 +27,9 @@ namespace RVC_Project
     }
     public class ConnectedDevice
     {
-        public deviceId ID;
-        public Dictionary<DateTime, DeviceStatus> Statuses;
-        public Dictionary<int, int> Parameters = new Dictionary<int, int>() { { 0, 0 } };
-        public override string ToString()
-        {
-            if (AC2P.Devices.ContainsKey(ID.Type))
-                return AC2P.Devices[ID.Type].Name;
-            else
-                return $"No device <{ID.Type}> in list";
-        }
-
+        int ID;
+        int Adress;
+        public Dictionary<DateTime,DeviceStatus>;
     }
     public struct commandId
     {
@@ -55,27 +44,6 @@ namespace RVC_Project
         }
     }
 
-    public struct deviceId
-    {
-        public int Type;
-        public int Adress;
-        public deviceId(int type, int adr)
-        {
-            if (type > 127 || adr > 6)
-                throw new ArgumentException("Bad device config adress must be below 7 and Type - below 127");
-            Type = type;
-            Adress = adr;
-            return;
-        }
-        public override string ToString()
-        {
-            if (AC2P.Devices.ContainsKey(Type))
-                return $"{Type} - {Adress} ({AC2P.Devices[Type]})";
-            else
-                return $"{Type} - {Adress}";
-        }
-    }
-
     public class configParameter
     {
         public int id;
@@ -86,78 +54,7 @@ namespace RVC_Project
     }
     static class AC2P
     {
-        public static CanAdapter adapter; //can adapter reference
-
-        public static void ParceCanMessage(CanMessage msg)
-        {
-            AC2Pmessage m = msg.ToAdversCanMessage();
-            deviceId id;
-            id.Adress = m.transmitterAdr;
-            id.Type = m.transmitterType;
-
-            if (!connectedDevices.ContainsKey(id))
-                connectedDevices.Add(id, new ConnectedDevice() { ID = id });
-
-            if (m.PGN == 4) //Получили ответ на параметр
-            {
-                int parameterId = m.data[1] + m.data[0] * 256;
-                int parameterValue = m.data[2] << 24 + m.data[3] << 16 + m.data[4] << 8 + m.data[5];
-                if (parameterValue != 65535)
-                {
-                    if (!connectedDevices[id].Parameters.ContainsKey(parameterId))
-                        connectedDevices[id].Parameters.Add(parameterId, parameterValue);
-                    else
-                        connectedDevices[id].Parameters[parameterId] = parameterValue;
-                }
-            }
-
-        }
-        public static void Parce(string filePath = "paramsname.h")
-        {
-            StreamReader sr = new StreamReader(filePath, System.Text.Encoding.GetEncoding(1251));
-            while (!sr.EndOfStream)
-            {
-                string tempString = sr.ReadLine();
-                List<string> tempList = new List<string>();
-                int ParamNumber;
-                string CodeName;
-                string englishDescription;
-                string russianDescription;
-
-
-                if (tempString.StartsWith("#define PAR"))
-                {
-                    tempString = tempString.Remove(0, 8);
-                    englishDescription = tempString.Substring(tempString.LastIndexOf('@') + 1);
-                    russianDescription = tempString.Substring(tempString.LastIndexOf("//") + 2, tempString.LastIndexOf('@') - tempString.LastIndexOf("//") - 2);
-                    tempString = tempString.Remove(tempString.IndexOf('/'));
-                    tempList = tempString.Split(' ').ToList();
-                    CodeName = tempList[0];
-                    ParamNumber = int.Parse(tempList.Last());
-                    tempString = "";
-                    configParameters.Add(ParamNumber, new configParameter() { id = ParamNumber, idString = CodeName, nameRu = russianDescription, nameEn = englishDescription });
-                }
-            }
-        }
-
-
-        public static async void ReadParameters(int deviceType, int adress)
-        {
-            foreach (var p in configParameters)
-            {
-                AC2Pmessage msg = new AC2Pmessage();
-                msg.PGN = 3;
-                msg.transmitterAdr = 6;
-                msg.transmitterType = 126;
-                msg.receiverAdr = adress;
-                msg.receiverType = deviceType;
-                msg.data[0] = (byte)(p.Key / 256);
-                msg.data[1] = (byte)(p.Key % 256);
-                adapter.SendMessage(msg.ToCanMessage());
-                Thread.Sleep(100);
-            }
-        }
-
+        
         public static Dictionary<int, Device> Devices = new Dictionary<int, Device>() {
             { 0, new Device(){ID=0,Name="Любой" } } ,
             { 1, new Device(){ID=1,Name="14ТС-Мини" } } ,
@@ -198,14 +95,8 @@ namespace RVC_Project
 
         public static Dictionary<commandId, AC2Pcommand> commands = new Dictionary<commandId, AC2Pcommand>();
 
-        public static Dictionary<deviceId, ConnectedDevice> connectedDevices = new Dictionary<deviceId, ConnectedDevice>() { { new deviceId(0, 0), new ConnectedDevice() } };
-
-
         static Dictionary<int, string> defMeaningsYesNo = new Dictionary<int, string>() { [0] = "Нет", [1] = "Да", [2] = "Нет данных", [3] = "Нет данных" };
         static Dictionary<int, string> defMeaningsOnOff = new Dictionary<int, string>() { [0] = "Выкл", [1] = "Вкл", [2] = "Нет данных", [3] = "Нет данных" };
-        static Dictionary<int, configParameter> configParameters = new Dictionary<int, configParameter>();
-
-
         static AC2P()
         {
             PGNs.Add(0, new PGN() { id = 0, name = "Пустая команда" });
@@ -269,10 +160,6 @@ namespace RVC_Project
             commands.Add(new commandId(0, 67), new AC2Pcommand() { firstByte = 0, secondByte = 67, name = "вход/выход в стадию M (ручное управление) или T (тестирование блока управления)" });
             commands.Add(new commandId(0, 68), new AC2Pcommand() { firstByte = 0, secondByte = 68, name = "задание параметров устройств в стадии M (ручное управление)" });
             commands.Add(new commandId(0, 69), new AC2Pcommand() { firstByte = 0, secondByte = 69, name = "управление устройствами" });
-
-            PGNs[3].parameters.Add(new AC2Pparam() { name = "SPN", bitLength = 16, startBit = 0, startByte = 0 });
-
-            PGNs[4].parameters.Add(new AC2Pparam() { name = "Value", bitLength = 32, startBit = 0, startByte = 0 });
 
             PGNs[19].parameters.Add(new AC2Pparam() { name = "Подогреватель", bitLength = 2, startBit = 0, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
             PGNs[19].parameters.Add(new AC2Pparam() { name = "Помпы", bitLength = 2, startBit = 2, startByte = 1, packNumber = 1, meanings = defMeaningsOnOff });
